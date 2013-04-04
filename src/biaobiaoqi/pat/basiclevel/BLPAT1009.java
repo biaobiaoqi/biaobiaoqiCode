@@ -1,4 +1,4 @@
-package biaobiaoqi.practice;
+package biaobiaoqi.pat.basiclevel;
 
 import java.io.BufferedReader;
 import java.io.IOException;

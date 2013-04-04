@@ -1,4 +1,4 @@
-package biaobiaoqi.practice;
+package biaobiaoqi.pat.basiclevel;
 
 import java.util.Collections; 
 import java.util.HashSet;
@@ -26,7 +26,7 @@ import java.util.Set;
   *
   * 
   * 1.最简单直白的思路是存储每个数的覆盖数。但这并不是最高效的方法。
-  * 2.注意题目的条件。1这个输入需要考虑到！虽然测试用例中没有考虑到。
+  * 
   * @author biaobiaoqi
   *
   */
