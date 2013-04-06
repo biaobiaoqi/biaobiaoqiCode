@@ -48,13 +48,12 @@ public class TopologicalSort {
     }
     
     /**
-     * 
+     * 用一个容器做缓冲。
      * @param graph
      * @return
      */
     public static List<Integer> topologicalSort(Graph graph) {
     	ArrayList<Integer> resultList = new ArrayList<Integer>();
-    	//TODO 原来queue这么实现的。。。是个接口？！
     	Queue<Integer> tmpQueue = new LinkedList<Integer>();
     	Set<Integer> vSet = graph.vertexMap.keySet(); 
     	Integer vertex  = null;
