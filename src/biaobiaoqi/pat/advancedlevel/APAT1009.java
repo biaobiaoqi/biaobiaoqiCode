@@ -26,6 +26,7 @@ import java.util.Scanner;
  * @author biaobiaoqi
  *
  */
+
 public class APAT1009 {
 	public static final int resultLength = 1000010;
 	
