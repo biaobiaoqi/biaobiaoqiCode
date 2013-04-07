@@ -1,119 +1,81 @@
 package biaobiaoqi.pat.advancedlevel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+/*It cost me 40 minutes to make it accepted by PATOJ!!
+ * Seconde time.
+ * */
+import java.util.Arrays;
 import java.util.Scanner;
-/**
- * 顶点加权的Dijkstra算法。
- * 1.wa多次，因为错将给出的边的数据当成了单向的。
- * 2.数据量比较小(<500)其实可以考虑使用adjacent table来存储边。TODO 更高效？
- * @author biaobiaoqi
- *
- */
-public class APAT1003 {
-	public static Map<Integer, Vertex> cities = new HashMap<Integer, Vertex>();
-	
-	//the countf of different kinds of shortes path to certain vertex
-	public static int[] cnt = new int[500];
-	
-	//the maxium sum of rescue teams from all cities along the shortes path.
-	public static int[] num = new int[500];
-	
-	public static void main(String args[]) {
-		Scanner cin = new Scanner(System.in);
-		int n = cin.nextInt();
-		int m = cin.nextInt();
-		int s = cin.nextInt();
-		int d = cin.nextInt();
-		
-		Vertex v;
-		for (int i = 0; i < n ; i++ ) {
-			cities.put(i, new Vertex(i, cin.nextInt()));
-		}
-		
-		int from, to, weight;
-		for (int i = 0; i < m; i++) {
-			from = cin.nextInt();
-			to = cin.nextInt();
-			weight = cin.nextInt();
-			
-			cities.get(from).addAdjacent(new Road(to, weight));
-			cities.get(to).addAdjacent(new Road(from, weight));
-		}
-		md(s, d);
-		System.out.print(cnt[d] + " " + num[d]);
-	}
-	
-	public static void md(int start, int end) {
-		cnt[start] = 1;
-		num[start] = cities.get(start).teams;
-		cities.get(start).dist = 0;
-		
-		while(true) {
-			int minDist = Integer.MAX_VALUE;
-			Vertex minVertex = null;
-			for (Entry<Integer, Vertex> entry : cities.entrySet()) {
-				Vertex v = entry.getValue();
-				if (!v.known && v.dist < minDist) {
-					minDist = v.dist;
-					minVertex = v;
-				}
-			}
 
-			if (minVertex == null) {
-				break;
-			}		
-			minVertex.known = true;
-			
-			for (Road r : minVertex.adj) {
-				Vertex newVertex = cities.get(r.dest);
-				if(!newVertex.known) {
-					if (minVertex.dist + r.weight < newVertex.dist) {
-						newVertex.dist = minVertex.dist + r.weight;
-						//Instead of dfs again, Calculate num and cnt alone with dijkstra. 
-						num[newVertex.id] = num[minVertex.id] + newVertex.teams;
-						cnt[newVertex.id] = cnt[minVertex.id];
-					}else if (minVertex.dist + r.weight == newVertex.dist) {
-						if (num[newVertex.id] < num[minVertex.id] + newVertex.teams) {
-							num[newVertex.id] = num[minVertex.id] + newVertex.teams;
-						}
-						cnt[newVertex.id] += cnt[minVertex.id];
+public class APAT1003 {
+	public static int n, m, from, to;
+	public static int[] c = new int[500];
+	public static int[][] e = new int[500][500];
+	public static boolean[] known = new boolean[500];
+	public static int[] dist = new int[500];
+	
+	public static int[] cnt = new int[500];
+	public static int[] tms = new int[500];
+
+	public static void main(String[] args) {
+		Scanner cin = new Scanner(System.in);
+		n = cin.nextInt();
+		m = cin.nextInt();
+		from = cin.nextInt();
+		to = cin.nextInt();
+		for (int i = 0; i < n; i++) {
+			c[i] = cin.nextInt();
+		}
+		int f = 0, t= 0;
+
+		for (int i = 0; i < m; i++) {
+			f = cin.nextInt();
+			t = cin.nextInt();
+			e[f][t] = e[t][f] = cin.nextInt();
+		}
+		//System.out.println(Arrays.toString(e));
+		dijsktra(from, to);
+		
+		System.out.print(cnt[to] + " " + tms[to]);
+	}
+
+	public static void dijsktra(int from, int to) {	
+		Arrays.fill(known, false);
+		Arrays.fill(dist, Integer.MAX_VALUE);
+		
+		dist[from] = 0;
+		tms[from] = c[from];
+		cnt[from] = 1;
+		
+		while(true){
+			//1.find nearest vertex, mark known
+			int p = -1;
+			int min = Integer.MAX_VALUE;
+			for (int i = 0; i < n; i++) {
+				if (!known[i]) {
+					if (dist[i] < min) {
+						p = i;
+						min = dist[i];
 					}
 				}
 			}
-		}
-	}
-	
-	public static class Vertex {
-		public int id;
-		public boolean known;
-		public Integer dist;
-		public int teams;
-		public List<Road> adj; 
-		
-		public Vertex(int id, int t) {
-			this.id = id;
-			teams = t;
-			dist = Integer.MAX_VALUE;
-			known = false;
-			adj = new ArrayList<Road>();
-		}
-		
-		public void addAdjacent(Road r) {
-			adj.add(r);
-		}
-	}
-	
-	public static class Road {
-		public int dest;
-		public int weight;
-		
-		public Road (int d, int w) {
-			dest = d;
-			weight = w;
+			if (p == -1) {
+				break;
+			}
+			known[p] = true;
+			
+			//2.update dist of unknown vertexes
+			for (int j = 0; j < n; j++) {
+				if (e[p][j] != 0 && !known[j]) {
+					if (dist[j] > dist[p] + e[p][j]) { //Wrong:dist[j] > dist[p] + e[p][j]
+						dist[j] = dist[p] + e[p][j];
+						cnt[j] = cnt[p];
+						tms[j] = tms[p] + c[j];
+					}else if (dist[j] == dist[p] + e[p][j]) {
+						cnt[j] += cnt[p];//Wrong: cnt[j] = cnt[p] + 1; And it's hard to debug.
+						tms[j] = (tms[p] + c[j] > tms[j]) ?tms[p] + c[j] : tms[j]; 
+					}	
+				}
+			}
 		}
 	}
 }
