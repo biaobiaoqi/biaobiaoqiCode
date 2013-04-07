@@ -7,14 +7,21 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
 /**
- * 测试用例还有2,5没有成功.
+ * 顶点加权的Dijkstra算法。
+ * 1.wa多次，因为错将给出的边的数据当成了单向的。
+ * 2.数据量比较小(<500)其实可以考虑使用adjacent table来存储边。TODO 更高效？
  * @author biaobiaoqi
  *
  */
 public class APAT1003 {
 	public static Map<Integer, Vertex> cities = new HashMap<Integer, Vertex>();
+	
+	//the countf of different kinds of shortes path to certain vertex
 	public static int[] cnt = new int[500];
+	
+	//the maxium sum of rescue teams from all cities along the shortes path.
 	public static int[] num = new int[500];
+	
 	public static void main(String args[]) {
 		Scanner cin = new Scanner(System.in);
 		int n = cin.nextInt();
@@ -26,6 +33,7 @@ public class APAT1003 {
 		for (int i = 0; i < n ; i++ ) {
 			cities.put(i, new Vertex(i, cin.nextInt()));
 		}
+		
 		int from, to, weight;
 		for (int i = 0; i < m; i++) {
 			from = cin.nextInt();
@@ -33,6 +41,7 @@ public class APAT1003 {
 			weight = cin.nextInt();
 			
 			cities.get(from).addAdjacent(new Road(to, weight));
+			cities.get(to).addAdjacent(new Road(from, weight));
 		}
 		md(s, d);
 		System.out.print(cnt[d] + " " + num[d]);
@@ -64,6 +73,7 @@ public class APAT1003 {
 				if(!newVertex.known) {
 					if (minVertex.dist + r.weight < newVertex.dist) {
 						newVertex.dist = minVertex.dist + r.weight;
+						//Instead of dfs again, Calculate num and cnt alone with dijkstra. 
 						num[newVertex.id] = num[minVertex.id] + newVertex.teams;
 						cnt[newVertex.id] = cnt[minVertex.id];
 					}else if (minVertex.dist + r.weight == newVertex.dist) {
