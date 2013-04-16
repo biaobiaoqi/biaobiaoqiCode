@@ -2,9 +2,26 @@ package biaobiaoqi.pat.advancedlevel;
 import java.util.Scanner;
 
 //The largest radix is not 36! upper bound can be the value of the one whose radix is known.
-//how to keep smallest radix with binarysearch? 
-public class APAT1010 {
-	public static long n1 ;
+//how to keep smallest radix with binary search? ...we can improve when n > 10,
+//there will be only one right answer. It's monotone increasing
+//input string of n1, n2 should cut zeros on the head
+
+//6,8,12,13,15,16 -- middle = low --> 6,8,15
+public class FUCK_APAT1010 {
+
+	public static String cutZero(String str) {
+		int i;
+		for ( i = 0; i != str.length(); i ++) {
+			if (str.charAt(i) != '0') {
+				break;
+			}
+		}
+		if (i != 0) {
+			return str.substring(i);
+		}else {
+			return str;			
+		}
+	}
 	
 	public static void main(String[] args) {
 		Scanner cin = new Scanner(System.in);
@@ -13,9 +30,14 @@ public class APAT1010 {
 		int tag = cin.nextInt();
 		long radix = cin.nextLong();
 		
+		str1 = cutZero(str1);
+		str2 = cutZero(str2);
+		
 		if (str1.equals(str2) ) {
 			if (str1.equalsIgnoreCase("1")) {
 				System.out.println(2);
+			}else if (str1.length() == 1){
+				System.out.println(radix > str2Num(str1, radix) ?str2Num(str1, radix) + 1: radix );	
 			}else {
 				System.out.println(radix);	
 			}
@@ -26,23 +48,29 @@ public class APAT1010 {
 				str2 = str1;
 				str1 = string;
 			}
-			
-			n1 = str2Num(str1, radix);
-			int min = 0;
-			for (int i = 0; i != str2.length(); i ++) {
-				int tmp = char2int(str2.charAt(i));
-				if (tmp > min) {
-					min = tmp;
-				}
-			}
-			
+
+			long n1 = str2Num(str1, radix);
+			long min = cal(str2);
 			long resultRadix = binarySearch(str2, min, (n1 > min)?n1:min , n1);
+
 			if (resultRadix == -1) {
 				System.out.println("Impossible");
 			}else {
 				System.out.println(resultRadix);
 			}
 		}
+	}
+	
+	public static long cal(String str2) {
+		long min = 0;
+		for (int i = 0; i != str2.length(); i ++) {
+			int tmp = char2int(str2.charAt(i));
+			if (tmp + 1 > min) { //it's not tmp, it's tmp + 1
+				min = tmp + 1;
+			}
+		}
+		
+		return min;
 	}
 	
 	public static long str2Num(String str, long radix ){
@@ -66,22 +94,33 @@ public class APAT1010 {
 	}
 	
 	public static long binarySearch(String str, long lower, long high, long traget){
-		long middle;
-		long val;
+//		long middle = lower;
+//		long val;
+//		while (lower <= high) {
+//			val = str2Num(str, middle);
+//			if (val < traget) {
+//				lower = middle + 1;
+//			}else if (val > traget) {
+//				high = middle - 1;
+//			}else {
+//				return middle;
+//			}		
+//			middle = (lower + high)/2;
+//		}
 		
+		long middle;
+		long res;
 		while (lower <= high) {
 			middle = (lower + high)/2;
-			val = str2Num(str, middle);
-			
-			if (val < traget) {
+			res = str2Num(str, middle);
+			if (res < traget) {
 				lower = middle + 1;
-			}else if (val > n1) {
+			}else if (res > traget) {
 				high = middle - 1;
 			}else {
 				return middle;
 			}
 		}
-		
 		return -1;
 	}
 }
