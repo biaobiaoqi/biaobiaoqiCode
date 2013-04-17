@@ -1,88 +1,60 @@
-//
-//  main.c
-//  BBQ
-//
-//  Created by biaobiaoqi  on 13-4-17.
-//  Copyright (c) 2013年 biaobiaoqi. All rights reserved.
-//
+#include<string.h>  
+#include<iostream>  
+#include<stdio.h>  
+#include<stdlib.h>  
+#include<algorithm> 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-struct Node {
-    char id[7];
-    char name[9];
-    int score;
-    
-    struct Node* left;
-    struct Node* right;
-} thisNode;
+using namespace std;
+/*
+1.使用C++的sort方法，提供比较的模板即可。注意提供的compare方法与大小的对比。 
+2.用Java实现读入数据就超时了。
+3.自己实现的二分搜索超时了。sort方法的效率非常高。 
+*/
+#define MAX 100005
+struct Node{
+	char id[7];
+	char name[9];
+	int score;
+};
 
+Node a[MAX];
 
-int c;
-int n;
-struct Node* root;
-
-
-int compare(struct Node* n1, struct Node* n2) {
-    int result = 0;
-    switch (c) {
-        case 1:
-            result = strcmp(n1->id, n2->id);
-            break;
-        case 2:
-            result = strcmp(n1->name, n2->name);
-            if (result == 0) result = strcmp(n1->id, n2->id);
-            break;
-            
-        case 3:
-            if (n1->score == n2->score) result = strcmp(n1->id, n2->id);
-            else result = n1->score < n2->score? -1: 1;
-        default:
-            break;
-    }
-    return result;
+int cmp1(Node a, Node b){
+	return strcmp(a.id, b.id) < 0;	
 }
 
-
-void print(struct Node* node){
-    if (node){
-        print(node->left);
-        printf("%s %s %d\n", node->id, node->name, node->score);
-        print(node->right);
-    }
+int cmp2(Node a, Node b) {
+	int r = strcmp(a.name, b.name);
+	if (r == 0) return cmp1(a, b);
+	else return r < 0;
 }
 
-struct Node* insertNode(struct Node* p, struct Node* n) {
-    if (p) {
-        int c = compare(p, n);
-        if (c < 0) {
-            p->right = insertNode(p->right, n);
-        }else {
-            p->left = insertNode(p->left, n);
-        }
-        return p;
-    }else {
-        return n;
-    }
+int cmp3 (Node a, Node b) {
+	if (a.score == b.score) return cmp1(a, b);
+	else return a.score < b.score ? 1 : 0;
 }
 
-
-int main(int argc, const char * agv[])
+int main()
 {
-    scanf("%d%d", &n, &c);
-    struct Node* node;
-    while (n-- > 0) {
-        node = (struct Node*) malloc(sizeof(thisNode));
-        memset(node, 0, sizeof(thisNode));
-        scanf("%s%s%d", node->id, node->name, &node->score);
-        
-        root = insertNode(root, node);
-    }
-    
-    print(root);
-    return 0;
-}
+	int n , c;
+	scanf("%d%d", &n, &c);
+	for (int i =0; i != n; ++i)
+		scanf("%s%s%d", a[i].id, a[i].name, &a[i].score);
 
+	switch (c) {
+		case 1:
+			sort(a, a+n, cmp1);		
+			break;
+		case 2:
+			sort(a, a+n, cmp2);
+			break;
+		case 3:
+			sort(a, a+n, cmp3);
+			break;	
+		default:
+			break;
+	}
 
-
+	for (int i =0; i != n; ++i) printf("%s %s %d\n", a[i].id, a[i].name, a[i].score);
+ 
+} 
