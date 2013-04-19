@@ -4,22 +4,21 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 /**
- * 单单是input和sort就已经超时了。Java不靠谱。
+ * 单单是input和sort就已经超时了。Java
  * @author biaobiaoqi
  *
  */
-
 public class APAT1012 {
 	public final static int max = 2005;
 	
-	public static int[] a ;
-	public static int[] c ;
-	public static int[] m ;
-	public static int[] e ;
-	public static int[] aS ;
-	public static int[] cS ;
-	public static int[] mS ;
-	public static int[] eS ;
+	public static int[] a = new int[max];
+	public static int[] c = new int[max];
+	public static int[] m = new int[max];
+	public static int[] e = new int[max];
+	public static int[] aS = new int[max];
+	public static int[] cS = new int[max];
+	public static int[] mS = new int[max];
+	public static int[] eS = new int[max];
 	
 	public static HashMap<Integer, Integer>ar = new HashMap<Integer, Integer>();
 	public static HashMap<Integer, Integer>cr = new HashMap<Integer, Integer>();
@@ -31,15 +30,6 @@ public class APAT1012 {
 	public static void main(String[] args) {
 		Scanner cin = new Scanner(System.in);
 		n = cin.nextInt();
-		a =new int[n+1];
-		c =new int[n+1];
-		m =new int[n+1];
-		e =new int[n+1];
-		aS =new int[n+1];
-		cS =new int[n+1];
-		mS =new int[n+1];
-		eS =new int[n+1];
-		
 		int k = cin.nextInt();
 		for (int i=0; i<n; i++) {
 			ids[i] = cin.nextInt();
