@@ -56,7 +56,7 @@ public class APAT1020 {
 					p.ie));
 		}
 	}
-	
+
 	public static class Pair {
 		public int ps;
 		public int pe;
