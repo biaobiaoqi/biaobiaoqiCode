@@ -6,8 +6,6 @@ import java.util.Scanner;
 
 /**
  * It doesn't need to build a tree, as in some case, a tree can not be defined.
- * 1.is there any simple way to decide whether it's a bst?
- * 2. pre -> post order,?
  * @author biaobiaoqi
  */
 public class APAT1043 {

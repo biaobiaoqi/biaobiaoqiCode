@@ -21,17 +21,19 @@ public class BinarySearchTree {
 	}
 	
 	private Node insert(Node oriNode, Node newNode) {
-		if (oriNode == null) {
+		if (oriNode == null) 
 			return newNode;
-		}else if (oriNode.value < newNode.value) {
+		
+		else if (oriNode.value < newNode.value) {
 			oriNode.rightNode = insert(oriNode.rightNode, newNode);
 			return oriNode;
 		}else if (oriNode.value > newNode.value) {
 			oriNode.leftNode = insert(oriNode.leftNode, newNode);
 			return  oriNode;
-		}else {
-			return oriNode;
 		}
+		
+		else return oriNode;
+
 	}
 	
 	public void remove(int n) {
@@ -47,8 +49,7 @@ public class BinarySearchTree {
 				oriNode.value = findMin(oriNode.rightNode).value;
 				oriNode.rightNode = remove(oriNode.rightNode, oriNode.value); 
 				return oriNode;
-			}else 
-				return ((oriNode.leftNode != null) ? oriNode.leftNode : oriNode.rightNode);
+			}else return ((oriNode.leftNode != null) ? oriNode.leftNode : oriNode.rightNode);
 			
 		}else if (oriNode.value < n){
 			oriNode.rightNode = remove(oriNode.rightNode, n);
@@ -58,6 +59,7 @@ public class BinarySearchTree {
 			oriNode.leftNode = remove(oriNode.leftNode, n);				
 			return oriNode;
 		}
+		
 		return oriNode;
 	}
 	
@@ -84,7 +86,7 @@ public class BinarySearchTree {
 		return findMax(root).value;
 	}
 	
-	//能用非递归，就非递归吧。递归消耗资源的呢。
+	//use non-recursive method as we can to save stack
 	private Node findMax(Node oriNode) {
 		if (oriNode != null) 
 			while (oriNode.rightNode != null) 
@@ -123,21 +125,16 @@ public class BinarySearchTree {
 			System.out.print(n.value + " ");
 		}
 	}
-	
+
 	public boolean contains(int n) {
 		return containsNode(root, n);
 	}
-	
+
 	public boolean containsNode(Node node, int n) {
-		if (node == null) {
-			return false;
-		}else if (node.value == n) {
-			return true;
-		}else if (node.value < n) {
-			return containsNode(node.rightNode, n);
-		}else {
-			return containsNode(node.leftNode, n);
-		}
+		if (node == null)  return false;
+		else if (node.value == n) 	return true;
+		else if (node.value < n)  return containsNode(node.rightNode, n);
+		else return containsNode(node.leftNode, n);
 	}
 
 	public static void main(String[] args) {
@@ -152,15 +149,13 @@ public class BinarySearchTree {
 		tree.insert(13);
 		tree.insert(9);
 		tree.printTree();	
-		
-		int testRemove = 10;
-		
+
+		int testRemove = 10;	
 		System.out.println("contains " + testRemove + "?: " + (tree.contains(testRemove)? "YES" : "NO" ));
 	
 		tree.remove(testRemove);
 		tree.printTree();
 		System.out.println("contains " + testRemove + "?: " + (tree.contains(testRemove)? "YES" : "NO" ));
-		
 	}
 	
 	public class Node {
@@ -170,8 +165,6 @@ public class BinarySearchTree {
 		
 		public Node(int i) {
 			value = i;
-			leftNode = null;
-			rightNode = null;
 		}
 	}
 }
