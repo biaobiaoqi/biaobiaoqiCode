@@ -1,5 +1,8 @@
 package biaobiaoqi.algorithm.tree;
 
+import java.util.LinkedList;
+import java.util.Stack;
+
 /**
  * 1.其算法本身跟快速排序很相似。不同在于树能动态增加、删除节点同时保证有序性，而快排则不能。
  * 2.需要使用递归操作的，递归操作作为private方法，而用户调用的接口方法作为驱动程序，调用相应的递归方法。
@@ -96,9 +99,12 @@ public class BinarySearchTree {
 	}
 	
 	public void printTree() {
-		inorderTrav(root);
+		//inorderTrav(root);
 		//preOrderTrav(root);
-		//postOrderTrav(root);
+		postOrderTrav(root);
+		System.out.println();
+		
+		postOrderTravNoRecu(root);
 		System.out.println();
 	}
 	
@@ -110,11 +116,40 @@ public class BinarySearchTree {
 		}
 	}
 	
+	public void inorderTravNoRecu(Node n) {
+		System.out.println("No Recursive: ");
+		Stack<Node> s = new Stack<Node>();
+		while (n != null | !s.empty()){
+			while (n!=null ){
+				s.add(n);
+				n = n.leftNode;
+			}
+			n = s.pop();
+			System.out.print(n.value + " ");
+			n = n.rightNode;
+		}
+		
+	}
+	
 	public void preOrderTrav(Node n) {
 		if (n != null) {
 			System.out.print(n.value + " ");
 			preOrderTrav(n.leftNode);
 			preOrderTrav(n.rightNode);
+		}
+	}
+
+	public void preOrderTravNoRecu(Node n) {
+		System.out.println("No Recursive: ");
+		Stack<Node> stack = new Stack<Node>();
+		stack.add(root);
+		while (!stack.empty()) {
+			Node t = stack.pop();
+			System.out.print(t.value + " ");
+			if (t.rightNode != null)
+				stack.add(t.rightNode);
+			if (t.leftNode != null)
+				stack.add(t.leftNode);
 		}
 	}
 	
@@ -125,7 +160,11 @@ public class BinarySearchTree {
 			System.out.print(n.value + " ");
 		}
 	}
-
+	
+	public void postOrderTravNoRecu(Node n) {
+		
+	}
+	
 	public boolean contains(int n) {
 		return containsNode(root, n);
 	}
@@ -139,17 +178,13 @@ public class BinarySearchTree {
 
 	public static void main(String[] args) {
 		BinarySearchTree tree = new BinarySearchTree();
-		tree.insert(10);
-		tree.insert(16);
-		tree.insert(2);
-		tree.insert(8);
-		tree.insert(7);
-		tree.insert(24);
-		tree.insert(1);
-		tree.insert(13);
-		tree.insert(9);
-		tree.printTree();	
-
+		int[] a = {10, 16, 2, 8, 7, 24, 1, 13, 9};
+		for (int i = 0; i < a.length; ++i) 
+			tree.insert(a[i]);
+		
+		tree.printTree();
+		
+		System.out.println("\nAfter Removing 10:");
 		int testRemove = 10;	
 		System.out.println("contains " + testRemove + "?: " + (tree.contains(testRemove)? "YES" : "NO" ));
 	
