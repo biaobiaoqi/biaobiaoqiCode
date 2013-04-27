@@ -1,6 +1,8 @@
 package biaobiaoqi.algorithm.tree;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -100,12 +102,31 @@ public class BinarySearchTree {
 	
 	public void printTree() {
 		//inorderTrav(root);
-		//preOrderTrav(root);
-		postOrderTrav(root);
+		preOrderTrav(root);
+		//postOrderTrav(root);
 		System.out.println();
 		
-		postOrderTravNoRecu(root);
+		preOrderTravNoRecur(root);
+		preOrderTravNoRecurII(root);
 		System.out.println();
+		
+		levelOrderTrav(root);
+	}
+	
+	public void levelOrderTrav(Node n) {
+		System.out.print("Level OrderTrav: ");
+		
+		Queue<Node> q = new LinkedList<Node>();
+		q.add(n);
+		while (q.size() != 0) {
+			n = q.poll();
+			System.out.print(" " + n.value);
+			if (n.leftNode != null) 
+				q.add(n.leftNode);
+			if (n.rightNode != null)
+				q.add(n.rightNode);
+
+		}
 	}
 	
 	public void inorderTrav(Node n) {
@@ -128,7 +149,6 @@ public class BinarySearchTree {
 			System.out.print(n.value + " ");
 			n = n.rightNode;
 		}
-		
 	}
 	
 	public void preOrderTrav(Node n) {
@@ -139,7 +159,7 @@ public class BinarySearchTree {
 		}
 	}
 
-	public void preOrderTravNoRecu(Node n) {
+	public void preOrderTravNoRecur(Node n) {
 		System.out.println("No Recursive: ");
 		Stack<Node> stack = new Stack<Node>();
 		stack.add(root);
@@ -151,6 +171,29 @@ public class BinarySearchTree {
 			if (t.leftNode != null)
 				stack.add(t.leftNode);
 		}
+		System.out.println();
+	}
+	/*
+	 * 		 10
+	 * 	 2		  16
+	 *1    8	13  24
+	 *    7 9
+	 * */
+
+	public void preOrderTravNoRecurII(Node n) {
+		System.out.println("No Recursive: ");
+		Stack<Node> s = new Stack<Node>();
+		while (n != null | !s.empty()){
+			while (n!=null ){
+				System.out.print(n.value + " ");
+				s.add(n);
+				n = n.leftNode;
+			}
+			n = s.pop();
+			
+			n = n.rightNode;
+		}
+		System.out.println();
 	}
 	
 	public void postOrderTrav(Node n) {
@@ -184,13 +227,14 @@ public class BinarySearchTree {
 		
 		tree.printTree();
 		
-		System.out.println("\nAfter Removing 10:");
-		int testRemove = 10;	
-		System.out.println("contains " + testRemove + "?: " + (tree.contains(testRemove)? "YES" : "NO" ));
-	
-		tree.remove(testRemove);
-		tree.printTree();
-		System.out.println("contains " + testRemove + "?: " + (tree.contains(testRemove)? "YES" : "NO" ));
+
+//		int testRemove = 10;	
+//		System.out.println("contains " + testRemove + "?: " + (tree.contains(testRemove)? "YES" : "NO" ));
+//	
+//		System.out.println("\nAfter Removing 10:");		
+//		tree.remove(testRemove);
+//		tree.printTree();
+//		System.out.println("contains " + testRemove + "?: " + (tree.contains(testRemove)? "YES" : "NO" ));
 	}
 	
 	public class Node {
