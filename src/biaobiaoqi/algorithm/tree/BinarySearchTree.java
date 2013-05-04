@@ -13,6 +13,7 @@ import java.util.Stack;
  */
 public class BinarySearchTree {
 	public Node root;
+	public static final int max = 100;
 	
 	public BinarySearchTree() {
 		root = null;
@@ -121,14 +122,13 @@ public class BinarySearchTree {
 		Stack<Node> s = new Stack<Node>();
 		while (n != null | !s.empty()){
 			while (n!=null ){
-				s.add(n);
+				s.push(n);
 				n = n.leftNode;
 			}
 			n = s.pop();
 			System.out.print(n.value + " ");
 			n = n.rightNode;
-		}
-		
+		}	
 	}
 	
 	public void preOrderTrav(Node n) {
@@ -138,7 +138,7 @@ public class BinarySearchTree {
 			preOrderTrav(n.rightNode);
 		}
 	}
-
+	
 	public void preOrderTravNoRecu(Node n) {
 		System.out.println("No Recursive: ");
 		Stack<Node> stack = new Stack<Node>();
@@ -162,20 +162,54 @@ public class BinarySearchTree {
 	}
 	
 	public void postOrderTravNoRecu(Node n) {
+		/*
+初始：1.维护一个栈S、一个节点变量N和一个标记数组。节点变量赋值为根节点，栈暂时存储便利到的节点，标记数组用于标记栈中的节点是否已经访问过右边节点。
+	2.将根节点的所有左儿子压入栈中。
+循环：依次处理栈中节点。如果节点有右儿子，且没有被处理过（通过标记数组判定），则将右子树的根节点及其左儿子全部压入栈中；如果已经处理过或者没有右儿子，则输出并出栈。
+分析：与前序和中序的一个大的不同在于需要用标记数组标记节点的右子树是否已经访问过。对每个节点进行处理的时候，都保证已经处理完了左右子树（通过先压入左边儿子为主线，处理栈中的每个节点时，再压入右边儿子来实现）。
+
+		 */
+		
+		Stack<Node> stack = new Stack<Node>();
+		int[] flag = new int[max];
+		
+		while (n != null) {
+			stack.push(n);
+			flag[stack.size()] = 0;
+			n = n.leftNode;
+		}
+		
+		while (!stack.empty()) {
+			n = stack.peek();
+			while(n.rightNode != null && flag[stack.size()] == 0) {
+				n = n.rightNode;
+				flag[stack.size()] = 1;
+				while (n != null) {
+					stack.push(n);
+					flag[stack.size()] = 0;
+					n = n.leftNode;
+				}
+				n = stack.peek();//TODO be careful about this
+			}
+			n = stack.pop();
+			System.out.print(n.value + " ");
+		}
 		
 	}
+	
+
 	
 	public boolean contains(int n) {
 		return containsNode(root, n);
 	}
-
+	
 	public boolean containsNode(Node node, int n) {
 		if (node == null)  return false;
 		else if (node.value == n) 	return true;
 		else if (node.value < n)  return containsNode(node.rightNode, n);
 		else return containsNode(node.leftNode, n);
 	}
-
+	
 	public static void main(String[] args) {
 		BinarySearchTree tree = new BinarySearchTree();
 		int[] a = {10, 16, 2, 8, 7, 24, 1, 13, 9};
@@ -184,13 +218,13 @@ public class BinarySearchTree {
 		
 		tree.printTree();
 		
-		System.out.println("\nAfter Removing 10:");
-		int testRemove = 10;	
-		System.out.println("contains " + testRemove + "?: " + (tree.contains(testRemove)? "YES" : "NO" ));
-	
-		tree.remove(testRemove);
-		tree.printTree();
-		System.out.println("contains " + testRemove + "?: " + (tree.contains(testRemove)? "YES" : "NO" ));
+//		System.out.println("\nAfter Removing 10:");
+//		int testRemove = 10;	
+//		System.out.println("contains " + testRemove + "?: " + (tree.contains(testRemove)? "YES" : "NO" ));
+//	
+//		tree.remove(testRemove);
+//		tree.printTree();
+//		System.out.println("contains " + testRemove + "?: " + (tree.contains(testRemove)? "YES" : "NO" ));
 	}
 	
 	public class Node {
