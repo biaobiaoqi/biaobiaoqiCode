@@ -190,7 +190,6 @@ public class BinarySearchTree {
 				n = n.leftNode;
 			}
 			n = s.pop();
-			
 			n = n.rightNode;
 		}
 		System.out.println();
