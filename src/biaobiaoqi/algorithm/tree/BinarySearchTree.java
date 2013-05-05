@@ -103,8 +103,8 @@ public class BinarySearchTree {
 	
 	public void printTree() {
 		//inorderTrav(root);
-		preOrderTrav(root);
-		//postOrderTrav(root);
+		//preOrderTrav(root);
+		postOrderTrav(root);
 		System.out.println();
 		
 		preOrderTravNoRecur(root);
@@ -174,6 +174,7 @@ public class BinarySearchTree {
 		}
 		System.out.println();
 	}
+	
 	/*
 	 * 		 10
 	 * 	 2		  16
