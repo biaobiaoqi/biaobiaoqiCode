@@ -22,17 +22,15 @@ public class StringMatching {
 		System.out.println("kmp: " + (kmp(str, destStr)?"YES":"NO"));
 	}
 	
-	public static boolean kmp(String str, String destStr) {
-		for (int i = 0, j = 0; i != str.length(); ) { 
-			if (str.charAt(i) == destStr.charAt(j)){ 
-				if (j == destStr.length() - 1)
-					return true;
-				++ i; ++ j;
-			}else if (j == 0){ //if cursor has come to the null state, move on.
-				++ i; 
-			}else //if cursor is not the null state, 
-				j = next[j-1];
-				
+	public static boolean kmp(String str, String dest) {
+		for (int i = 0, j = 0; i < str.length(); i ++) {
+			while (j > 0 && str.charAt(i) != dest.charAt(j))
+				j = next[j - 1];
+			if (str.charAt(i) == dest.charAt(j))
+				j ++;
+			
+			if (j == dest.length())
+				return true;
 		}
 		return false;
 	}
