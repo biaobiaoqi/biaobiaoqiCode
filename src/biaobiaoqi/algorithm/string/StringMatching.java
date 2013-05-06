@@ -1,5 +1,15 @@
 package biaobiaoqi.algorithm.string;
-
+/**
+ * Some test cases:
+ * 
+ * To test next method: dest:abcabaefabcabc
+ * 
+ * To test kmp. 
+ * dest:abcaba
+ * str:abcabcaba
+ * @author biaobiaoqi
+ *
+ */
 public class StringMatching {
 	public static int[] next ;
 	public static void main(String[] args) {
@@ -13,26 +23,28 @@ public class StringMatching {
 	}
 	
 	public static boolean kmp(String str, String destStr) {
-		for (int i = 0, j = 0; i != str.length(); ) {
-			if (str.charAt(i) == destStr.charAt(j)){
+		for (int i = 0, j = 0; i != str.length(); ) { 
+			if (str.charAt(i) == destStr.charAt(j)){ 
 				if (j == destStr.length() - 1)
 					return true;
 				++ i; ++ j;
-			}else {
-				if (j > 0)
-					j = next[j - 1];
-				++ i;
-			}
+			}else if (j == 0){ //if cursor has come to the null state, move on.
+				++ i; 
+			}else //if cursor is not the null state, 
+				j = next[j-1];
+				
 		}
 		return false;
 	}
-	
+
 	public static int[] kmpNext(String str) {
 		int[] next = new int[str.length()];
 		next[0]  = 0;
-		for (int i = 1, j = 0; i < str.length(); i ++) {
+		for (int i = 1, j = 0; i < str.length(); i ++) {//j == 0 means the cursor points to nothing.
 			while (j > 0 && str.charAt(j) != str.charAt(i))
-				j = next[j];
+				//the j here stands for the number of same characters for postfix and prefix, instead of 
+				//the index of the end of prefix.
+				j = next[j - 1]; //watch out here! it's j - 1 here, instead of j
 			if (str.charAt(i) == str.charAt(j))
 				j ++;
 			next[i] = j;
