@@ -1,6 +1,8 @@
 package biaobiaoqi.algorithm.tree;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -111,8 +113,27 @@ public class BinarySearchTree {
 		postOrderTrav(root);
 		System.out.println();
 		
-		postOrderTravNoRecu(root);
+		preOrderTravNoRecur(root);
+		preOrderTravNoRecurII(root);
 		System.out.println();
+		
+		levelOrderTrav(root);
+	}
+	
+	public void levelOrderTrav(Node n) {
+		System.out.print("Level OrderTrav: ");
+		
+		Queue<Node> q = new LinkedList<Node>();
+		q.add(n);
+		while (q.size() != 0) {
+			n = q.poll();
+			System.out.print(" " + n.value);
+			if (n.leftNode != null) 
+				q.add(n.leftNode);
+			if (n.rightNode != null)
+				q.add(n.rightNode);
+
+		}
 	}
 	
 	public void inorderTrav(Node n) {
@@ -134,7 +155,7 @@ public class BinarySearchTree {
 			n = s.pop();
 			System.out.print(n.value + " ");
 			n = n.rightNode;
-		}	
+		}
 	}
 	
 	public void preOrderTrav(Node n) {
@@ -144,8 +165,8 @@ public class BinarySearchTree {
 			preOrderTrav(n.rightNode);
 		}
 	}
-	
-	public void preOrderTravNoRecu(Node n) {
+
+	public void preOrderTravNoRecur(Node n) {
 		System.out.println("No Recursive: ");
 		Stack<Node> stack = new Stack<Node>();
 		stack.add(root);
@@ -157,6 +178,29 @@ public class BinarySearchTree {
 			if (t.leftNode != null)
 				stack.add(t.leftNode);
 		}
+		System.out.println();
+	}
+	
+	/*
+	 * 		 10
+	 * 	 2		  16
+	 *1    8	13  24
+	 *    7 9
+	 * */
+
+	public void preOrderTravNoRecurII(Node n) {
+		System.out.println("No Recursive: ");
+		Stack<Node> s = new Stack<Node>();
+		while (n != null | !s.empty()){
+			while (n!=null ){
+				System.out.print(n.value + " ");
+				s.add(n);
+				n = n.leftNode;
+			}
+			n = s.pop();
+			n = n.rightNode;
+		}
+		System.out.println();
 	}
 	
 	public void postOrderTrav(Node n) {
@@ -167,15 +211,7 @@ public class BinarySearchTree {
 		}
 	}
 	
-	public void postOrderTravNoRecu(Node n) {
-		/*
-初始：1.维护一个栈S、一个节点变量N和一个标记数组。节点变量赋值为根节点，栈暂时存储便利到的节点，标记数组用于标记栈中的节点是否已经访问过右边节点。
-	2.将根节点的所有左儿子压入栈中。
-循环：依次处理栈中节点。如果节点有右儿子，且没有被处理过（通过标记数组判定），则将右子树的根节点及其左儿子全部压入栈中；如果已经处理过或者没有右儿子，则输出并出栈。
-分析：与前序和中序的一个大的不同在于需要用标记数组标记节点的右子树是否已经访问过。对每个节点进行处理的时候，都保证已经处理完了左右子树（通过先压入左边儿子为主线，处理栈中的每个节点时，再压入右边儿子来实现）。
-
-		 */
-		
+	public void postOrderTravNoRecu(Node n) {		
 		Stack<Node> stack = new Stack<Node>();
 		int[] flag = new int[max];
 		
@@ -195,12 +231,11 @@ public class BinarySearchTree {
 					flag[stack.size()] = 0;
 					n = n.leftNode;
 				}
-				n = stack.peek();//TODO be careful about this
+				n = stack.peek();
 			}
 			n = stack.pop();
 			System.out.print(n.value + " ");
 		}
-		
 	}
 	
 
@@ -223,11 +258,11 @@ public class BinarySearchTree {
 			tree.insert(a[i]);
 		
 		tree.printTree();
-		
-//		System.out.println("\nAfter Removing 10:");
+
 //		int testRemove = 10;	
 //		System.out.println("contains " + testRemove + "?: " + (tree.contains(testRemove)? "YES" : "NO" ));
 //	
+//		System.out.println("\nAfter Removing " + testRemove + ":");		
 //		tree.remove(testRemove);
 //		tree.printTree();
 //		System.out.println("contains " + testRemove + "?: " + (tree.contains(testRemove)? "YES" : "NO" ));

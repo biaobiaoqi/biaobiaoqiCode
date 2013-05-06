@@ -41,35 +41,34 @@ public class APAT1043 {
 		}
 	}
 
-	//1.if we can not decide it, it will not affect the result. but how can we build the tree?
-	//2.how can we build the tree.
-	//right start should not be s or e, as if it has not been processed, s or e can lead to infinite loop.
+	//rtreeStart should not be s or e, as if it has not been processed, s or e can lead to infinite loop.
 	//On one hand, it's the start position of right part, on the other hand, it can represent
 	//the existing of right part, and it should can be used to distinguish such a condition.			
-	public static void buildTree(int s, int e, boolean mirror) {
-		if (s > e) return ;
-		
-		int rightStart = e + 1;
-		for (int i = s + 1; i <= e; i ++) {
+	public static void buildTree(int root, int end, boolean mirror) {
+		if (root > end) return ;
+
+		int rtreeStart = end + 1;
+		for (int i = root + 1; i <= end; i ++) {
 			if (!mirror) {
-				if (rightStart > e  && a[i] >= a[s]) {
-					rightStart = i;
-				}else if (rightStart <= e && a[i] < a[s]) {
+				//find the start node of right tree.
+				if (rtreeStart > end  && a[i] >= a[root]) {
+					rtreeStart = i;
+				}else if (rtreeStart <= end && a[i] < a[root]) {
 					bst = false;
 				}
 			}
 			else {
-				if (rightStart > e  && a[i] < a[s]) {
-					rightStart = i;
-				}else if (rightStart <= e && a[i] >= a[s]) {
+				if (rtreeStart > end  && a[i] < a[root]) {
+					rtreeStart = i;
+				}else if (rtreeStart <= end && a[i] >= a[root]) {
 					bst = false;
 				}
 			}
 		}
-		
-		buildTree(s + 1, rightStart - 1, mirror);
-		buildTree(rightStart, e, mirror);
-		rqueue.add(a[s]);
-	}
-	
+
+		//post order traversal
+		buildTree(root + 1, rtreeStart - 1, mirror);
+		buildTree(rtreeStart, end, mirror);
+		rqueue.add(a[root]);
+	}	
 }

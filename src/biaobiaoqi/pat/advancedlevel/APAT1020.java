@@ -5,9 +5,7 @@ import java.util.Queue;
 import java.util.Scanner;
 
 /**
- * 1.#Take care, it's binary tree, instead of binary search tree!!!
- * 2.Building tree is not necessary£¬ as the process of finding the node is just a level traversal. 
- * 3.# With a sequence of inorder traversal and another traversal, we can build the tree correctly.  
+ * Rebuild tree.   
  * 
  * @author biaobiaoqi
  */
@@ -57,6 +55,10 @@ public class APAT1020 {
 		}
 	}
 
+	/**
+	 * It's here to retain start and end point of the preorder and inorder sequence.
+	 * @author biaobiaoqi
+	 */
 	public static class Pair {
 		public int ps;
 		public int pe;
