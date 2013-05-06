@@ -32,7 +32,6 @@ public class StringMatching {
 				++ i; 
 			}else //if cursor is not the null state, 
 				j = next[j-1];
-				
 		}
 		return false;
 	}
