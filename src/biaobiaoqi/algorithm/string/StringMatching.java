@@ -49,17 +49,21 @@ public class StringMatching {
 	public static int[] kmpNext(String str) {
 		int[] next = new int[str.length()];
 		next[0] = 0;
-		for (int i = 1, j = 0; i < str.length(); i++) {// j == 0 means the
-														// cursor points to
-														// nothing.
-			while (j > 0 && str.charAt(j) != str.charAt(i))
-				// the j here stands for the number of same characters for
-				// postfix and prefix, instead of
-				// the index of the end of prefix.
-				j = next[j - 1]; // watch out here! it's j - 1 here, instead of
-									// j
-			if (str.charAt(i) == str.charAt(j))
-				j++;
+		// i stands for index of string, j is temporary for particail match
+		// values computing, at the beginning of each loop process, j is the
+		// particial match value of former character .
+		for (int i = 1, j = 0; i < str.length(); ++i) {
+			while (j > 0 && str.charAt(i) != str.charAt(j))
+				// This loop is to get a matching character recursively. Another
+				// stop condition is when particial match value meets end.
+				j = next[j - 1];// j will be recomputed in the recursion. Take
+								// care that next[j-1] is the particial match
+								// value of the first j characters substirng.
+
+			if (str.charAt(i) == str.charAt(j)) // If not in this case, j must
+												// meets end, equals to zero.
+				++j;
+
 			next[i] = j;
 		}
 		return next;
