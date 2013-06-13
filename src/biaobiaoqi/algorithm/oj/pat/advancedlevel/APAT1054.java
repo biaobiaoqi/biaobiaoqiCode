@@ -1,32 +1,29 @@
 package biaobiaoqi.algorithm.oj.pat.advancedlevel;
 
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class APAT1054 {
-	public static HashMap<Integer, Integer> hash = new HashMap<Integer, Integer>();
+//	public static HashMap<Integer, Integer> hash = new HashMap<Integer, Integer>();
 	
 	public static void main(String[] args) {
 		Scanner cin = new Scanner(System.in);
 		
 		int m = cin.nextInt();
-		int n = cin.nextInt();
-		int count = m*n;
+		m = m * cin.nextInt();
 		int color;
-		for (int i = 0; i != count; i++){
+		int cad = 0;
+		int count = 0;
+		for (int i = 0; i != m; i++){
 			color = cin.nextInt();
-			if (hash.containsKey(color))
-				hash.put(color, hash.get(color)+ 1);
-			else {
-				hash.put(color, 1);
-			}
+			if (count == 0)
+				cad  = color;
+			else if (cad == color) 
+				count ++;
+			else 
+				count --;
 		}
-		
-		count /= 2;
-		for (int i : hash.keySet()) {
-			if (hash.get(i) > count)
-				System.out.println(i);
-		}
+
+		System.out.println(cad);
 		
 	}
 }
