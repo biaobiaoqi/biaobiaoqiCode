@@ -1,9 +1,9 @@
-package biaobiaoqi.algorithm.oj.hdoj;
+package biaobiaoqi.algorithm.oj.poj;
 
 import java.util.Scanner;
 
-public class HDOJ1358 {
-	public static int[] next = new int[1000000];
+public class POJ1961 {
+	public static int[] next = new int[1000002];
 	
 	public static void main(String[] args) {
 		Scanner cin = new Scanner(System.in);
@@ -38,4 +38,5 @@ public class HDOJ1358 {
 
 			next[i] = j;
 		}
-	}}
+	}
+}
