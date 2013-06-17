@@ -7,12 +7,13 @@ public class APAT1023 {
 	public static String str;
 	public static int[] result = new int[20];
 	public static int[] digits = new int[10];//1-9
+	
 	public static void main(String[] args){
 		Scanner cin = new Scanner(System.in);
-		str = cin.next();
-		
+		str = cin.next();	
 		for(int i = 0; i != str.length(); i ++)
 			digits[intValue(i)] ++;
+		
 		boolean flag = true;
 		int carry = 0;
 		for(int i = str.length() - 1; i >= 0; i--){
@@ -20,6 +21,7 @@ public class APAT1023 {
 			digits[result[i]] --;
 			carry = intValue(i)*2/10;
 		}
+		
 		if (carry != 0 )
 			flag = false;
 		
@@ -27,6 +29,7 @@ public class APAT1023 {
 			if (digits[i] != 0)
 				flag = false;
 		
+		//result
 		if (flag)
 			System.out.println("Yes");
 		else
