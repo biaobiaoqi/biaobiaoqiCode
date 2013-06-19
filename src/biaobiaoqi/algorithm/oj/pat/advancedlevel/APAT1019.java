@@ -2,14 +2,14 @@ package biaobiaoqi.algorithm.oj.pat.advancedlevel;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-//why WA?!!!
+//Take care of 0 case.
 
 public class APAT1019 {
 	public static void main(String[] args) {
 		Scanner cin = new Scanner(System.in);
-		long n = cin.nextLong(); 
-		long d = cin.nextLong();
-		ArrayList<Long> r = getResult(n, d);
+		int n = cin.nextInt(); 
+		int d = cin.nextInt();
+		ArrayList<Integer> r = getResult(n, d);
 		int length = r.size();
 		
 		//This i,j way is clearer than length/2 - 1.
@@ -34,12 +34,16 @@ public class APAT1019 {
 		}
 	}
 	
-	public static ArrayList<Long> getResult(long n, long d) {
-		ArrayList<Long> r = new ArrayList<Long>();
+	public static ArrayList<Integer> getResult(int n, int d) {
+		ArrayList<Integer> r = new ArrayList<Integer>();
+		if (n == 0)
+			r.add(0);
+		
 		while (n != 0){
 			r.add(n%d);
 			n /= d;
 		}
+		
 		return r;
 	}
 }

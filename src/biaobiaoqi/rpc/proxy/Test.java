@@ -24,14 +24,14 @@ public class Test {
 		proxy.sayHelloWorld();
 		
 		
-		System.out.println("---------------Complex way-------------------");
-		
-		Class<?> clazz = Proxy.getProxyClass(hw.getClass().getClassLoader(), hw.getClass().getInterfaces()); 
-
-		Constructor<?> constructor = clazz.getConstructor(new Class[] { InvocationHandler.class }); 
-
-		HelloWorld proxy2 = (HelloWorld)constructor.newInstance(hwHandler); 
-		proxy2.sayHelloWorld();
+//		System.out.println("---------------Complex way-------------------");
+//		
+//		Class<?> clazz = Proxy.getProxyClass(hw.getClass().getClassLoader(), hw.getClass().getInterfaces()); 
+//
+//		Constructor<?> constructor = clazz.getConstructor(new Class[] { InvocationHandler.class }); 
+//
+//		HelloWorld proxy2 = (HelloWorld)constructor.newInstance(hwHandler); 
+//		proxy2.sayHelloWorld();
 		
 	}
 }
