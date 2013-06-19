@@ -2,7 +2,7 @@ package biaobiaoqi.algorithm.oj.pat.advancedlevel;
 
 import java.util.Scanner;
 //http://pat.zju.edu.cn/contests/pat-a-practise/1040
-
+//time out. cpp format can be accepted.
 
 public class APAT1040 {
  
