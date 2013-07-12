@@ -3,6 +3,10 @@
 #include<queue>
 using namespace std;
 
+/**
+ * Use union-find set to find components in the graph.
+ * Choose one point, Using bfs to get one longest point, and from that point using bfs again to get all of the deepest roots.
+ */
 #define MAX 10005
 int parent[MAX];
 vector< int > adj[MAX];
