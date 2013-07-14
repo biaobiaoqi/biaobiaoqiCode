@@ -1,7 +1,7 @@
 /*
  http://pat.zju.edu.cn/contests/pat-a-practise/1047
  1.用priority_queue<student> courses[2501];，case4超时。换做vector试试.
- 2.vector涉险350ms过关。
+ 2.vector涉险350ms过关。【priority_queue的优势在于动态的增减时的一致性保持。但均摊的效率并不一定很高!】
  */
 #include<stdio.h>
 #include<vector>
