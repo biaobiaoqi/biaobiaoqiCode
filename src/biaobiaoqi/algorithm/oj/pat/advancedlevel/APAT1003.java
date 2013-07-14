@@ -4,8 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Scanner;
 /**
- * It's the third time and it takes me 20 minutes to make it accepted by PATOJ.
- * Actually I've made some mistakes when type in all the code, especially [ and ].
+ * http://pat.zju.edu.cn/contests/pat-a-practise/1003
  * 对于需要一些变形的算法，先打出基本算法。然后再改进，否则容易弄混。
  * @author biaobiaoqi
  */
