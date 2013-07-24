@@ -15,7 +15,6 @@
 
 #include<stdio.h>
 #include<algorithm>
-#include<vector>
 #include<deque>
 #include<math.h>
 using namespace std;
@@ -66,9 +65,9 @@ int main()
         tables[tmp].vip = 1;
     }
     
-    int timer = 0;//全局时钟。 由于每个桌子都有时钟，timer应该等于当前计算的能提供服务的桌子的时间。
     deque<int> waiting;
     int cur = 1;//players的处理游标，标记第一个未被处理的player。
+    int timer = 0;
     while(timer < END) {
         while (cur <= n && players[cur].arrive <= timer)
             waiting.push_back(cur ++);
@@ -98,7 +97,7 @@ int main()
         
         int viptable = 0;
         if (vip)
-            for (int i = 1; i <= k && tables[i].available == tables[1].available; ++ i)
+            for (int i = 1; i <= k && tables[i].available == timer; ++ i)
                 if (tables[i].vip) {
                     viptable = i;
                     break;
@@ -120,17 +119,16 @@ int main()
             curt = 1;
         }
         
-        tables[curt].servedCount ++;
-        tables[curt].available = timer + players[curp].process * 60;
-        
         int art = players[curp].arrive;
         int stt = timer;
         printf("%02d:%02d:%02d %02d:%02d:%02d %d\n", art/3600 + 8, art/60%60, art%60, stt/3600 + 8, stt/60%60, stt%60, (int)floor((stt - art)/60.0 + 0.5)); //注意cell方法的使用
         
+        tables[curt].servedCount ++;
+        tables[curt].available = timer + players[curp].process * 60;
+        
         //更改过处理后的table后，重新排序，准备下一轮的处理
         sort(tables + 1, tables + k + 1);
-        
-        timer = max(tables[1].available, timer);
+        timer = tables[1].available;
     }
     
     sort(tables + 1, tables + k + 1, sortt);
