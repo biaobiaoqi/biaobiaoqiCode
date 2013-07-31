@@ -3,10 +3,10 @@
 #include<string.h>
 /*
  http://pat.zju.edu.cn/contests/pat-a-practise/1016
- æ¨¡æ‹Ÿé¢˜
- 1.é¢˜æ„é™·é˜±ï¼šç”¨æˆ·å¯èƒ½ä¼šæ— åŒ¹é…é¡¹ã€‚è¿™ç§æƒ…å†µä¸è¾“å‡ºä»»ä½•å€¼ã€‚
- 2.è¿‡ç¨‹ä¸­çŠ¯é”™ï¼šå¤æ‚é€»è¾‘å®ç°å‡ºé”™ï¼›è¾“å‡ºæ ¼å¼å‡ºé”™ã€‚
- 3.æŠ€èƒ½ï¼šç”¨qsortçš„å®šåˆ¶å‡½æ•°è¿›è¡Œå±‚æ¬¡æ’åºã€‚
+ Ä£ÄâÌâ
+ 1.ÌâÒâÏİÚå£ºÓÃ»§¿ÉÄÜ»áÎŞÆ¥ÅäÏî¡£ÕâÖÖÇé¿ö²»Êä³öÈÎºÎÖµ¡£
+ 2.¹ı³ÌÖĞ·¸´í£º¸´ÔÓÂß¼­ÊµÏÖ³ö´í£»Êä³ö¸ñÊ½³ö´í¡£
+ 3.¼¼ÄÜ£ºÓÃqsortµÄ¶¨ÖÆº¯Êı½øĞĞ²ã´ÎÅÅĞò¡£
  
  */
 struct record{
@@ -15,7 +15,7 @@ struct record{
     int day;
     int hour;
     int minute;
-    char onOff[20];
+    char onOff;
     int total;
 } records[1000];
 int n;
@@ -45,20 +45,20 @@ double charge(record start, record end)
     double cost = 0;
     long time = 0;
     
-    while(sday < eday)//å…ˆè®©å¤©ç›¸ç­‰
+    while(sday < eday)//ÏÈÈÃÌìÏàµÈ
     {
         time += (60 - sminute);
         cost += (60 - sminute) * fee[shour];
-        sminute = 0; shour ++;//åˆ†åŒ–æˆ0ï¼Œæ—¶åŠ 1
+        sminute = 0; shour ++;//·Ö»¯³É0£¬Ê±¼Ó1
         time += 60 * (24 - shour);
         while(shour < 24)
         {
             cost += 60 * fee[shour];
             shour ++;
         }
-        shour = 0; sday ++;//æ—¶åŒ–æˆ0ï¼Œå¤©åŠ 1
-    }//å¤©æ­¤æ—¶ç›¸ç­‰ï¼Œæ—¶åˆ†ä¸º00:00
-    while(shour < ehour)//å†è®©æ—¶ç›¸ç­‰
+        shour = 0; sday ++;//Ê±»¯³É0£¬Ìì¼Ó1
+    }//Ìì´ËÊ±ÏàµÈ£¬Ê±·ÖÎª00:00
+    while(shour < ehour)//ÔÙÈÃÊ±ÏàµÈ
     {
         time += (60 - sminute);
         cost += (60 - sminute) * fee[shour];
@@ -79,9 +79,10 @@ int main()
     scanf( "%d", &n);
     for (int i = 0; i != n; i ++){
         record r;
-        scanf( "%s %d:%d:%d:%d %s", r.name, &r.month, &r.day, &r.hour, &r.minute, r.onOff); //Take care of the r.name, instead of &r.name
+		char tmp[21];
+        scanf( "%s %d:%d:%d:%d %s", r.name, &r.month, &r.day, &r.hour, &r.minute, tmp); //Take care of the r.name, instead of &r.name
         r.total = r.day*24*60 + r.hour*60 + r.minute;
-        
+		r.onOff = tmp[1];
         records[i] = r;
     }
     
@@ -97,7 +98,7 @@ int main()
     for (int i = 0; i != n; ++ i) {
         record r = records[i];
         if (i == 0 || strcmp(currentName, r.name) != 0) {
-            if (i != 0 && hasOutputName) { //æ³¨æ„åé¢è¿™ä¸ªæ¡ä»¶ã€‚
+            if (i != 0 && hasOutputName) { //×¢ÒâºóÃæÕâ¸öÌõ¼ş¡£
                 printf( "Total amount: $%.2f\n", amount/100);
             }
             
@@ -110,12 +111,12 @@ int main()
         }
         
         if (waitForOn ) {
-            if (r.onOff[1] == 'n'){
+            if (r.onOff == 'n'){
                 waitForOn = false;
                 onRecord = r;
             }
         } else {
-            if (r.onOff[1] == 'f') {
+            if (r.onOff == 'f') {
                 if (!hasOutputName){
                     hasOutputName = true;
                     printf( "%s %02d\n", currentName, month);

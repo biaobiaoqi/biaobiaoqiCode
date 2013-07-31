@@ -1,25 +1,20 @@
 /*
  http://pat.zju.edu.cn/contests/pat-a-practise/1017
- å‡ºé”™ï¼š1.å»ºæ¨¡çš„é€»è¾‘ä¸Šæœ‰äº†æ¼æ´ï¼›2.æ³¨æ„17ï¼š00ä»¥å‰å¼€å§‹æ¥æ”¶çš„éƒ½èƒ½å¤„ç†å®Œï¼›3.æ³¨æ„whileçš„æ§åˆ¶æ¡ä»¶ã€‚
+ ³ö´í£º1.½¨Ä£µÄÂß¼­ÉÏÓĞÁËÂ©¶´£»2.×¢Òâ17£º00ÒÔÇ°¿ªÊ¼½ÓÊÕµÄ¶¼ÄÜ´¦ÀíÍê£»3.×¢ÒâwhileµÄ¿ØÖÆÌõ¼ş¡£
  
  */
 #include<stdio.h>
 #include<stdlib.h>
 #include<queue>
-
-using namespace::std;
+using namespace std;
 
 #define MAX      10001
-
 #define START    8*60*60
 #define END      17*60*60
-struct person {
-    int arrive;
-    int start;
-    int process;
-} persons[MAX];
 
-int timer;
+struct person {
+    int arrive, start, process;
+} persons[MAX];
 
 int compare(const void * a, const void * b) {
     person *aa = (person *) a;
@@ -27,9 +22,9 @@ int compare(const void * a, const void * b) {
     return aa->arrive - bb->arrive;
 }
 
-bool operator<(person a, person b)
+bool operator<(person a, person b) //ÓÃÓÚÓÅÏÈ¶ÓÁĞÖĞµÄ±È½Ï£ºÄ³ÈË½áÊø´¦ÀíµÄÊ±¼äÀëµ±Ç°Ê±¿Ì±È½Ï½ü£¬ÔòÍùÇ°ÅÅ¡£
 {
-    return  a.process - (timer - a.start)  > b.process - (timer - b.start);
+    return  a.start + a.process  > b.start + b.process;
 }
 
 int main()
@@ -49,17 +44,17 @@ int main()
     int totalTime= 0;
     int count = 0;
     int index = 1;
-    timer = START;
+    int timer = START;
     
     while (index <= n) {
         bool breakFlag = false;
-        while (windows.size() < m){
+        while (windows.size() < m){ //½«»ÆÏßÍâµÈ´ıµÄÈË·Åµ½´°¿ÚÄÚÀ´´¦Àí
             if (persons[index].arrive > END){
                 breakFlag = true;
                 break;
             }
-            //æœ‰ä¸€ç§å¼‚æ­¥çš„æƒ…å†µå¤„ç†æœ‰é—®é¢˜ï¼šå¦‚æœæœ‰ç©ºçš„ï¼Œä½†äººè¿˜æ²¡æ¥ï¼Œè€Œäººæ¥çš„æ—¶å€™ï¼Œæ˜¯åœ¨å¦å¤–éç©ºçš„ç»“æŸä¹‹å‰ã€‚æ€ä¹ˆç ´ã€‚
-            if (persons[index].arrive > timer)
+
+            if (persons[index].arrive > timer) //Èç¹ûµ±Ç°Ê±¿Ì£¬ÏÂÒ»¸öÈË»¹Ã»ÓĞµ½£¬ÄÇÃ´ËûµÄ¿ªÊ¼Ê±¼äÉèÖÃÎªµ½´ïµÄÊ±¿Ì
                 persons[index].start = persons[index].arrive;
             else
                 persons[index].start = timer;
@@ -70,22 +65,16 @@ int main()
             ++ count;
             ++ index;
         }
-        if (breakFlag)
+
+		if (breakFlag)//ÓÉÓÚÖ»ĞèÒª¼ÆËãµÈ´ıÊ±¼ä£¬ËùÒÔµÃµ½ËùÓĞÈËµÄ¿ªÊ¼Ê±¼äºó£¬¼´¿ÉÌø³öÑ­»·£¬½áÊøÕ½¶·
             break;
         
         person popPerson = windows.top();
         windows.pop();
-        timer  += popPerson.process - (timer - popPerson.start);
+        timer = popPerson.process + popPerson.start;
     }
     
     printf("%.1f\n", totalTime/(count*60.0));
     
     return 0;
 }
-
-/*
- 3 1
- 07:55:00 16
- 08:10:00 16
- 09:00:00 20
- */
