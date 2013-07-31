@@ -2,6 +2,7 @@ package biaobiaoqi.algorithm.oj.pat.advancedlevel;
 
 import java.util.Scanner;
 /*
+ * http://pat.zju.edu.cn/contests/pat-a-practise/1004
  * 1.DFS扫描所有节点。
  * 2.由于总节点最多100个，于是用101*101的表来存储parent-child对应关系即可。
  * 3.t[i][0]代表了某个节点是否有child，节省了之后运算的计算量。t[0][i]记录最终第i层的叶子节点数。

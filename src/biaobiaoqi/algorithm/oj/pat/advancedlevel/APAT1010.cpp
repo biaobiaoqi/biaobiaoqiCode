@@ -1,5 +1,6 @@
 /*
  http://pat.zju.edu.cn/contests/pat-a-practise/1010
+
  */
 #include<stdio.h>
 #include<string.h>
@@ -37,7 +38,7 @@ int compare(char *n, long long base) {
         v *= base;
         tmp = value(n[i]);
         v += tmp;
-        if (v > target) //防止计算过程总longlong溢出的情况
+        if (v > target) //闃叉璁＄畻杩囩▼鎬籰onglong婧㈠嚭鐨勬儏鍐�
             return 1;
     }
     
@@ -58,7 +59,7 @@ int main()
         return 0;
     }
     
-    //这个题目没交代清楚，1位数的情况。
+    //杩欎釜棰樼洰娌′氦浠ｆ竻妤氾紝1浣嶆暟鐨勬儏鍐点�
     if (strlen(n1) == 1 && strlen(n2) == 1 && n1[0] == n2[0] && n1[0] == '1') {
         printf("2\n");
         return 0;
@@ -72,7 +73,7 @@ int main()
     else
         objn = n1;
     
-    //二分搜索,根据已知radix的值和另一个数字串的每位的数值确定二分的界限。
+    //浜屽垎鎼滅储,鏍规嵁宸茬煡radix鐨勫�鍜屽彟涓�釜鏁板瓧涓茬殑姣忎綅鐨勬暟鍊肩‘瀹氫簩鍒嗙殑鐣岄檺銆�
     long long low = 2, high = target, search;
     for (int i = 0; objn[i] != 0; ++ i) {
         int tmp = value(objn[i]);

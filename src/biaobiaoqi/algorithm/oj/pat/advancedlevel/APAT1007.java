@@ -3,6 +3,7 @@ package biaobiaoqi.algorithm.oj.pat.advancedlevel;
 import java.util.Scanner;
 
 /**
+ * http://pat.zju.edu.cn/contests/pat-a-practise/1007
  * 《编程珠玑》P73有详细的讲解。
  * 1.简单的使用循环会超时，使用DP会超内存限制
  * 2.其实不用套用DP。可以根据其计算特点，近似的套用零时变量存储中间值，减少计算过程。
