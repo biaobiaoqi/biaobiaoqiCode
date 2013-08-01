@@ -1,17 +1,18 @@
 #include<stdio.h>
 #include<map>
 #include<vector>
+#include<algorithm>
 
 /*http://pat.zju.edu.cn/contests/pat-a-practise/1039
- 使用最简介的思路：map<string, vector<int> students倒排索引，在没有输出排序的课程列表时最后一个case已经超时；
- 将string转化为int，减免了string的匹配过程，还是超时；
- 【map本身用红黑树实现，效率并不是特别高，还需要对每组数据进行排序】
+ 这个题是个倒排索引的实现。不过在时间上卡的比较严。
  
- AC解法：
- 用一个临时的课程vector存储原始输入的数据结构，然后按照课程号从大到小将数据转入倒排索引中。如此实现排序过程。
- 其中还做了很多细节优化：比如课程vector的生成动态产生，可以限定其大小；字符串hash值的优化；其他牺牲空间增强时间复杂性的操作。
+ 使用最简单的思路：map<string, vector<int> students倒排索引，在没有输出排序的课程列表时最后一个case已经超时；优化：将学生姓名的hash为int，减免了string的匹配过程，还是超时（map本身用红黑树实现，效率并不是特别高，还需要对每组数据进行排序），只能改变使用map的方式。
  
- 总结：时间复杂度的突破口在于牺牲空间复杂度！
+ 最终AC的解法是：
+ 
+ * 构建一个从学生编号字符串到int值的hash函数，在读入学生编号后，hash到int值做处理。
+ * 不适用map结构，根据学生姓名的限制，设定一个`vector<int> st[26*26*26*10]`的数据结构，读入时直接倒排索引插入。
+
  */
 using namespace::std;
 vector<int> st[26*26*26*10];
@@ -27,26 +28,20 @@ int main()
     scanf("%d%d", &n, &k);
     int course, num, hash;
     char name[5];
-    vector<vector<int>> co(k + 1);
+    
     for (int i = 1; i <= k; ++ i) {
         scanf("%d%d", &course, &num);
         for (int j = 1; j <= num; ++ j) {
             scanf("%s", name);
             hash = getHash(name);
-            co[course].push_back(hash);
+            st[hash].push_back(course);
         }
-    }
-    
-    for (int i = 1; i <= k; ++ i){
-        long size = co[i].size();
-        
-        for (int j = 0; j != size; ++ j)
-            st[co[i][j]].push_back(i);
     }
     
     for (int i = 1; i <= n; ++ i) {
         scanf("%s", name);
         hash = getHash(name);
+        sort(st[hash].begin(), st[hash].end());
         printf("%s %ld", name, st[hash].size());
         for (int j = 0; j != st[hash].size(); ++ j)
             printf(" %d", st[hash][j]);

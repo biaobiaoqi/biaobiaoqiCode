@@ -1,6 +1,6 @@
 /*
  http://pat.zju.edu.cn/contests/pat-a-practise/1037
- ¼òµ¥Ä£ÄâÌâ
+ ç®€å•æ¨¡æ‹Ÿé¢˜ã€‚
 */
 #include<stdio.h>
 #include<algorithm>
