@@ -2,7 +2,7 @@
  简单模拟题，
 
  1.map映射的使用有一个讨巧的方式：常规的，对于1-5的查询情况，得设定两层的映射，即map<queryClass, map<char *, priorityqueue>>，
- 实际上，由于queryClass一共只有【有限】的五种，完全可以用一层map<char *, priorityqueue>来实现，其中char*字符串做好1-5的标记即可。
+ 实际上，完全可以用一层map<char *, priorityqueue>来实现，其中char*字符串做好1-5的标记即可。
  2.priority_queue使用priority_queue<string, vector<string>, greater<string>> 可以将基本数据类型转换为最小堆。
 */
 #include<map>
