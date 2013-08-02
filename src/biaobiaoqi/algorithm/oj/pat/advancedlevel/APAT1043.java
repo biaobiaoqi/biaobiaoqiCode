@@ -4,10 +4,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
-/**
- * It doesn't need to build a tree, as in some case, a tree can not be defined.
- * @author biaobiaoqi
- */
 public class APAT1043 {
 	//define whether it can build a tree
 	public static int n;
