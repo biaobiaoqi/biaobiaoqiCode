@@ -36,7 +36,7 @@ int main()
     long long tmp, min = MAXX;
     int i, j;
     for (i = 1, j = 1; i <=n; ++ i) {
-        for (; j <= n; ++ j) { //这个优化很关键。
+        for (--j ; j <= n; ++ j) { //这个优化很关键。
             tmp = k[j] - k[i - 1];
             if (tmp == m ) {
                 if (min != m)
