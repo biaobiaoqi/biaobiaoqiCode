@@ -7,12 +7,12 @@
 //
 
 #include <stdio.h>
-const int NUM = 100005;
-int a[NUM];
+const int MAXVALUE = 1001;
+int a[MAXVALUE];
 
 int main(int argc, const char * argv[])
 {
-    int min = NUM;
+    int min = MAXVALUE;
     int n, m;
     int tmp;
     scanf("%d%d", &n, &m);
@@ -27,7 +27,7 @@ int main(int argc, const char * argv[])
         }
     }
     
-    if (min != NUM) printf("%d %d\n", min, m - min);
+    if (min != MAXVALUE) printf("%d %d\n", min, m - min);
     else printf("No Solution");
     
     return 0;
