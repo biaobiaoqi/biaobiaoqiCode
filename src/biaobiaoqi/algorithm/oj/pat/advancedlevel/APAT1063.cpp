@@ -54,3 +54,44 @@ int main()
     
     return 0;
 }
+
+//Antoher way to solve this problem. Using stl set<int>
+/*
+#include<stdio.h>
+#include<algorithm>
+#include<set>
+using namespace std;
+set<int> ss[55];
+int n,m,k;
+int getnt(int a, int b) {
+	int ret = 0;
+	for (set<int>::iterator it = ss[a].begin(); it != ss[a].end(); it ++) {
+		if (ss[b].find(*it) == ss[b].end()) 
+			ret ++;
+	}
+	ret += ss[b].size();
+	return ret;
+}
+
+int main()
+{
+	scanf("%d", &n);
+	for (int i = 1; i <= n; ++ i) {
+		scanf("%d", &m);
+		int tmp;
+		for (int j = 0; j != m; ++ j){
+			scanf("%d", &tmp);
+			ss[i].insert(tmp);
+		}
+	}
+
+	scanf("%d", &k);
+	int a,b;
+	int nt;
+	for (int i = 0; i != k ; ++ i) {
+		scanf("%d %d", &a, &b);
+		nt = getnt(a, b);
+		printf("%02.1lf%%\n", (ss[a].size() + ss[b].size() - nt)*100.0/nt);
+	}
+}
+*/
