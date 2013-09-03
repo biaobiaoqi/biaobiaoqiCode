@@ -24,32 +24,6 @@ int getnc(int a, int b)
     return ret;
 }
 
-int getnt(int a, int b)
-{
-    int ret = 0;
-    int c1 = ar[a][0], c2 = ar[b][0];
-    int i = 1, j = 1;
-    
-    while (i <= c1 || j <= c2) {
-        ret ++;
-        if (i <= c1 && j > c2) {
-            i ++;
-        }else if (i > c1 && j <= c2) {
-            j ++;
-        }else {
-            if (ar[a][i] == ar[b][j]) {
-                i ++;
-                j ++;
-            }else if (ar[a][i] < ar[b][j]) {
-                i ++;
-            }else {
-                j ++;
-            }
-        }
-    }
-    return ret;
-}
-
 int main()
 {
     scanf("%d", &n);
@@ -74,7 +48,8 @@ int main()
     for (int i = 0; i != k; ++ i) {
         int a, b;
         scanf("%d %d", &a, &b);
-        printf("%.1lf%%\n", getnc(a,b)*100.0/getnt(a,b));
+        int nc = getnc(a,b);
+        printf("%.1lf%%\n", nc *100.0/(ar[a][0] + ar[b][0] - nc));
     }
     
     return 0;
