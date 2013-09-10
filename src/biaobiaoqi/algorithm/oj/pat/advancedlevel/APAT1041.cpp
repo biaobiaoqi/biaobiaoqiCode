@@ -1,10 +1,4 @@
-//
-//  APAT1041.cpp
-//  APAT1041
-//
-//  Created by biaobiaoqi  on 13-4-9.
-//  Copyright (c) 2013年 biaobiaoqi. All rights reserved.
-//
+#include <stdio.h>
 
 #define MAXCOUNT  100005
 #define MAXNUM	  10005
@@ -40,3 +34,39 @@ int main()
     }
     return 0;
 }
+
+/*AnotherWay
+#include <stdio.h>
+#define MAXN 100005
+#define MAXV 10005
+int a[MAXN], f[MAXN], v[MAXV];
+int main()
+{
+	int n;
+	scanf("%d", &n);
+	for (int i = 1; i <= n; ++ i) {
+		scanf("%d", &a[i]);
+		if (v[a[i]] == 0) {
+			v[a[i]] = i;
+		} else {
+			f[v[a[i]]] = 1;
+			f[i] = 1;
+		}
+	}
+
+	int ret = 0;
+	for (int i = 1; i <= n; ++ i) {
+		if (f[i] == 0) {
+			ret = i;
+			break;
+		}
+	}
+	
+	if (ret > 0)
+		printf("%d\n", a[ret]);
+	else
+		printf("None\n");
+
+}
+
+*/
