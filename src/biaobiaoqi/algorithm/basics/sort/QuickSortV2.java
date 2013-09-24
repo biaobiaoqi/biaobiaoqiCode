@@ -1,7 +1,7 @@
 package biaobiaoqi.algorithm.basics.sort;
 
+import java.util.Arrays;
 
-import biaobiaoqi.algorithm.basics.Tools.Tools;
 
 /**
  * 快排用自己的话表述：
@@ -38,24 +38,18 @@ public class QuickSortV2 extends BasicSort{
 			list[rightPos] = list[leftPos];
 			list[leftPos] = pivot;
 			
-			//System.out.print("[" + leftPos + "," + rightPos + "] pivot:" + pivot + " : ");
-			tools.showInProgressArray(list);
 		}
 		
 		return rightPos;
 	}
 	
-	
 	public void quickSort(Integer[] list, int startPos, int endPos){
-		int middle = this.getMiddle(list, startPos, endPos);
+		if (startPos >= endPos)
+			return;
 		
-		if (startPos < middle -1) {
-			this.quickSort(list, startPos, middle - 1);
-		}
-		
-		if (endPos > middle + 1) {
-			this.quickSort(list, middle + 1, endPos);
-		}
+		int middle = getMiddle(list, startPos, endPos);
+		quickSort(list, startPos, middle - 1);
+		quickSort(list, middle + 1, endPos);
 	}
 	
 	public void sort(Integer[] list){
@@ -66,15 +60,10 @@ public class QuickSortV2 extends BasicSort{
 		}
 	}
 	
-	
 	public static void main(String[] args){  
-		//34,3,53,2,23,7,14,10
-		//< 10,3,53,2,23,7,14,34_ 
-		//> 10,3,34_,2,23,7,14,53_ 
-		//< 10,3,14_,2,23,7,34_,53
-		//> 10,3,14,2,23,7,34_,53
-		
+		Integer[] a = {34,3,53,2,23,7,14,10};
 		QuickSortV2 sortV2 = new QuickSortV2();
-		sortV2.testSort();
+		sortV2.sort(a);
+		System.out.println(Arrays.toString(a));
 	}
 }
