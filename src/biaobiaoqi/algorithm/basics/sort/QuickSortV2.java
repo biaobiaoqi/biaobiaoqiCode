@@ -35,6 +35,7 @@ public class QuickSortV2 extends BasicSort{
 			while (list[leftPos] <= pivot && leftPos < rightPos) {
 				leftPos ++;
 			}
+			
 			list[rightPos] = list[leftPos];
 			list[leftPos] = pivot;
 			
@@ -44,7 +45,6 @@ public class QuickSortV2 extends BasicSort{
 		
 		return rightPos;
 	}
-	
 	
 	public void quickSort(Integer[] list, int startPos, int endPos){
 		int middle = this.getMiddle(list, startPos, endPos);
@@ -65,7 +65,6 @@ public class QuickSortV2 extends BasicSort{
 			this.quickSort(list, 0, list.length -1);
 		}
 	}
-	
 	
 	public static void main(String[] args){  
 		//34,3,53,2,23,7,14,10
