@@ -4,8 +4,8 @@
 #include<string>
 
 /*
- *WA了很多次。
- *有一处坑：同等分数的名次。比如1,2,2,4
+ *WA锟剿很讹拷锟轿★拷
+ *锟斤拷一锟斤拷锟接ｏ拷同锟饺凤拷锟斤拷锟斤拷锟斤拷锟轿★拷锟斤拷锟斤拷1,2,2,4
  * */
 
 using namespace std;
@@ -89,7 +89,7 @@ int main()
 
 	char name[7];
 	for (int i = 0; i != m; ++i ){
-		scanf("%s", &name );
+		scanf("%s", name );
 		if (result.find(name) == result.end())
 			printf("N/A\n");
 		else

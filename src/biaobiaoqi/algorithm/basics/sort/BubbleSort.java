@@ -25,9 +25,12 @@ public class BubbleSort extends BasicSort{
 		}
 	}
 	
-	
 	public static void main (String[] args){
 		BubbleSort sort = new BubbleSort();
 		sort.testSort();	
 	}
+}
+
+class yoyo{
+	
 }

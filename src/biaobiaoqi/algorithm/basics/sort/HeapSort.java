@@ -45,7 +45,6 @@ public class HeapSort extends BasicSort{
 			percolateDown(list, i, list.length);
 		}
 		
-		
 		//switch and percolatedown
 		for (int i = list.length - 1; i > 0; i --) {
 			int tmp = list[i];

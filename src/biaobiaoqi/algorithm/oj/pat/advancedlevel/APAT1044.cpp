@@ -1,7 +1,6 @@
 /*
  http://pat.zju.edu.cn/contests/pat-a-practise/1044
  简单DP思想：数组中记录从第一个钻石到当前位置的钻石价值之和。两层循环计算。注意，第二层循环的起始点（这个优化不可少）
- 
  */
 #include<stdio.h>
 
@@ -36,8 +35,8 @@ int main()
     
     long long tmp, min = MAXX;
     int i, j;
-    for (i = 1; i <=n; ++ i) {
-        for (j = j - 1; j <= n; ++ j) { //j = j -1 is very nice.
+    for (i = 1, j = 1; i <=n; ++ i) {
+        for (--j ; j <= n; ++ j) { //这个优化很关键。
             tmp = k[j] - k[i - 1];
             if (tmp == m ) {
                 if (min != m)
