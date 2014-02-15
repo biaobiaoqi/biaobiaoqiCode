@@ -1,0 +1,39 @@
+public class Solution {
+    /*
+    简单的hashmap会超时，需要做几点优化：
+    1.遍历的时候，使用原来的数组，而不是从最小到最大数的遍历
+    2.对于每个数，向两边扩展来查找。对于已经计算过的点，设定一个值，以后就不用再遍历了。
+    */
+    public int longestConsecutive(int[] num) {
+        Map<Integer, Boolean> used = new HashMap<Integer, Boolean>();
+        for (int i : num) {
+            used.put(i, false);
+        }
+        
+        int maxLength = 0;
+        for (int i : num){
+            if (used.get(i))
+                continue;
+
+            int count = 1;
+            int j = i + 1;
+            while (used.containsKey(j) && !used.get(j)) {
+                count ++;
+                used.put(j, true);
+                j ++;
+            }
+             
+            j = i - 1;
+            while(used.containsKey(j) && !used.get(j)) {
+                count ++;
+                used.put(j, true);
+                j --;
+            }
+
+            if (count > maxLength)
+                maxLength = count;
+        }
+        
+        return maxLength;
+    }
+}
