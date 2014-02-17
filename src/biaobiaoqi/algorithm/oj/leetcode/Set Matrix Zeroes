@@ -1,0 +1,64 @@
+//O(m+n)
+
+public class Solution {
+    public void setZeroes(int[][] matrix) {
+        int m = matrix.length;
+        if (m == 0) return;
+        int n = matrix[0].length;
+        int[] row = new int[m];  
+        int[] colu = new int[n];
+        for (int i = 0; i < m; i ++) 
+            for (int j = 0; j < n;  j ++)
+                if (matrix[i][j] == 0) {
+                    row[i] = 1;
+                    colu[j] = 1;
+                }
+        
+        for (int i = 0; i < m; i ++)
+            if (row[i] == 1)
+                Arrays.fill(matrix[i], 0);
+                
+        for (int i = 0; i < n; i ++)
+            if (colu[i] == 1)
+                for (int j = 0; j < m; j ++)
+                    matrix[j][i] = 0;
+                
+
+    }
+}
+
+
+//常数空间做法:找到一个为0的点所在的行列，作为存储空间。
+public class Solution {
+    public void setZeroes(int[][] matrix) {
+       int m = matrix.length;
+       if (m == 0) return;
+       int n = matrix[0].length;
+       
+       int basicRow = -1, basicColu = -1;
+       for (int i = 0; i < m; i ++) 
+           for (int j = 0; j < n; j ++)
+               if (matrix[i][j] == 0) {
+                   if (basicRow == -1) {
+                       basicRow = i; 
+                       basicColu = j;
+                   } else {
+                       matrix[basicRow][j] = 0;
+                       matrix[i][basicColu] = 0;
+                   }
+               }
+       
+       if (basicRow == -1) return;
+       
+       for (int i = 0; i < m; i ++)
+           for ( int j = 0;  j < n; j ++)
+               if ((i != basicRow && j != basicColu) && (matrix[basicRow][j] == 0 || matrix[i][basicColu] == 0))
+                   matrix[i][j] = 0;
+       
+       for (int i = 0; i < m; i ++)
+           matrix[i][basicColu] = 0;
+               
+       
+       Arrays.fill(matrix[basicRow], 0);
+    }
+}
