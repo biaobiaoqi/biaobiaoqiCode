@@ -24,3 +24,24 @@ public class Solution {
         return j + 1;
     }
 }
+
+
+public class Solution {
+    //这个方法相比上面的方法在循环处理上思路更清晰一点。把判断集中到了一处，即唯一的一个while循环上；
+    //整体时间复杂度也没有升上。
+    public int removeElement(int[] A, int elem) {
+        int i = 0;
+        int j = A.length - 1;
+        while(i <= j) {
+            if (A[i] == elem) {
+                if(A[j] != elem)
+                    A[i] = A[j];
+                j --;
+            } else {
+                i ++;
+            }
+        }
+        
+        return i;
+    }
+}
