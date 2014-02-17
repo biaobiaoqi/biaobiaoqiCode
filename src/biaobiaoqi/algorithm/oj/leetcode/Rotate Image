@@ -1,3 +1,5 @@
+//特别注意坐标的转换。
+
 //一圈一圈缩进模拟的方法
 public class Solution {
     public void rotate(int[][] matrix) {
@@ -16,3 +18,22 @@ public class Solution {
 }
 
 //对折+翻转的方法（这个怎么想到的呢……）
+public class Solution {
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        for (int i = 0; i < n; i ++) 
+            for (int j  = 0; j < n - i - 1; j ++) {
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[n - j - 1][n - i - 1];
+                matrix[n - j - 1][n - i - 1] = tmp;
+            }
+
+        for (int i = 0; i < n/2; i ++) {
+                int[] tmp = matrix[i]; //整行交换
+                matrix[i] = matrix[n - i  -1];
+                matrix[n - i - 1] = tmp; 
+        }
+            
+    }
+    
+}
