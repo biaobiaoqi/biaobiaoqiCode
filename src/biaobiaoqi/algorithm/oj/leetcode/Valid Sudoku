@@ -1,5 +1,6 @@
 public class Solution {
     //由于只需要检查错误，一次检查中，1-9的9个数字都不可能两次出现，只要两次出现，就算错误。构造遍历即可。
+    //由于题目没有交代清楚数独对应的启示index，用两个变量代替，方便试错修改。
     public boolean isValidSudoku(char[][] board) {
         int sa = 0, sb = 0;
         for (int i = sa; i < sa + 9; i ++) {
