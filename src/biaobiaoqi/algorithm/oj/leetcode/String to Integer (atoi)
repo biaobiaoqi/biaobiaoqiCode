@@ -1,0 +1,41 @@
+public class Solution {
+    public int atoi(String str) {
+        //whitespace, non-numberic nubmer ahead
+        //plus\minus
+        //numbers
+        //after integral numbers, other chars can be ignored
+        //exception: 0 (valid char is not integral number)
+        //out of range: INT_MIN INT_MAX
+        int res = 0;
+        
+        int length = str.length();
+        int i = 0;
+        while (i < length && str.charAt(i) == ' ')
+            i ++;
+        if (i == length) return 0;
+        
+        boolean negative = false;
+        if (str.charAt(i) == '-') {
+            negative = true;
+            i ++;
+        } else if (str.charAt(i) == '+')
+            i ++;
+        else if (!isNumeric(str.charAt(i)))
+            return 0;
+        
+        while(i < length && isNumeric(str.charAt(i))) {
+            if (res > Integer.MAX_VALUE/10 
+                || (res == Integer.MAX_VALUE / 10 && (str.charAt(i) - '0') > Integer.MAX_VALUE % 10))
+                return negative ? -2147483648 : 2147483647;
+            res *= 10;
+            res += str.charAt(i) - '0';
+            i ++;
+        }
+        
+        return negative ? -1 * res : res;
+    }
+    
+    private boolean isNumeric(char ch) {
+        return ch >= '0' && ch <= '9';
+    }
+}
