@@ -1,0 +1,29 @@
+//题目解释的不够清楚，但是能通过example看出大部分来。至于结果中对顺序的要求，题目中没有给出。
+public class Solution {
+    public ListNode partition(ListNode head, int x) {
+        ListNode h = new ListNode(-1);
+        h.next = head;
+        ListNode prev = h;
+        ListNode cur = head;
+        ListNode div = null;
+        while (cur != null) {
+            if (div == null && cur.val >= x) {
+                div = prev;
+                prev = cur;
+                cur = cur.next;
+            } else if (div != null && cur.val < x) {
+                ListNode tmp = cur.next;
+                cur.next = div.next;
+                div.next = cur;
+                prev.next = tmp;
+                
+                cur = prev.next;
+                div = div.next;
+            } else {
+                prev = cur;
+                cur = cur.next;
+            }
+        }
+        return h.next;
+    }
+}
