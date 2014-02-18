@@ -1,4 +1,4 @@
-//题目解释的不够清楚，但是能通过example看出大部分来。至于结果中对顺序的要求，题目中没有给出。
+//将小的结点不断交换到大的前面（实现起来略复杂）
 public class Solution {
     public ListNode partition(ListNode head, int x) {
         ListNode h = new ListNode(-1);
@@ -25,5 +25,28 @@ public class Solution {
             }
         }
         return h.next;
+    }
+}
+
+//更简单、易实现的方法：重新创建两条链表，再组合起来；
+public class Solution {
+    public ListNode partition(ListNode head, int x) {
+        ListNode leftHead = new ListNode(-1);
+        ListNode rightHead = new ListNode(-1);
+        ListNode left = leftHead;
+        ListNode right = rightHead;
+        while (head != null) {
+            if (head.val < x) {
+                left.next = head;
+                left = head;
+            } else {
+                right.next = head;
+                right = head;
+            }
+            head = head.next;
+        }
+        left.next = rightHead.next;
+        right.next = null; //这句容易忽略
+        return leftHead.next;
     }
 }
