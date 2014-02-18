@@ -1,0 +1,36 @@
+//看似简单，但实现起来简洁、不易出错还是有难度的。
+/*
+让代码少出错：
+* 减少循环中的判断情况
+* 在循环处理时，有if分支的，先不要化简，把分支逻辑全部写在分支里。
+  宁可之后再归并相同的部分。因为部分写在分支内，部分写在共同部分容易混淆。
+*/
+public class Solution {
+    public ListNode rotateRight(ListNode head, int n) {
+        //if list is null
+        if (head == null || n == 0) return head;
+        
+        int length = 1;
+        ListNode cur = head;
+        while (cur.next != null){
+            length ++;
+            cur = cur.next;
+        }
+        
+        //if n is greate larger than length
+        n = length - n % length;
+        if (n == length) return head;
+        
+        cur.next = head;
+        
+        //if length of the list is 1
+        cur = head;
+        for (int i = 1; i < n; i ++) 
+            cur = cur.next;
+        
+        head = cur.next;
+        cur.next = null;
+        
+        return head;
+    }
+}
