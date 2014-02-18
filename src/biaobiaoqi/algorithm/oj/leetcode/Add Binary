@@ -1,0 +1,25 @@
+//Java的字符串操作一直是弱项
+
+public class Solution {
+    public String addBinary(String a, String b) {
+        int la = a.length();
+        int lb = b.length();
+        int max = la > lb ? la : lb;
+        char[] res = new char[max];
+        int carry = 0;
+        int value = 0;
+        for (int i = 0; i < max; i ++) {
+            value = carry;
+            value += i < la ? a.charAt(la - i - 1) - '0' : 0;
+            value += i < lb ? b.charAt(lb - i - 1) - '0' : 0;
+            carry = value / 2;
+            value %= 2;
+            res[max - i - 1] = value == 1 ? '1' : '0';
+        }
+        String str = new String(res);
+        if (carry != 0) 
+            str = "1" + str;
+            
+        return str;
+    }
+}
