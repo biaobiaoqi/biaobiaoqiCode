@@ -1,0 +1,22 @@
+//处理字符串时，熟练使用String相关方法：比如toLowerCase();
+public class Solution {
+    public boolean isPalindrome(String s) {
+        if (s.length() == 0) return true;
+        s = s.toLowerCase();
+        
+        for (int i = 0, j = s.length() - 1; i <= j; i ++, j --) {
+            while (i < s.length() && !isAlphanumeric(s.charAt(i)))
+                i ++;
+            while (j >= 0 && !isAlphanumeric(s.charAt(j)))
+                j --;
+            
+            if ( (i < s.length() && j >= 0 ) && s.charAt(i) != s.charAt(j)) 
+                return false;
+        }
+        return true;
+    }
+    
+    private boolean isAlphanumeric(char ch) {
+        return (ch >= 'a' && ch <= 'z' ) || (ch >= '0' && ch <= '9');
+    }
+}
