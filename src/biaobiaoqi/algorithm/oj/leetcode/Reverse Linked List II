@@ -1,0 +1,54 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+ //单向链表逆转是很经典的题目，这里还增加了逆转区间。递归的方法效率不高，这里用两种遍历的方法实现：
+
+//遍历的逆转，用变量记录prev、cur、next方法（比较容易理解的基本方法）
+public class Solution {
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        if (m == n) return head;
+        
+        ListNode reverseStart = null, reverseStartPre = null;
+        ListNode pre = null;
+        ListNode cur = head;
+        ListNode next = null;
+        
+        int index = 0;
+        while ( ++ index  <= n) {
+            if (index == m) {
+                reverseStartPre = pre;
+                reverseStart = cur;
+            }
+            
+            next = cur.next;
+            if (index >= m && index <= n) {
+               if (index == n) {
+                    if (m == 1)
+                        head = cur;
+                    else 
+                        reverseStartPre.next = cur;
+
+                    reverseStart.next = cur.next;
+                }
+                cur.next = pre;
+            }
+            pre = cur;
+            cur = next;
+        }
+        
+        return head;
+    }
+}
+
+
+
+
+//非递归的简便实现方法：（理解起来困难点）
