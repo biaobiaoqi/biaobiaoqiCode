@@ -51,4 +51,25 @@ public class Solution {
 
 
 
-//非递归的简便实现方法：（理解起来困难点）
+//非递归，插入方法，prevm 和prev两个指针指向的结点不变。
+public class Solution {
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        ListNode h = new ListNode(-1);
+        h.next = head;
+        ListNode prev = h;
+        ListNode prevm = null;
+        for (int i = 1; i <= n; i ++) { //注意在不同情况下，分开写prev变换的语句，合起来容易把逻辑搞混乱。宁可先分开写，再合并。
+            if (i == m) {
+                prevm = prev;
+                prev = prev.next;
+            }else if (i > m && i <= n) {
+                ListNode tmp = prev.next.next;
+                prev.next.next = prevm.next;
+                prevm.next = prev.next;
+                prev.next = tmp;
+            }  else 
+                prev = prev.next;
+        }
+        return h.next;
+    }
+}
