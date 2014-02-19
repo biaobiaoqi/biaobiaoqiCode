@@ -1,0 +1,40 @@
+/*
+类比于3Sum问题
+易错点：保证结果中无重复记录。
+需要吃掉连续的想等值的是偶，可以在外层循环中嵌套内层循环，更好更简洁不易出错的方法是使用continue略过，让外层循环来重复执行，省去一个内层循环，降低编码复杂度；（但注意不是所有情况下都可以如此使用）
+
+*/
+public class Solution {
+    public ArrayList<ArrayList<Integer>> fourSum(int[] num, int target) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        Arrays.sort(num);
+        for (int i = 0; i < num.length - 3; i ++) {
+            if (i != 0 && num[i] == num[i - 1]) //take care
+                continue;
+            for (int j = i + 1; j < num.length - 2; j ++) {
+                if (j != i + 1 && num[j] == num[j - 1])//take care
+                    continue;
+                for (int m = j + 1, n = num.length - 1; m < n;) {
+                    int sum = num[i] + num[j] + num[m] + num[n];
+                    if (sum == target) {
+                        ArrayList<Integer> tmp = new ArrayList<Integer>();
+                        tmp.add(num[i]);
+                        tmp.add(num[j]);
+                        tmp.add(num[m]);
+                        tmp.add(num[n]);
+                        res.add(tmp);
+                        m ++; n --;
+                        while (m < n && num[m] == num[m - 1])
+                            m ++;
+                        while (m < n && num[n] == num[n + 1])
+                            n --;
+                    } else if(sum < target) 
+                        m ++;
+                    else 
+                        n --;
+                }
+            }
+        }
+        return res;
+    }
+}
