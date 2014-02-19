@@ -1,0 +1,30 @@
+//两指针的思路，O(n^2)
+public class Solution {
+    public ArrayList<ArrayList<Integer>> threeSum(int[] num) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        Arrays.sort(num);
+        for (int i = 0; i < num.length - 2; i ++) {
+            for (int j = i + 1, k = num.length -1; j < k;) {
+                if (num[j] + num[k] == -num[i]) {
+                    ArrayList<Integer> tmp = new ArrayList<Integer>();
+                    tmp.add(num[i]);
+                    tmp.add(num[j]);
+                    tmp.add(num[k]);
+                    res.add(tmp);
+                    while(j < k && num[j + 1] == num[j])
+                        j ++;
+                    while(k > j && num[k - 1] == num[k])
+                        k --;
+                    j ++; k --;
+                } else if (num[j] + num[k] < -num[i]) 
+                    j ++;
+                else
+                    k --;
+            }
+            //reduce duplicates
+            while(i + 1 < num.length && num[i] == num[i + 1])
+                i ++;
+        }
+        return res;
+    }
+}
