@@ -1,0 +1,67 @@
+/*
+找规律，发现突破口后不需急着写代码，仔细分析如何将规律细节化、实现流程优化。
+第一次做的时候，虽然找到了解法，但是很复杂，花了50+行代码才解出来，不易于维护。高雅的代码都是Simple的。
+*/
+
+/* 思路 1,时间复杂度 O(n),空间复杂度 O(n):
+1. 从左往右扫描一遍,对于每个柱子,求取左边最大值;
+2. 从右往左扫描一遍,对于每个柱子,求最大右值; 
+3. 再扫描一遍,把每个柱子的面积并累加。
+*/
+public class Solution {
+    public int trap(int[] A) {
+        int n = A.length;
+        
+        int[] maxLeft = new int[n];
+        int[] maxRight = new int[n];
+        for (int i = 1; i < n - 1; i ++) {
+            maxLeft[i] = A[i - 1] > maxLeft[i - 1] ? A[i - 1] : maxLeft[i - 1];
+            maxRight[n - i - 1] = A[n - i] > maxRight[n - i] ? A[n - i] : maxRight[n - i];
+        }
+        
+        int res = 0;
+        for (int i = 1; i < n - 1; i ++) {
+            int max = maxLeft[i] < maxRight[i] ? maxLeft[i] : maxRight[i];
+            if (max > A[i])
+                res += max - A[i];
+        }
+        
+        return res;
+    }
+}
+
+/*
+思路 2,时间复杂度 O(n),空间复杂度 O(1)
+1. 扫描一遍,找到最高的柱子,这个柱子将数组分为两半; 
+2. 处理左边一半;
+3. 处理右边一半。
+*/
+public class Solution {
+    public int trap(int[] A) {
+        int highest = 0;
+        int highestIndex = 0;
+        for (int i = 0; i < A.length; i ++)
+            if (A[i] > highest) {
+                highest = A[i];
+                highestIndex = i;
+            }
+        
+        int top = 0;
+        int res = 0;
+        for (int i = 0; i < highestIndex; i ++) 
+            if (A[i] > top)
+                top = A[i];
+            else
+                res += top - A[i];
+
+        top = 0;
+        for (int i = A.length - 1; i > highestIndex; i --)
+            if (A[i] > top)
+                top = A[i];
+            else
+                res += top - A[i];
+            
+        return res;
+    }
+}
+
