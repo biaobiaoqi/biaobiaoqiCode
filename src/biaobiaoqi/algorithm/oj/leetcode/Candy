@@ -1,0 +1,27 @@
+//一个序列，需要分段处理时，往往可以用内层循环。
+//外层循环嵌套内层循环的时候，注意内层循环的越界判定。
+public class Solution {
+     public int candy(int[] ratings) {
+          int res = 1;
+          int s = 0, mountain = 0;
+          for (int i = 1; i < ratings.length;) {
+              while(i < ratings.length && ratings[i] > ratings[i - 1]) 
+                  i ++;
+              mountain = i - 1;
+              while (i < ratings.length && ratings[i] < ratings[i - 1])
+                i ++;
+              if (mountain - s > i - 1 - mountain) {
+                  res += (mountain - s + 1)*(mountain -s + 2)/2 + (i - 1 - mountain)*(i - mountain)/2 - 1;
+              } else {
+                  res += (mountain -s)*(mountain - s + 1)/2 + (i - mountain)*(i - mountain + 1)/2 - 1;
+              }
+              if (i < ratings.length && ratings[i] == ratings[i - 1]) {
+                res ++;
+                i ++;
+              }
+              
+              s = i - 1;
+          }
+          return res;
+     }
+}
