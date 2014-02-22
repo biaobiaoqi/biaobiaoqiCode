@@ -1,0 +1,32 @@
+//保证每个值在同一层的节点中最多出现一次。
+public class Solution {
+    public ArrayList<ArrayList<Integer>> permuteUnique(int[] num) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> perm = new ArrayList<Integer>();
+        Arrays.sort(num);
+        boolean[] used = new boolean[num.length];
+        dfs(num, used, res, perm);
+        return res;
+    }
+    
+    public void dfs(int[] num, boolean[] used, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> perm) {
+        if (perm.size() == num.length) {
+            res.add(new ArrayList<Integer>(perm));
+            return ;
+        }
+        
+        for (int i = 0; i < num.length; i ++) {
+            if (!used[i]) {
+                used[i] = true;
+                perm.add(num[i]);
+                dfs(num, used, res, perm);
+                perm.remove(perm.size() - 1);
+                used[i] = false;
+                
+                while(i + 1 < num.length && num[i] == num[i + 1]) {
+                    i ++;    
+                }
+            }
+        }
+    }
+}
