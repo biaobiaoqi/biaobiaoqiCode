@@ -1,0 +1,31 @@
+public class Solution {
+    public ArrayList<ArrayList<Integer>> permute(int[] num) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> perm = new ArrayList<Integer>();
+        dfs(num, res, perm);
+        return res;
+    }
+    
+    public void dfs(int[] num, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> perm) {
+        if (perm.size() == num.length) {
+            res.add(new ArrayList<Integer>(perm));
+        }
+        
+        for (int i = 0; i < num.length; i ++) {
+            boolean inserted = false;
+            Iterator<Integer> it = perm.iterator();
+            while(it.hasNext()) {
+                Integer value = it.next();
+                if (value == num[i]) {
+                    inserted = true;
+                    break;
+                }
+            }
+            if (!inserted){
+                perm.add(num[i]);
+                dfs(num, res, perm);
+                perm.remove(perm.size() -1);
+            }
+        }
+    }
+}
