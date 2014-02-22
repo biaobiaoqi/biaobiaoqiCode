@@ -1,0 +1,26 @@
+public class Solution {
+    public ArrayList<ArrayList<Integer>> combine(int n, int k) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> combine = new ArrayList<Integer>();
+        boolean[] used = new boolean[n];
+        int index = 0;
+        dfs(n, index, used, k, res, combine);
+        return res;
+    }
+    
+    public void dfs(int n, int index, boolean[] used, int k, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> combine) {
+        if (index == n && combine.size() < k) {
+            return;
+        }
+        if (combine.size() == k) {
+            res.add(new ArrayList<Integer>(combine));
+            return;
+        }
+        
+        dfs(n, index + 1, used, k, res, combine);
+        
+        combine.add(index + 1);
+        dfs(n, index + 1, used, k, res, combine);
+        combine.remove(combine.size() - 1);
+    }
+}
