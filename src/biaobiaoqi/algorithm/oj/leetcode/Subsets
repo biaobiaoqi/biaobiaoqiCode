@@ -1,0 +1,23 @@
+public class Solution {
+    public ArrayList<ArrayList<Integer>> subsets(int[] S) {
+        Arrays.sort(S);
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> set = new ArrayList<Integer>();
+        int index = 0;
+        dfs(S, index, res, set);
+        return res;
+    }
+    
+    public void dfs(int[] S, int index, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> set) {
+        if (index == S.length) {
+            res.add(new ArrayList<Integer>(set));
+            return;
+        }
+        
+        dfs(S, index + 1, res, set);
+        
+        set.add(S[index]);
+        dfs(S, index + 1, res, set);
+        set.remove(set.size() - 1);
+    }
+}
