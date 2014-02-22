@@ -1,0 +1,28 @@
+public class Solution {
+    public ArrayList<ArrayList<String>> partition(String s) {
+        ArrayList<ArrayList<String>> res = new ArrayList<ArrayList<String>>();
+        ArrayList<String> partition = new ArrayList<String>();
+        int index = 0;//take care
+        dfs(s, index, res, partition);
+        return res;
+    }
+    
+    private void dfs(String s, int index, ArrayList<ArrayList<String>> res, ArrayList<String> partition) {
+        if (index == s.length()) { 
+            res.add(new ArrayList<String>(partition));
+            return;
+        }
+        for (int i = index; i < s.length(); i ++) {
+            boolean pali = true;
+            for (int j = index, k = i; j < k; j ++, k --)
+                if (s.charAt(j) != s.charAt(k))
+                    pali = false;
+            
+            if (pali) {
+                partition.add(s.substring(index, i + 1));
+                dfs(s, i + 1, res, partition);
+                partition.remove(partition.size() - 1);
+            }
+        }
+    }
+}
