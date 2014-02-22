@@ -1,0 +1,30 @@
+//将重复数字当做一个整体来考虑。
+public class Solution {
+    public ArrayList<ArrayList<Integer>> subsetsWithDup(int[] num) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> set = new ArrayList<Integer>();
+        Arrays.sort(num);
+        int index = 0;
+        dfs(num, index, res, set);
+        return res;
+    }
+    
+    public void dfs(int[] num, int index, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> set) {
+        if (index == num.length) {
+            res.add(new ArrayList<Integer>(set));
+            return;
+        }
+        
+        int sameCount = 1;
+        while (index + sameCount < num.length && num[index] == num[index + sameCount])
+            sameCount ++;
+        for (int i = 0; i <= sameCount; i ++) {
+            for (int j = 0; j < i; j ++) 
+                set.add(num[index]);
+            
+            dfs(num, index + sameCount, res, set);
+            for (int j = 0; j <i; j ++)
+                set.remove(set.size() - 1);
+        }
+    }
+}
