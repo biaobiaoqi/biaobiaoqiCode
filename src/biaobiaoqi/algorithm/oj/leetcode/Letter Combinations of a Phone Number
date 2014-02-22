@@ -1,0 +1,25 @@
+public class Solution {
+    char[][] map = {{}, {}, {'a', 'b', 'c'}, {'d', 'e', 'f'},{'g', 'h', 'i'},{'j', 'k', 'l'},{'m', 'n', 'o'},
+                        {'p', 'q', 'r', 's'},{'t', 'u', 'v'},{'w', 'x', 'y', 'z'},};
+    public ArrayList<String> letterCombinations(String digits) {
+        ArrayList<String> res = new ArrayList<String>();
+        StringBuffer sb = new StringBuffer();
+        int index = 0;
+        dfs(digits, index, res, sb);
+        return res;
+    }
+    
+    private void dfs(String digits, int index, ArrayList<String> res, StringBuffer sb) {
+        if (index == digits.length()) {
+            res.add(sb.toString());
+            return;
+        }
+        
+        char[] candidate = map[digits.charAt(index) - '0'];
+        for (int i = 0; i < candidate.length; i ++) {
+            sb.append(candidate[i]);
+            dfs(digits, index + 1, res, sb);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+    }
+}
