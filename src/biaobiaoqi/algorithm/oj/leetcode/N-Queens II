@@ -1,0 +1,38 @@
+public class Solution {
+    public int totalNQueens(int n) {
+        this.n = n;
+        used = new boolean[n];
+        mainDiag = new boolean[2*n];
+        antiDiag = new boolean[2*n];
+        count = 0;
+        int[] solu = new int[n];
+        int level = 0;
+        dfs(level, solu);
+        return count;
+    }
+    private int n;
+    private boolean[] used;
+    private boolean[] mainDiag;
+    private boolean[] antiDiag;
+    private int count;
+    
+    private void dfs(int level, int[] solu) {
+        if (level == n) {
+            count ++;
+            return;
+        }
+        
+        for (int i = 0; i < n; i ++) {
+            if (!used[i] && !mainDiag[n + i - level] && !antiDiag[i + level]) {
+                solu[level] = i;
+                used[i] = true;
+                mainDiag[n + i - level] = true;
+                antiDiag[i + level] = true;
+                dfs(level + 1, solu);
+                used[i] = false;
+                mainDiag[n + i - level] = false;
+                antiDiag[i + level] = false;
+            }
+        }
+    }
+}
