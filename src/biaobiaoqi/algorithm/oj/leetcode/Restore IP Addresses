@@ -1,0 +1,44 @@
+public class Solution {
+    public ArrayList<String> restoreIpAddresses(String s) {
+        this.s = s;
+        ArrayList<String> res = new ArrayList<String>();
+        int[] ipPartition = {0, 0, 0, 0};
+        int level = 1;
+        dfs(level, res, ipPartition); //ipPartition[i] mark the start index of the (i + 1)-th  section.
+        return res;
+    }
+    
+    private String s;
+    
+    private void dfs(int level, ArrayList<String> res, int[] ipPartition) {
+        if (level == 4) {
+            //If the substring's integer value is larger than Integer.MAX_VALUE, the valueOf is illegal.
+            if (s.length() - ipPartition[3] < 5 && Integer.valueOf(s.substring(ipPartition[3])) < 256 
+                 && ( s.charAt(ipPartition[level - 1]) != '0' 
+                    || ( s.charAt(ipPartition[level - 1]) == '0' && ipPartition[level - 1] == s.length() - 1))) 
+                res.add(getIp(ipPartition));
+            return;
+        }
+        
+        for (int i = ipPartition[level - 1]; i < s.length() - 1 && i < ipPartition[level - 1] + 3; i ++) {
+            if (Integer.valueOf(s.substring(ipPartition[level - 1], i + 1)) < 256 
+                && (s.charAt(ipPartition[level - 1]) != '0' 
+                    || ( s.charAt(ipPartition[level - 1]) == '0' && ipPartition[level - 1] == i) )) {
+                        //there should not be ahead zero in integer.
+                ipPartition[level] = i + 1;
+                dfs(level + 1, res, ipPartition);
+            }
+        }
+    }
+    
+    private String getIp(int[] ipPartition) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < 3; i ++) {
+            sb.append(s.substring(ipPartition[i], ipPartition[i + 1]));
+            sb.append('.');
+        }
+        sb.append(s.substring(ipPartition[3]));
+        
+        return sb.toString();
+    }
+}
