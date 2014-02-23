@@ -1,3 +1,8 @@
+/*注意陷进。分段IP需要满足：
+1.[0,255];
+2.非0值开头不能有0;
+3.如果使用Integer.valueOf()转换，内部的String值不得大于Integer最大值。
+*/
 public class Solution {
     public ArrayList<String> restoreIpAddresses(String s) {
         this.s = s;
