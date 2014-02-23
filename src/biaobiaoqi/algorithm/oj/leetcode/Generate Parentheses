@@ -1,0 +1,50 @@
+/*
+第一种是稍显复杂的DFS。
+
+第二种：递归。适合C++，因为有大量字符串操作。
+
+*/
+public class Solution {
+    public ArrayList<String> generateParenthesis(int n) {
+        this.n = n;
+        boolean[] record = new boolean[n*2];
+        int index = 0;
+        ArrayList<String> res = new ArrayList<String>();
+        dfs(index, res, record);
+        return res;
+    }
+    
+    private int n;
+    
+    private void dfs(int index, ArrayList<String> res, boolean[] record) {
+        int result = 0;
+        for (int i = 0; i < index; i ++) {
+            result += record[i] ? 1 : -1;
+            if (result < 0)
+                return;
+        }
+
+        if (index == 2*n && result == 0)  {
+            res.add(getString(record));
+            return;
+        }
+        
+        if (result > 2*n - index + 1 || result < index - 2*n - 1) return;
+        
+        record[index] = true;
+        dfs(index + 1, res, record);
+        
+        record[index] = false;
+        dfs(index + 1, res, record);
+    }
+    
+    private String getString(boolean[] pa) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < pa.length; i ++ )
+            if (pa[i])
+                sb.append('(');
+            else
+                sb.append(')');
+        return sb.toString();
+    }
+}
