@@ -1,0 +1,27 @@
+public class Solution {
+    public ArrayList<ArrayList<Integer>> combinationSum2(int[] num, int target) {
+        Arrays.sort(num);
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> record = new ArrayList<Integer>();
+        dfs(num, target, 0, res, record);
+        return res;
+    }
+    
+    private void dfs(int[] num, int target, int start, ArrayList<ArrayList<Integer>> res,  ArrayList<Integer> record) {
+        if (target == 0) {
+            res.add(new ArrayList<Integer>(record));
+            return;
+        }
+        int prev = 0;
+        for (int i = start; i < num.length; i ++) {
+            if (prev == num[i]) continue;  //这里除重思路很通用。只要使用了相同值序列中得第一个元素，作为源头做过dfs搜索，那么就能覆盖所有之后该值得元素的dfs搜索。
+            
+            if (target < num[i]) return; //由于排序过，更容易剪枝。
+            
+            prev = num[i];
+            record.add(num[i]);
+            dfs(num, target - num[i], i + 1, res, record);
+            record.remove(record.size() - 1);
+        }
+    }
+}
