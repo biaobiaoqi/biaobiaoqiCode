@@ -1,0 +1,25 @@
+public class Solution {
+    public ArrayList<ArrayList<Integer>> combinationSum(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> record = new ArrayList<Integer>();
+        dfs(candidates, target, 0, res, record);
+        return res;
+    }
+    
+    //这里的参数start很重要。增加了数组可重复情况。
+    private void dfs(int[] candidates, int target, int start, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> record) {
+        if (target == 0) {
+            res.add(new ArrayList<Integer>(record));
+            return;
+        }
+        
+        for (int i = start; i < candidates.length; i ++) {
+            if (target < candidates[i]) return;
+            
+            record.add(candidates[i]);
+            dfs(candidates, target - candidates[i], i, res, record);
+            record.remove(record.size() - 1);
+        }
+    }
+}
