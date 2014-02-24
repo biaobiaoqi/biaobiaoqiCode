@@ -42,3 +42,41 @@ public class Solution {
         return false;
     }
 }
+
+
+//下面一样的思路的代码运行超时：
+public class Solution {
+    public boolean exist(char[][] board, String word) {
+        if (board.length == 0) return false;
+        h = board.length;
+        w = board[0].length;
+        used = new boolean[h][w];
+        
+        for (int i = 0; i < h; i ++)
+            for (int j = 0; j < w; j ++)
+                if (dfs(board, i, j, 0, word))
+                    return true;
+        
+        return false;
+    }
+    
+    private int w,h;
+    private boolean[][] used;
+    private boolean dfs(char[][] board, int x, int y, int index, String word) {
+        if (x < 0 || x >= h || y < 0 || y >= w)
+            return false;
+        if (used[x][y] || word.charAt(index) != board[x][y])
+            return false;
+        else if (index == word.length() - 1)
+            return true;
+
+        used[x][y] = true;
+        
+        boolean ret = dfs(board, x + 1, y, index + 1, word)
+                || dfs(board, x - 1, y, index + 1, word)
+                || dfs(board, x, y + 1, index + 1, word)
+                || dfs(board, x, y - 1, index + 1, word);
+        used[x][y] = false;
+        return false;
+    }
+}
