@@ -1,0 +1,44 @@
+/*
+对于多分支的DFS，在DFS函数中，可以将边界检测、终止条件检测放到函数首部，与路由逻辑剥离开，让代码逻辑清晰分明。
+
+对于驱动函数对DFS方法的调用，也是一样的道理。在这一题中，不首字母匹配后再调用dfs，而是直接对遍历中所有元素调用，就是对代码逻辑的照顾。
+*/
+
+public class Solution {
+    public boolean exist(char[][] board, String word) {
+        if (board.length == 0) return false;
+        h = board.length;
+        w = board[0].length;
+        used = new boolean[h][w];
+        
+        for (int i = 0; i < h; i ++)
+            for (int j = 0; j < w; j ++)
+                if (dfs(board, i, j, 0, word))
+                    return true;
+        
+        return false;
+    }
+    
+    private int w,h;
+    private boolean[][] used;
+    private boolean dfs(char[][] board, int x, int y, int index, String word) {
+        if (used[x][y] || word.charAt(index) != board[x][y])
+            return false;
+        else if (index == word.length() - 1)
+            return true;
+
+        used[x][y] = true;
+        int[] var = { -1, 1};
+        for (int i : var) {
+            if (x + i >= 0 && x + i < h)
+                if (dfs(board, x + i, y, index + 1, word))
+                    return true;
+            if (y + i >= 0 && y + i < w)
+                if (dfs(board, x, y + i, index + 1, word))
+                    return true;
+        }
+        
+        used[x][y] = false;
+        return false;
+    }
+}
