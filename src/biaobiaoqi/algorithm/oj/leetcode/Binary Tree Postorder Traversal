@@ -1,0 +1,59 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ArrayList<Integer> postorderTraversal(TreeNode root) {
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+        trav(ret, root);
+        return ret;
+    }
+    
+    private void trav(ArrayList<Integer> ret, TreeNode node) {
+        if (node == null) return;
+        trav(ret, node.left);
+        trav(ret, node.right);
+        ret.add(node.val);
+    }
+}
+
+
+/*
+后序遍历
+*/
+
+public class Solution {
+    public ArrayList<Integer> postorderTraversal(TreeNode root) {
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        Stack<TreeNode> markStack = new Stack<TreeNode>();
+        TreeNode node = root;
+        while(node != null || !stack.empty()) {
+            if (node != null) {
+                stack.push(node);
+                node = node.left;
+            } else {
+                node = stack.peek();
+                if (!markStack.empty() && markStack.peek() == node) { //has processed with right children
+                    markStack.pop();
+                    stack.pop();
+                    ret.add(node.val);
+                    node = null;
+                } else {
+                    markStack.push(node);
+                	if (node.right != null) {
+                        stack.push(node.right);
+                        node = node.right.left;
+                    } else
+                    	node = null;
+                }
+            }
+        }
+        return ret;
+    }
+}
