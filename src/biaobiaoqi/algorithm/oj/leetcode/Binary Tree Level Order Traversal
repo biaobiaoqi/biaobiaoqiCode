@@ -1,0 +1,40 @@
+/*
+使用队列做层序遍历。
+
+输出格式需要分开个个层。使用两个while循环和cur、next的que配合来实现。
+*/
+
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ArrayList<ArrayList<Integer>> levelOrder(TreeNode root) {
+        ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+        Queue<TreeNode> cur = new LinkedList<TreeNode>();
+        Queue<TreeNode> next = new LinkedList<TreeNode>();
+        
+        if (root != null)
+            cur.add(root);
+        while (cur.size() != 0) {
+            ArrayList<Integer> level = new ArrayList<Integer>();
+            while(cur.size() != 0) {
+                TreeNode tmp = cur.poll();
+                level.add(tmp.val);
+                if (tmp.left != null) next.add(tmp.left);
+                if (tmp.right != null) next.add(tmp.right);
+            }
+            ret.add(level);
+            Queue<TreeNode> tq = cur;
+            cur = next;
+            next = tq;
+        }
+        return ret;
+    }
+    
+}
