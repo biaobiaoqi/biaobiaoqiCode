@@ -1,0 +1,51 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ArrayList<Integer> inorderTraversal(TreeNode root) {
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+        trav(ret, root);
+        return ret;
+    }
+    
+    private void trav(ArrayList<Integer> ret, TreeNode node) {
+        if (node == null) return;
+    
+        trav(ret, node.left);
+        ret.add(node.val);
+        trav(ret, node.right);
+    }
+}
+
+
+/*
+非递归做法：自己作图找规律
+*/
+
+public class Solution {
+    public ArrayList<Integer> inorderTraversal(TreeNode root) {
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+        Stack<TreeNode> st = new Stack<TreeNode>();
+        TreeNode node = root;
+        
+        while(!st.empty() || node != null) {
+            if (node != null) {
+                st.add(node);
+                node = node.left;
+            } else {
+                node = st.peek();
+                st.pop();
+                ret.add(node.val);
+                node = node.right;
+            }
+        }
+        
+        return ret;
+    }
+}
