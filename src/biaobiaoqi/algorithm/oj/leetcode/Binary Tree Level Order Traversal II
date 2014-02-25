@@ -1,0 +1,32 @@
+/*
+递归的层序遍历。
+
+*/
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ArrayList<ArrayList<Integer>> levelOrderBottom(TreeNode root) {
+        ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+        levelTrav(root, 0, ret);
+        Collections.reverse(ret);    
+        return ret;
+    }
+    
+    private void levelTrav(TreeNode root, int level, ArrayList<ArrayList<Integer>> ret) {
+        if (root == null)
+            return;
+        if (level >= ret.size()) 
+            ret.add(new ArrayList<Integer>());
+        
+        ret.get(level).add(root.val);
+        levelTrav(root.left, level + 1, ret);
+        levelTrav(root.right, level + 1, ret);
+    }
+}
