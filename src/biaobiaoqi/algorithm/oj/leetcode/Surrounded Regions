@@ -1,0 +1,60 @@
+//Use dfs will cause stackoverflow.
+public class Solution {
+    public void solve(char[][] board) {
+        if (board.length == 0 || board[0].length == 0)
+            return;
+        height = board.length;
+        width = board[0].length;
+    
+        for (int i = 0; i < width; i ++) {
+            bfs(board, 0, i);
+            bfs(board, height - 1, i);
+        }
+        for (int i = 0; i < height; i ++) {
+            bfs(board, i, 0);
+            bfs(board, i, width - 1);
+        }
+        
+        for (int i = 0; i < height; i ++)
+            for (int j = 0; j < width; j ++) {
+                if (board[i][j] == 'O')
+                    board[i][j] = 'X';
+                if (board[i][j] == 'S')
+                    board[i][j] = 'O';
+            }
+    }
+    
+    private int height;
+    private int width;
+    
+    private void bfs(char[][] board, int x, int y) {
+        LinkedList<Pair> list = new LinkedList<Pair>();
+        if (board[x][y] == 'O') {
+            list.add(new Pair(x, y));
+        }
+        
+        while (list.size() != 0) {
+            Pair p = list.get(0);
+            list.remove(0);
+            x = p.x;
+            y = p.y;
+            
+            if (isValid(x, y) && board[x][y] == 'O') {
+                board[x][y] = 'S';
+                list.add(new Pair(x + 1, y));
+                list.add(new Pair(x - 1, y));
+                list.add(new Pair(x, y + 1));
+                list.add(new Pair(x, y - 1));
+            }
+        }
+    }
+    
+    private boolean isValid(int x, int y) {
+        return x >= 0 && x < height && y >= 0 && y < width;
+    }
+   
+    private static class Pair{
+        int x, y;
+        public Pair(int x, int y) {this.x = x; this.y = y;}
+    }
+}
