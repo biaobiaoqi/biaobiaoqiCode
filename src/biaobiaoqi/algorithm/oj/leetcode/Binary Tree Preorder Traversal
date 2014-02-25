@@ -1,0 +1,54 @@
+//递归解法很简单
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ArrayList<Integer> preorderTraversal(TreeNode root) {
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+        traversal(root, ret);
+        return ret;
+    }
+    
+    private void traversal(TreeNode node, ArrayList<Integer> ret) {
+        if (node == null) return;
+        
+        ret.add(node.val);
+        traversal(node.left, ret);
+        traversal(node.right, ret);
+        return;
+    }
+}
+
+
+ /*
+ 非递归解法：没那么直观，但是也是有规律可寻的。
+ 在图上用一颗四层的完整二叉树找规律。发现模拟了沿着左边遍历，然后回溯用同样的方式遍历没棵右边支。
+ */
+public class Solution {
+    public ArrayList<Integer> preorderTraversal(TreeNode root) {
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+        Stack<TreeNode> st = new Stack<TreeNode>();
+
+        if (root != null) st.push(root);
+        
+        while(!st.empty()) {
+            TreeNode tmp = st.peek();
+            ret.add(tmp.val);
+            st.pop();
+            if (tmp.right != null) st.push(tmp.right);
+            while(tmp.left != null) {
+                tmp = tmp.left;
+                ret.add(tmp.val);
+                if (tmp.right != null) st.push(tmp.right);
+            }
+        }
+        
+        return ret;
+    }
+}
