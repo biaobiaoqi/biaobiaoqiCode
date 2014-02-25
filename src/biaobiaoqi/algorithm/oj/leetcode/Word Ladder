@@ -1,0 +1,39 @@
+/*
+使用DFS直接超时。
+
+BFS要做的优化：由于单词的组合空间有限，而dict又是hashset，可以通过排列组合来遍历所有相差一个词的可能。
+
+优化时，还需要注意String和char[]之间的转换方法。
+*/
+public class Solution {
+    public int ladderLength(String start, String end, HashSet<String> dict) {
+        LinkedList<String> list = new LinkedList<String>();
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        list.add(start);
+        map.put(start, 1);
+        
+        while(list.size() != 0) {
+            String str = list.get(0);
+            int n = map.get(str);
+            list.remove(0);
+            
+            char[] cur = str.toCharArray();
+            for (int i = 0; i < cur.length; i ++) 
+                for (char ch = 'a'; ch <= 'z'; ch ++)
+                    if (ch != cur[i]) {
+                        char tmp = cur[i];
+                        cur[i] = ch;
+                        String newStr = new String(cur);
+                        if (dict.contains(newStr)) {
+                            if (newStr.equals(end))
+                                return n + 1;
+                            dict.remove(newStr);
+                            list.add(newStr);
+                            map.put(newStr, n + 1);
+                        }
+                        cur[i] = tmp;
+                    }
+        }
+        return 0;
+    }
+}
