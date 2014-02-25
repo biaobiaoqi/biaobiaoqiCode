@@ -1,0 +1,22 @@
+/*
+二分法，注意边界条件。
+*/
+public class Solution {
+    public int sqrt(int x) {
+        int start = 1, end = x/2;
+        int last_mid = 0;
+        if (x < 2) return x;
+        
+        while(start <= end) {
+            int mid = start + (end - start)/2;
+            if (x/mid > mid) {
+                start = mid + 1;
+                last_mid = mid;
+            } else if (x/mid < mid) {
+                end = mid - 1;
+            } else
+                return mid;
+        }
+        return last_mid;
+    }
+}
