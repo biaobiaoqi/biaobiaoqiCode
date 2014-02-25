@@ -1,0 +1,72 @@
+/*
+相比Word Ladder，此题需要记录下所有答案。思路上复杂了更多。
+
+最后输出结果用dfs.
+*/
+
+public class Solution {
+    public ArrayList<ArrayList<String>> findLadders(String start, String end, HashSet<String> dict) {
+        ArrayList<ArrayList<String>> ret = new ArrayList<ArrayList<String>>();
+        Queue<String> cur = new LinkedList<String>();
+        Queue<String> next = new LinkedList<String>();
+        Map<String, LinkedList<String>> prev = new HashMap<String, LinkedList<String>>();
+        HashSet<String> visited = new HashSet<String>();
+        
+        boolean found = false;
+        
+        cur.add(start);
+        while(!found && cur.size() != 0) {
+            while(cur.size() != 0) {
+                String curStr = cur.poll();
+                visited.add(curStr);
+                char[] curChars = curStr.toCharArray();
+                for (int i = 0; i < curChars.length; i ++)
+                    for (char ch = 'a'; ch < 'z'; ch ++) 
+                        if ( ch != curChars[i]) {
+                            char tmp = curChars[i];
+                            curChars[i] = ch;
+                            String newStr = new String(curChars);
+                            if (dict.contains(newStr) && !cur.contains(newStr) && !visited.contains(newStr)) { //Maybe some problems
+                                if (!next.contains(newStr)) next.add(newStr);
+                                
+                                if (!prev.containsKey(newStr))
+                                    prev.put(newStr, new LinkedList<String>());
+                                prev.get(newStr).add(curStr);
+                                
+                                if (newStr.equals(end))
+                                    found = true;
+                            }
+                            curChars[i] = tmp;
+                        }
+            }
+            Queue<String> tmp = cur;
+            cur = next;
+            next = tmp;
+        }
+        
+        //get answer
+        ArrayList<String> solution = new ArrayList<String>();
+        dfs(end, start, prev, ret, solution);
+        
+        return ret;
+    }
+    
+    private void dfs(String cur, String start, Map<String, LinkedList<String>> prev,  ArrayList<ArrayList<String>> ret, ArrayList<String> solution) {
+        solution.add(0, cur);
+        
+        if (cur.equals(start)) {
+            ret.add(new ArrayList<String>(solution));
+            return;
+        }
+        
+        LinkedList<String> curPrev = prev.get(cur);
+        if (curPrev == null) return;
+        
+        Iterator<String> it = curPrev.iterator();
+        while(it.hasNext()) {
+            String next = it.next();
+            dfs(next, start, prev, ret, solution);
+            solution.remove(0);
+        }
+    }
+}
