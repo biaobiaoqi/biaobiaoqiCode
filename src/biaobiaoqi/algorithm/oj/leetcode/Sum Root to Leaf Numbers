@@ -1,0 +1,27 @@
+/*
+第一次写递归的时候，竟然没有想到递归能讲所有dfs结果的值叠加起来，而是使用list记录每个答案然后最终求和。
+对递归的某些形式的理解还是不够啊。或者是晚上太晚了头部清醒？
+*/
+
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public int sumNumbers(TreeNode root) {
+        return dfs(root, 0);
+    }
+    
+    private int dfs(TreeNode node, int sum) {
+        if (node == null) return 0;
+        sum = sum*10 + node.val;
+        if (node.left == null && node.right == null) 
+            return sum;
+        return dfs(node.left, sum) + dfs(node.right, sum);
+    }
+}
