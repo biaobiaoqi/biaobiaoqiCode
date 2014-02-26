@@ -1,0 +1,33 @@
+//基于左边叶子是最小的点，右边叶子是最大的点的规律做递归的查找。
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) return true;
+        boolean ret = true;
+        
+        TreeNode node = root.left;
+        if (node != null) {
+            while(node.right != null)
+                node = node.right;
+            ret &= node.val < root.val;
+        }
+        
+        node = root.right;
+        if (node != null) {
+            while(node.left != null)
+                node = node.left;
+            ret &= node.val > root.val;
+        }
+            
+        ret &= isValidBST(root.left) && isValidBST(root.right);
+        return ret;
+    }
+}
