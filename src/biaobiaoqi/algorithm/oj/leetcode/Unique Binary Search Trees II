@@ -1,0 +1,50 @@
+/*
+构造插入序列再进行构建BST太暴力了。有规律可循的地方，递归都是不错的选择。
+
+另外，这个题，需要特别注意容易弄错的几个点：
+ * 循环情况下，多次使用迭代器，迭代器同样需要多次初始化。
+ * 节点注意不要被复用。
+*/
+
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; left = null; right = null; }
+ * }
+ */
+public class Solution {
+    public ArrayList<TreeNode> generateTrees(int n) {
+        return generate(1, n);
+    }
+    
+    private ArrayList<TreeNode> generate(int start, int end) {
+        ArrayList<TreeNode> ret = new ArrayList<TreeNode>();
+        
+        if (start > end){
+            ret.add(null);
+            return ret;
+        } 
+        
+        for (int i = start; i <= end; i ++) {
+            ArrayList<TreeNode> leftTrees = generate(start, i - 1);
+            ArrayList<TreeNode> rightTrees = generate(i + 1, end);
+            Iterator<TreeNode> itLeft = leftTrees.iterator();
+            while (itLeft.hasNext()) {
+                TreeNode leftTree = itLeft.next();
+                Iterator<TreeNode> itRight = rightTrees.iterator();
+                while (itRight.hasNext()) {
+                    TreeNode root = new TreeNode(i);
+                    TreeNode rightTree = itRight.next();
+                    root.left = leftTree;
+                    root.right = rightTree;
+                    ret.add(root);
+                }
+            }
+        }
+        
+        return ret;
+    }
+}
