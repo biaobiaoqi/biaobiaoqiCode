@@ -1,0 +1,42 @@
+/*
+BST最经典的用法：中序遍历为排序的。
+用数组构建树，中序遍历赋值。
+
+也可以直接用二分法写构建。
+
+正常的插入方法似乎不太常用呢。
+*/
+
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode sortedArrayToBST(int[] num) {
+        if (num.length == 0) return null;
+        TreeNode[] tree = new TreeNode[num.length];
+        for (int i = 0; i < num.length; i ++)
+            tree[i] = new TreeNode(-1);
+        for (int i = 0; i < num.length; i ++) {
+            tree[i].left = (2*i + 1) < num.length ? tree[2*i + 1] : null;
+            tree[i].right = (2*i + 2) < num.length ? tree[2*i + 2] : null;
+        }
+        index = 0;
+        inorderTrav(tree[0], num);
+        return tree[0];
+    }
+    
+    private int index;
+    private void inorderTrav(TreeNode node, int[] num) {
+        if (node == null) return;
+        
+        inorderTrav(node.left, num);
+        node.val = num[index ++];
+        inorderTrav(node.right, num);
+    }
+}
