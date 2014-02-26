@@ -1,0 +1,17 @@
+/*
+如果生成插入序列，无论是通过构建树还是使用规律判定合法性，想想都不简洁，于是落脚到找规律。
+找规律还是那句话：画图，从简单的情况开始找，往更普适的情况过度；从人脑的逻辑开始找，类比到算法生成的逻辑；
+f(n) = f(n - 1)*f(0) + f(n - 2)*f(1) + ... + f(1)* f(n - 2) + f(0)*f(n-1)
+*/
+
+public class Solution {
+    public int numTrees(int n) {
+        int[] ret = new int[n + 1];
+        ret[0] = 1;
+        for (int i = 1; i <= n; i ++)
+            for (int j = 0; j < i; j ++)
+                ret[i] += ret[j]*ret[i - 1 - j];
+        
+        return ret[n];
+    }
+}
