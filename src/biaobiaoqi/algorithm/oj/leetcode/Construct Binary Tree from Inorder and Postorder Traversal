@@ -1,0 +1,34 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        this.inorder = inorder;
+        this.postorder = postorder;
+        
+        return construct(0, inorder.length - 1, 0, postorder.length - 1);
+    }
+    
+    private int[] inorder, postorder;
+    private TreeNode construct(int ins, int ine, int posts, int poste) {
+        if (ins > ine)
+            return null;
+        TreeNode root = new TreeNode(postorder[poste]);
+        int rootIndex = -1;
+        for (int i = ins; i <= ine; i ++)
+            if (inorder[i] == postorder[poste]) {
+                rootIndex = i;
+                break;
+            }
+        
+        root.left = construct(ins, rootIndex - 1, posts, posts + (rootIndex - 1 - ins));
+        root.right = construct(rootIndex + 1, ine, posts + rootIndex - ins, poste - 1);
+        return root;
+    }
+}
