@@ -1,0 +1,33 @@
+//递归一定记得 状态的改变和回退。
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ArrayList<ArrayList<Integer>> pathSum(TreeNode root, int sum) {
+        ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> solution = new ArrayList<Integer>();
+        return dfs(root, sum, ret, solution);
+    }
+    
+    private ArrayList<ArrayList<Integer>> dfs(TreeNode root, int sum, ArrayList<ArrayList<Integer>> ret, ArrayList<Integer> solution) {
+        if (root == null) return ret;
+        sum -= root.val;
+        solution.add(root.val);
+        if (sum == 0 && root.left == null && root.right == null) {
+            ret.add(new ArrayList<Integer>(solution));
+            solution.remove(solution.size() - 1); //Take care
+            return ret;
+        }
+        
+        dfs(root.left, sum, ret, solution);
+        dfs(root.right, sum, ret, solution);
+        solution.remove(solution.size() - 1);
+        return ret;
+    }
+}
