@@ -1,0 +1,49 @@
+/*
+使用递归方法中得start，end作为递归的控制。实际上也是利用了BST的中序遍历为顺序的特性，做一个中序遍历。
+只不过这里使用了start,end的方法控制了中序遍历的最终深度。而另一种方法则是使用数组法构建好二叉树，用中序遍历直接插值。
+*/
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; next = null; }
+ * }
+ */
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode sortedListToBST(ListNode head) {
+        if (head == null) return null;
+        ListNode node = head;
+        int count = 0;
+        while (node != null) {
+            count ++;
+            node = node.next;
+        }
+        this.cur = head;
+        return trav(0, count - 1);
+    }
+    
+    ListNode cur;
+    private TreeNode trav(int start, int end) {
+        if (start > end) return null;
+        int mid = start + (end - start)/2;
+        TreeNode leftTree = trav(start, mid - 1);
+        TreeNode root = new TreeNode(cur.val);
+        cur = cur.next; //Important.
+        TreeNode rightTree = trav(mid + 1, end);
+        root.left = leftTree;
+        root.right = rightTree;
+
+        return root;
+    }
+}
