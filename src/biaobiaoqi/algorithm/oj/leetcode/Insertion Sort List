@@ -1,5 +1,4 @@
 //注意插入链表时候的特殊情况。
-
 /**
  * Definition for singly-linked list.
  * public class ListNode {
