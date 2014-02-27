@@ -1,0 +1,43 @@
+/*
+每一层通过next连接起来以后，就可以为下一层提供迭代的父节点了！
+*/
+
+/**
+ * Definition for binary tree with next pointer.
+ * public class TreeLinkNode {
+ *     int val;
+ *     TreeLinkNode left, right, next;
+ *     TreeLinkNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public void connect(TreeLinkNode root) {
+        TreeLinkNode prev = new TreeLinkNode(-1);
+        prev.left = root;
+        TreeLinkNode cur = null;
+        while( prev != null) {
+            cur = prev;
+            prev = null;
+            TreeLinkNode next = null;
+            while (cur != null) {
+                if (cur.left != null) {
+                    if (prev == null)
+                        prev = next = cur.left;
+                    else {
+                        next.next = cur.left;
+                        next = next.next;
+                    }
+                }
+                if (cur.right != null) {
+                    if (prev == null)
+                        prev = next = cur.right;
+                    else {
+                        next.next = cur.right;
+                        next = next.next;
+                    }
+                }
+                cur = cur.next;
+            }
+        }
+    }
+}
