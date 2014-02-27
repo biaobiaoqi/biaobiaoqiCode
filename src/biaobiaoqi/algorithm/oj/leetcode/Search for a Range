@@ -1,0 +1,44 @@
+/*
+upperBounds和lowerBounds函数的实现。
+*/
+
+public class Solution {
+    public int[] searchRange(int[] A, int target) {
+        int lower = lowerBounds(A, target);
+        int upper = upperBounds(A, target);
+        int[] ret = new int[2];
+        if (lower == A.length || A[lower] != target)
+            ret[0] = ret[1] = -1;
+        else {
+            ret[0] = lower;
+            ret[1] = upper - 1;
+        }
+        return ret;
+    }
+    
+    private int lowerBounds(int[] A, int target) {
+        int start = 0, end = A.length;
+        while(start < end) {
+            int mid = start + (end - start)/2;
+            if (A[mid] < target) 
+                start = mid + 1;
+            else
+                end = mid;
+        }
+        
+        return start;
+    }
+    
+    private int upperBounds(int[] A, int target) {
+        int start = 0, end = A.length;
+        while(start < end) {
+            int mid = start + (end - start)/2;
+            if (A[mid] <= target) 
+                start = mid + 1;
+            else
+                end = mid;
+        }
+        
+        return start;
+    }
+}
