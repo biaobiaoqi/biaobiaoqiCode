@@ -1,0 +1,44 @@
+/*
+重点在PriorityQueue的使用。
+*/
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode mergeKLists(ArrayList<ListNode> lists) {
+        if (lists.size() == 0) return null;
+        
+        Comparator<ListNode> cmp = new Comparator<ListNode>() {
+            public int compare(ListNode n1, ListNode n2) { return n1.val - n2.val;}
+        };
+        
+        Queue<ListNode> pq = new PriorityQueue<ListNode>(lists.size(), cmp);
+        Iterator<ListNode> it = lists.iterator();
+        while(it.hasNext()) {
+            ListNode node = it.next();
+            if(node != null)
+                pq.add(node);
+        }
+        
+        ListNode head = new ListNode(-1);
+        ListNode next = head;
+        while(pq.size() != 0) {
+            ListNode node = pq.poll();
+            next.next = node;
+            next = node;
+            if (node.next != null)
+                pq.add(node.next);
+        }
+        
+        return head.next;
+    }
+}
