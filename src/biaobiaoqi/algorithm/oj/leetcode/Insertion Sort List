@@ -1,0 +1,37 @@
+//注意插入链表时候的特殊情况。
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode insertionSortList(ListNode head) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode cur = head;
+        ListNode pre = dummy;
+        while (cur != null) {
+            head = dummy;
+            while (head.next != cur && head.next.val < cur.val) {
+                head = head.next;
+            }
+            if (head.next != cur) {
+                pre.next = cur.next;
+                cur.next = head.next;
+                head.next = cur;
+                cur = pre.next;
+            } else {
+                pre = cur;
+                cur = cur.next;
+            }
+        }
+        return dummy.next;
+    }
+}
