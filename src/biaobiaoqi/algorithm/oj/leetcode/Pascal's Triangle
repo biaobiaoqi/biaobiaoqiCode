@@ -1,0 +1,19 @@
+public class Solution {
+    public ArrayList<ArrayList<Integer>> generate(int numRows) {
+        ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+        for (int i = 1; i <= numRows; i ++) {
+            ArrayList<Integer> cur = new ArrayList<Integer>();
+            if (i == 1)
+                cur.add(1);
+            else {
+                ArrayList<Integer> pre = ret.get(ret.size() -1 );
+                cur.add(pre.get(0));
+                for (int j = 1; j < pre.size(); j ++) 
+                    cur.add(pre.get(j - 1) + pre.get(j));
+                cur.add(pre.get(pre.size() - 1));
+            }
+            ret.add(cur);
+        }
+        return ret;
+    }
+}
