@@ -1,0 +1,68 @@
+//hashmap用作key-value存储，双链表维护LRU中的最近访问关系。
+
+public class LRUCache {
+     private int cap;
+    private HashMap<Integer, Node> map;
+    private Node header;
+    
+    private static class Node {
+        public Node prev;
+        public Node next;
+        public int val;
+        public int key;
+        public Node(int k, int value) {
+            key = k;
+            val = value;
+            prev = this;
+            next = this;
+        }
+
+        public void addBefore(Node node) {
+            prev = node.prev;
+            next = node;
+            node.prev = this;
+            prev.next = this;
+        }
+        
+        public void remove() {
+            prev.next = next;
+            next.prev = prev;
+        }
+    }
+    
+    public LRUCache(int capacity) {
+        cap = capacity;
+        map = new HashMap<Integer, Node>();
+        header = new Node(0, 0);
+    }
+    
+    public int get(int key) {
+        Node node = map.get(key);
+        if (node == null)
+            return -1;
+        else {
+            node.remove();
+            node.addBefore(header);
+            return node.val;
+        }
+    }
+    
+   public void set(int key, int value) {
+        Node node = new Node(key, value);
+        if (!map.containsKey(key)) {
+            node.addBefore(header);
+        } else {
+        	Node n2 = map.get(key);
+        	n2.remove();
+        	node.addBefore(header);
+        }
+        map.put(key, node);
+        
+        
+        if (map.size() > cap) {
+            node = header.next;
+            node.remove();
+            map.remove(node.key);
+        }
+    }
+}
