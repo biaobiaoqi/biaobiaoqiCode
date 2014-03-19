@@ -1,0 +1,41 @@
+/*
+while循环的时候，尽量将停止条件都提出到while循环判断上，减少出错的可能。
+这个题思路单一，但是要特别注意边界条件。比如，先next再判定是否相等，还是反过来。
+*/
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        ListNode meet = null;
+        while(fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                meet = fast;
+                break;
+            }
+        }
+        
+        if (meet == null)
+            return null;
+        
+        fast = head;
+        while(fast != slow) {
+            fast = fast.next;
+            slow = slow.next;
+        } 
+        
+        return slow;
+    }
+}
