@@ -1,0 +1,30 @@
+public class Solution {
+
+    
+    public  double findMedianSortedArrays(int A[], int B[]) {
+        int total = A.length + B.length;
+        if (total % 2 == 0) 
+        	return (findKthSortedArrays(A, 0, B, 0, total/2) 
+                    + findKthSortedArrays(A, 0, B, 0, total/2 + 1)) / 2;
+        else
+            return findKthSortedArrays(A, 0, B, 0, total/2 + 1);
+    }
+    
+    private static double findKthSortedArrays(int A[], int afirst, int B[], int bfirst, int k) {
+        if (A.length - afirst > B.length - bfirst) 
+            return findKthSortedArrays(B, bfirst, A, afirst, k);
+        if (A.length - afirst == 0) return B[bfirst + k - 1];
+        if (k == 1) return A[afirst] < B[bfirst] ? A[afirst] : B[bfirst];
+        
+        int pa = (A.length - afirst) < k/2 ? (A.length - afirst) : k/2;
+        int pb = k - pa;
+        if (A[afirst + pa - 1] == B[bfirst + pb - 1])
+            return A[afirst + pa - 1];
+        else if (A[afirst+ pa -1] < B[bfirst + pb -1])
+            return findKthSortedArrays(A, afirst + pa, B, bfirst, pb);
+        else 
+            return findKthSortedArrays(A, afirst, B, bfirst + pb, pa);
+    }
+    
+    
+}
