@@ -1,0 +1,28 @@
+/*n^2的方法不可取。
+使用stack。
+*/
+
+public class Solution {
+    public int largestRectangleArea(int[] height) {
+        Stack<Integer> st = new Stack<Integer>();
+        int n = height.length;
+        int ret = 0;
+        for (int i = 0; i < n; ) {
+            if (st.size() == 0 || height[st.peek()] < height[i]) {
+                st.push(i++);
+            } else {
+                int h = height[st.pop()];
+                ret = Math.max(ret, 
+                        h * (st.empty() ? i: i - st.peek() - 1));
+            }
+        }
+        
+        while (!st.empty()) {
+            int h = height[st.pop()];
+            ret = Math.max(ret, 
+                        h * (st.empty() ? n: n - st.peek() - 1));
+        }
+        
+        return ret;
+    }
+}
