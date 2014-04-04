@@ -1,0 +1,21 @@
+/*
+看清题意，不是求总蓄水量。
+*/
+public class Solution {
+    public int maxArea(int[] height) {
+        int start = 0;
+        int end = height.length - 1;
+        int ret = 0;
+        while(start < end) {
+            boolean lesser = height[start] < height[end];
+            int area = (end - start)* (lesser ? height[start] : height[end]); 
+            ret = Math.max(ret, area);
+            if (lesser)
+                start ++;
+            else
+                end --;
+        }
+        
+        return ret;
+    }
+}
