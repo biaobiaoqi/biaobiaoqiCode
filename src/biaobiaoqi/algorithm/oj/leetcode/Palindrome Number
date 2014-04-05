@@ -1,0 +1,23 @@
+//比较简单，没什么复杂逻辑
+public class Solution {
+    public boolean isPalindrome(int x) {
+        if (x < 0) return false;
+        
+        int tmp = x / 10;
+        int h = 1;
+        while(tmp != 0) {
+            tmp /= 10;
+            h *= 10;
+        }
+        
+        while (h != 0) {
+            if (x/h != x % 10)
+                return false;
+            x -= x/h * h;
+            x /= 10;
+            h /= 100;
+        }
+        
+        return true;
+    }
+}
