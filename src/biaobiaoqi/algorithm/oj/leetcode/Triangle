@@ -1,0 +1,25 @@
+//注意这里O（n）的空间里，in place 的值更新。
+public class Solution {
+    public int minimumTotal(ArrayList<ArrayList<Integer>> triangle) {
+        int n = triangle.size();
+        if (n == 1) return triangle.get(0).get(0);
+        
+        int[] ret = new int[n];
+        ret[0] = triangle.get(0).get(0);
+        for (int i = 1; i < n; i ++) {
+            ArrayList<Integer> curRow = triangle.get(i);
+            
+            ret[i] = curRow.get(i) + ret[i - 1];
+            for (int j = i - 1; j > 0; j --) 
+                ret[j] = curRow.get(j) + (ret[j] < ret[j - 1] ? ret[j] : ret[j - 1]);
+            ret[0] = ret[0] + curRow.get(0);
+        }
+        
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < n; i ++) 
+            if (min > ret[i])
+                min = ret[i];
+                
+        return min;
+    }
+}
