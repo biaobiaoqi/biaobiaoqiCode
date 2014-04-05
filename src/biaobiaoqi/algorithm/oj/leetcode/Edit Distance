@@ -1,0 +1,27 @@
+/*
+最小编辑距离：经典DP。
+变形：求最小编辑距离的编辑方式。记录过程。
+*/
+public class Solution {
+    public int minDistance(String word1, String word2) {
+        int m = word1.length();
+        int n = word2.length();
+        int[][] dis = new int[m + 1][n + 1];
+        for (int i = 0; i < m + 1; i ++)
+            dis[i][0] = i;
+        for (int i = 1; i < n + 1; i ++)
+            dis[0][i] = i;
+        
+        for (int i = 1; i < m + 1; i ++)
+            for (int j = 1; j < n + 1; j ++)
+                dis[i][j] = min(dis[i - 1][j] + 1, 
+                                dis[i][j - 1] + 1, 
+                                dis[i - 1][j - 1] + (word1.charAt(i - 1) == word2.charAt(j - 1) ? 0 : 1));
+        
+        return dis[m][n];
+    }
+    
+    private int min(int a, int b, int c) {
+        return Math.min(Math.min(a, b), c);
+    }
+}
