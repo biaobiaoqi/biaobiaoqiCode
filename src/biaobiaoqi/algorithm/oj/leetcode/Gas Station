@@ -1,0 +1,26 @@
+/*
+问题可以规约到：gas[i] - cost[i] 数组，找到一个数为起点，让circle中后序的元素累加和>=0。而且这个解是唯一的。
+注意，同时用一个变量来判定是否有解：即总和是否<0。
+*/
+
+
+public class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int sum = -1;
+        int total = 0;
+        int index = 0;
+        
+        for (int i = 0; i < gas.length; i ++) {
+            int tmp = gas[i] - cost[i];
+            total += tmp;
+            if (sum < 0 && tmp > 0) {
+                sum = tmp;
+                index = i;
+            } else {
+                sum += tmp;
+            }
+        }
+        
+        return total < 0 ? -1 : index;
+    }
+}
