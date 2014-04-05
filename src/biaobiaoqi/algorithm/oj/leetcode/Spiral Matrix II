@@ -1,0 +1,28 @@
+/*
+遍历二维数组时，特别注意 i,j 不要搞混
+*/
+
+public class Solution {
+    public int[][] generateMatrix(int n) {
+        int[][] ret = new int[n][n];
+        int index = 1;
+        int end = n*n;
+        int i = 0, j = 0;
+        while(index <= end) {
+            while (j < n && ret[i][j] == 0)
+                ret[i][j ++] = index ++;
+            i ++; j --;
+            while (i < n && ret[i][j] == 0)
+                ret[i ++][j] = index ++;
+            i --; j --;
+            while (j >= 0 && ret[i][j] == 0) 
+                ret[i][j --] = index ++;
+            i --; j ++;
+            while(i >= 0 && ret[i][j] == 0)
+                ret[i --][j] = index ++;
+            i ++; j ++;
+        }
+        
+        return ret;
+    }
+}
