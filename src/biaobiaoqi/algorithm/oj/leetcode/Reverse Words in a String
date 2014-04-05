@@ -1,0 +1,21 @@
+//注意边界
+public class Solution {
+    public String reverseWords(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = s.length() - 1; i >= 0;) {
+            while (i >= 0 && s.charAt(i) == ' ' ) i --;
+            int end = i + 1;
+            while(i >= 0 && s.charAt(i) != ' ' ) i --;
+            int start = i + 1;
+            
+            if (start == end)
+                break;
+                
+            if (sb.length() != 0)
+                sb.append(" ");
+            sb.append(s.substring(start, end));
+        }
+        
+        return sb.toString();
+    }
+}
