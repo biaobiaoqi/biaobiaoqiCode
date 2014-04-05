@@ -1,0 +1,17 @@
+//按照Jump Game中的思路来做，一次遍历复杂度为O(n^2)，实际上，只需要隔开区间。
+public class Solution {
+    public int jump(int[] A) {
+        int n = A.length;
+        if (n == 1) return 0;
+        
+        int count = 0;
+        for (int i = 1, nextStart = 1, nextEnd = A[0]; nextEnd < A.length - 1; i ++) {//TODO condition?
+            if (i == nextStart) {
+                count ++;
+                nextStart = nextEnd + 1;
+            }
+            nextEnd = nextEnd < i + A[i] ? i + A[i] : nextEnd;
+        }
+        return count + 1;
+    }
+}
