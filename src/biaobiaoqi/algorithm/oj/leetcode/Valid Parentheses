@@ -1,0 +1,33 @@
+//注意stack的处理，没元素时peek，会抛empty异常。
+public class Solution {
+    public boolean isValid(String s) {
+        Stack<Integer> st = new Stack<Integer>();
+        for (int i = 0; i < s.length(); i ++ ) {
+            int val = transfer(s.charAt(i));
+            if (st.empty() || st.peek() + val != 0) {
+                if (val < 0)
+                    return false;
+                else
+                    st.push(val);
+            } else
+                st.pop();
+        }
+        
+        if (st.empty())
+            return true;
+        else 
+            return false;
+    }
+    
+    private int transfer(char c) {
+        switch(c) {
+            case '(' : return 1;
+            case ')' : return -1;
+            case '{' : return 2;
+            case '}' : return -2;
+            case '[' : return 3;
+            case ']' : return -3;
+            default : return 4;
+        }
+    }
+}
