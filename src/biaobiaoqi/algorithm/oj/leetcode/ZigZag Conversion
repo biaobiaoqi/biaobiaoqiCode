@@ -1,0 +1,19 @@
+/*注意实现的细节，yy题目。坐标转换*/
+public class Solution {
+    public String convert(String s, int nRows) {
+        int n = s.length();
+        if (nRows == 1 || nRows >= n) return s;
+        
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= nRows; i ++) {
+            int index = i - 1;
+            while (index < n) {
+                sb.append(s.charAt(index));
+                if ( i != 1 && i != nRows && index + 2*(nRows - i) < n)
+	                sb.append(s.charAt(index + 2*(nRows - i)));
+	            index += 2*nRows - 2;
+            }
+        }
+        return sb.toString();
+    }
+}
