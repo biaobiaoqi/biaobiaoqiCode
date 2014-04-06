@@ -1,0 +1,24 @@
+/*
+方法一：用裸的DP直接使用p[i][j]表示i到j之间的最小换份数量，需要O(n^3)。
+方法二：这里套了两个DP：f(i)表示i到n-1，最少的划分数量；p[i][j]表示i到j的位置是否回文。
+方法二相对方法一，做了一个降维，并从新的DP中拆分出了另外一个更简单的DP问题，即i到j是否回文，而不用记录数量。
+*/
+
+public class Solution {
+    public int minCut(String s) {
+        int n = s.length();
+        int[] f = new int[n + 1];
+        boolean[][] p = new boolean[n][n];
+        for (int i = 0; i <= n; i ++)
+            f[i] = n - 1 - i;
+        
+        for (int i = n - 1; i >= 0; i --) 
+            for (int j = i; j < n; j ++)
+                if (s.charAt(i) == s.charAt(j) && (j - i < 2 || p[i + 1][j - 1])){
+                    f[i] = Math.min(f[i], 1 + f[j + 1]);
+                    p[i][j] = true;
+                }
+        
+        return f[0];
+    }
+}
