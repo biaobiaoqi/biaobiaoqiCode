@@ -1,0 +1,63 @@
+/*
+复制在无向图，需要考虑的是如何处理环。条件中告诉了每个节点的label都是不一样的，可以把它作为hashmap的key来处理。
+
+下面是dfs的方法：
+*/
+public class Solution {
+    
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        if (node == null)
+            return null;
+            
+        HashMap<Integer, UndirectedGraphNode> map = new HashMap<Integer, UndirectedGraphNode>();
+        return dfs(map, node);
+    }
+    
+    private UndirectedGraphNode dfs(HashMap<Integer, UndirectedGraphNode> map, UndirectedGraphNode node) {
+        if (map.containsKey(node.label))
+            return map.get(node.label);
+        UndirectedGraphNode newNode = new UndirectedGraphNode(node.label);
+        map.put(node.label, newNode);
+        
+        Iterator<UndirectedGraphNode> it = node.neighbors.iterator();
+        while(it.hasNext())
+            newNode.neighbors.add(dfs(map, it.next()));
+            
+        return newNode;
+    }
+}
+
+/*
+bfs实现。更容易出错的实现方式。
+*/
+public class Solution {
+    
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        if (node == null)
+            return null;
+            
+        HashMap<Integer, UndirectedGraphNode> map = new HashMap<Integer, UndirectedGraphNode>();
+        Queue<UndirectedGraphNode> que = new LinkedList<UndirectedGraphNode>();
+        
+        UndirectedGraphNode root = new UndirectedGraphNode(node.label);
+        map.put(node.label, root);
+        que.add(node);
+        while(que.size() != 0) {
+            UndirectedGraphNode curNode = que.poll();
+            Iterator<UndirectedGraphNode> it = curNode.neighbors.iterator();
+            while(it.hasNext()) {
+                UndirectedGraphNode nnode = it.next();
+                if (map.containsKey(nnode.label)) {
+                    map.get(curNode.label).neighbors.add(map.get(nnode.label));
+                } else {
+                    que.add(nnode);
+                    nnode = new UndirectedGraphNode(nnode.label);
+                    map.get(curNode.label).neighbors.add(nnode);
+                    map.put(nnode.label, nnode);
+                }
+            }
+        }
+        
+        return root;
+    }
+}
