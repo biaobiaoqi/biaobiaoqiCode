@@ -1,0 +1,22 @@
+
+/*
+分析二叉树上路径的特点，使用后序遍历的方式。
+特别注意：负数的处理。出现负节点时，在跟其他计算时，直接舍弃。
+*/
+public class Solution {
+    int max = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        if (root == null) return 0;
+        getMaxSubTree(root);
+        return max;
+    }
+    
+    private int getMaxSubTree(TreeNode node) {
+        if (node == null) return 0;
+
+        int left = getMaxSubTree(node.left);
+        int right = getMaxSubTree(node.right);
+        max = Math.max(max, Math.max(left, 0) + Math.max(right, 0) + node.val);
+        return node.val + Math.max(Math.max(left, right), 0);
+    }
+}
