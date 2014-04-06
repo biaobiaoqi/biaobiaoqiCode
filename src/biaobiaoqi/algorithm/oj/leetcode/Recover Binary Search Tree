@@ -1,0 +1,38 @@
+/*
+不会morris算法，只能实现需要额外O(n)空间的方法了。
+*/
+
+public class Solution {
+    public void recoverTree(TreeNode root) {
+        List<TreeNode> list = new ArrayList<TreeNode>();
+        inorder(root, list);
+        
+        TreeNode node1 = null, node2 = null;
+        int n = list.size();
+
+        for (int i = 1; i < n; i ++) {
+            if (list.get(i - 1).val > list.get(i).val) {
+                node1 = list.get(i - 1);
+                break;
+            }
+        }
+        
+        for (int i = n - 1; i > 0; i --) {
+            if (list.get(i).val < list.get(i - 1).val) {
+                node2 = list.get(i);
+                break;
+            }
+        }
+        
+        n = node1.val;
+        node1.val = node2.val;
+        node2.val = n;
+    }
+    
+    private void inorder(TreeNode node, List<TreeNode> list) {
+        if (node == null) return;
+        inorder(node.left, list);
+        list.add(node);
+        inorder(node.right, list);
+    }
+}
