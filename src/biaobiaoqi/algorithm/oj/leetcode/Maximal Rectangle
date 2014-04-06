@@ -21,7 +21,7 @@ public class Solution {
 
         int ret = 0;
         for (int i = 0; i < m; i ++) {
-            int left = 0, right = 0;
+            int left = 0, right = n;
             for (int j = 0; j < n; j ++)
                 if (matrix[i][j] == '1') {
                     L[j] = Math.max(left, L[j]); //L[j] in max() contains left index for [i-1][j]. Make sure the left limits of rectangle constaining point [i][j] .
