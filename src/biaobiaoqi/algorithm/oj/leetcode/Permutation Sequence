@@ -1,0 +1,30 @@
+/*
+找规律。每次增加一个排序，其实就是对某个位置的大小数字做交换和排序。
+*/
+public class Solution {
+    public String getPermutation(int n, int k) {
+        char[] per = new char[n];
+        for (int i = 0; i < n; i ++)
+            per[i] = (char)(i + '1');
+        
+        int[] fac = new int[n];
+        fac[0] = 1;
+        for (int i = 1; i < n; i ++)
+            fac[i] = fac[i - 1] * i;
+        
+        k --;
+        for (int i = n - 1, index = 0; i > 0; i --, index ++) {
+            swap(per, index, index + k/fac[i]);
+            k %= fac[i];
+        }
+        
+        return new String(per);
+    }
+    
+    private void swap(char[] per, int a, int b) {
+        char c = per[b];
+        for (int i = b; i > a; i --)
+            per[i] = per[i - 1];
+        per[a] = c;
+    }
+}
