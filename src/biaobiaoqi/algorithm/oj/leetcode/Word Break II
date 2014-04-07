@@ -1,0 +1,51 @@
+/*
+先DP求结果，同时记录解法。然后dfs求解法。
+如果使用dfs直接计算还是显得不够好。
+*/
+
+public class Solution {
+    public ArrayList<String> wordBreak(String s, Set<String> dict) {
+        int n = s.length();
+        boolean[] f = new boolean[n + 1];
+        ArrayList<Integer>[] p = new ArrayList[n + 1];
+        for (int i = 0; i <= n; i ++) p[i] = new ArrayList<Integer>();
+        f[0] = true;
+        for (int i = 1; i <= n; i ++)
+            for (int j = 0; j < i; j ++)
+                if (f[j] && dict.contains(s.substring(j, i))) {
+                    f[i] = true;
+                    p[i].add(j);
+                }
+
+        ArrayList<String> ret = new ArrayList<String>();
+        
+        if(!f[n]) return ret;
+        
+        ArrayList<Integer> record = new ArrayList<Integer>();
+        record.add(n);
+        dfs(s, ret, record, f, p, n);
+        
+        return ret;
+    }
+    
+    private void dfs(String s, ArrayList<String> ret, ArrayList<Integer> record, boolean[] f, ArrayList<Integer>[] p, int index) {
+        if (index == 0) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(s.substring(0, record.get(record.size() - 2)));
+            for (int i = record.size() - 2; i > 0 ; i --) {
+                sb.append(" ");
+                sb.append(s.substring(record.get(i), record.get(i - 1)));
+            }
+            ret.add(sb.toString());
+        }
+        
+        Iterator<Integer> it = p[index].iterator();
+        while(it.hasNext()) {
+            int tmp = it.next();
+            
+            record.add(tmp);
+            dfs(s, ret, record, f, p, tmp);
+            record.remove(record.size() - 1);
+        }
+    }
+}
