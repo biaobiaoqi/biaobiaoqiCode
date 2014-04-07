@@ -1,0 +1,49 @@
+/*
+直接使用dfs，会超时。于是做了一个dfs改进的备忘录版本。
+DP和DFS以及备忘录法的不同：
+* 备忘录是自顶向下的，DFS也是自顶向下的。DFS可以比较方便的修改到备忘录法。
+* DP是自底向上的。分析思路跟另外两者不同，需要找到状态，并从分解的子问题入手开始解决。
+*/
+
+public class Solution {
+    int[] f;
+    public boolean wordBreak(String s, Set<String> dict) {
+        int n = s.length();
+        f = new int[n]; //1 stands for true, 2 stands for false;
+        return dfs(s, 0, n, dict);
+    }
+
+    private boolean dfs(String s, int index, int n, Set<String> dict) {
+        if (index == n || f[index] == 1) return true;
+        if (f[index] == 2) return false; 
+        
+        for (int i = index + 1; i <= n; i ++) {
+            String sub = s.substring(index, i);
+            if (dict.contains(sub) && dfs(s, i, n, dict)) {
+                f[index] = 1;
+                return true;
+            }
+        }
+        
+        f[index] = 2;
+        return false;
+    }
+}
+
+//dp版本如下
+
+public class Solution {
+    public boolean wordBreak(String s, Set<String> dict) {
+        int n = s.length();
+        boolean[] f = new boolean[n + 1];
+        f[0] = true;
+        for (int i = 1; i <= n; i ++)
+            for (int j = 0; j < i; j ++)
+                if (f[j] && dict.contains(s.substring(j, i))) {
+                    f[i] = true;
+                    break;
+                }
+        
+        return f[n];
+    }
+}
