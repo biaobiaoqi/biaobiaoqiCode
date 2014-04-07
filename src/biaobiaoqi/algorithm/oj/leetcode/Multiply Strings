@@ -1,0 +1,36 @@
+/*
+模拟按位乘法。注意进位的细节。
+*/
+
+public class Solution {
+    public String multiply(String num1, String num2) {
+        int n1 = num1.length();
+        int n2 = num2.length();
+        char[] ret = new char[n1 + n2 + 1];
+        Arrays.fill(ret, '0');
+        
+        for (int i = n2 - 1; i >= 0; i --) {
+            int index = n1 + i + 1;
+            int catcher = 0;
+            for (int j = n1 - 1; j >= 0; j --) {
+                catcher += getValue(num1.charAt(j)) * getValue(num2.charAt(i)) + getValue(ret[index]);
+                ret[index --] = (char)('0' + catcher % 10);
+                catcher /= 10;
+            }
+            while (catcher != 0) {
+                catcher += getValue(ret[index]);
+                ret[index --] = (char)('0' + catcher % 10);
+                catcher /= 10;
+            }
+            
+        }
+        String retStr = new String(ret);
+        int i = 0;
+        while(i < retStr.length() - 1 && retStr.charAt(i) == '0')
+            i ++;
+        
+        return retStr.substring(i, retStr.length());
+    }
+    
+    private int getValue(char ch) { return ch - '0'; }
+}
