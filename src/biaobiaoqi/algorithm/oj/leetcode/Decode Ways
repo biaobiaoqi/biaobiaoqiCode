@@ -1,0 +1,28 @@
+/*
+爬楼梯的题目的延伸。注意初始条件 和 限制条件，很容易写错。
+*/
+
+public class Solution {
+    public int numDecodings(String s) {
+        int n = s.length();
+        if (n == 0 || s.charAt(0) == '0') return 0;
+        int prev = 0;
+        int cur = 1;
+        for (int i = 0; i < n; i ++) {
+            if (i > 0) {
+                char prec = s.charAt(i - 1);
+                char curc = s.charAt(i);
+                if (!(prec == '1' || (prec == '2' && curc < '7')))
+                    prev = 0;
+                if (curc == '0')
+                    cur = 0;
+            }
+
+            int tmp = cur;
+            cur += prev;
+            prev = tmp;
+        }
+        
+        return cur;
+    }
+}
