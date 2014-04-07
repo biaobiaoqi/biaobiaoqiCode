@@ -1,0 +1,36 @@
+/*
+细节实现题，需要先整清楚总体框架，理清楚corner case，再细心的往里面填入实现逻辑。
+*/
+
+public class Solution {
+    public String simplifyPath(String path) {
+        int n = path.length();
+        char[] chs = new char[n];
+        int index = 0;
+        for (int i = 0; i < n;) {
+            while(i < n && path.charAt(i) == '/') i ++;
+            
+            if (i + 1 < n && path.charAt(i) == '.' && path.charAt(i + 1) == '.' && (i + 2 == n || path.charAt(i + 2) == '/')) { //take care of /...
+                if (index != 0) index --; //Take care of there is no more path to backforward
+                while( index >= 1 && chs[index] != '/') {
+                    index --;
+                }
+                i += 2;
+            } else if (i < n && path.charAt(i) == '.' && (i + 1 == n || path.charAt(i + 1) == '/')) { //take care of .vimrc
+                i ++;
+                continue;
+            } else if (i < n ){
+                chs[index ++] = '/';
+                while(i < n && path.charAt(i) != '/') {
+                    chs[index++] = path.charAt(i++);
+                }
+            }
+        }
+        
+        if(index == 0)
+            return "/";
+        
+        return new String(chs, 0, index);
+        
+    }
+}
