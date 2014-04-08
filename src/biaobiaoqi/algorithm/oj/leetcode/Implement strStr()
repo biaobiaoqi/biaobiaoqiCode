@@ -1,0 +1,37 @@
+//裸KMP算法
+public class Solution {
+    public String strStr(String haystack, String needle) {
+        if (needle.length() == 0) return haystack;
+        if (haystack.length() == 0 ) return null;
+        
+        int[] next = generateNext(needle);
+        
+        for (int i = 0, j = 0; i < haystack.length(); i ++){
+            while(j > 0 && haystack.charAt(i) != needle.charAt(j))
+                j = next[j - 1];
+            
+            if (haystack.charAt(i) == needle.charAt(j))
+                j ++;
+                
+            if (j == needle.length())
+                return haystack.substring(i - j + 1,haystack.length());
+        }
+        
+        return null;
+    }
+    
+    private int[] generateNext(String str) {
+        int[] next = new int[str.length()];
+        next[0] = 0;
+        for (int i = 1, j = 0; i < str.length(); i ++) {
+            while(j > 0 && str.charAt(i) != str.charAt(j))
+                j = next[j - 1];
+            
+            if (str.charAt(i) == str.charAt(j))
+                j ++;
+                
+            next[i] = j;
+        }
+        return next;
+    }
+}
