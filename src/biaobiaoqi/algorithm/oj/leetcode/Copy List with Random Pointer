@@ -1,0 +1,39 @@
+//很屌的方法，在复制的同时，利用原来的节点的指针域辅助存储。如下思路，不能更屌：
+
+/**
+ * Definition for singly-linked list with a random pointer.
+ * class RandomListNode {
+ *     int label;
+ *     RandomListNode next, random;
+ *     RandomListNode(int x) { this.label = x; }
+ * };
+ */
+public class Solution {
+    public RandomListNode copyRandomList(RandomListNode head) {
+        if(head == null)
+            return null;
+
+        for(RandomListNode node = head; node != null;) {
+            RandomListNode newNode = new RandomListNode(node.label);
+            newNode.next = node.next;
+            node.next = newNode;
+            node = newNode.next;
+        }
+        
+        for (RandomListNode node = head; node != null;) {
+            RandomListNode newNode = node.next;
+            newNode.random = node.random != null ? node.random.next : null;    
+            node = newNode.next;
+        }
+        
+        RandomListNode newHead = head.next;
+        for (RandomListNode node = head; node != null;) {
+            RandomListNode newNode = node.next;
+            node.next = newNode.next;
+            newNode.next = newNode.next != null ? newNode.next.next : null;
+            node = node.next;
+        }
+        
+        return newHead;
+    }
+}
