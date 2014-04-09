@@ -1,0 +1,54 @@
+/*
+很容易出错，比较多的链表操作细节。
+注意：
+* 链表反转
+
+*/
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if (k <= 1 || head == null || head.next == null) return head; //There are at least 2 nodes in list.
+        
+        ListNode h = new ListNode(-1);
+        ListNode prevSection = h;
+        prevSection.next = head;
+        ListNode nextSection = null;
+        while(prevSection.next != null) {
+            ListNode prev = prevSection;
+            ListNode cur = prev.next;
+            int i = 0;
+            for (; i < k && cur != null; i ++) {
+                prev = cur;
+                cur = cur.next;
+            }
+            
+            nextSection = cur;
+            prev.next = null;
+            
+            if (i == k) {
+                ListNode next = null;
+                for(prev = prevSection.next, cur = prev.next, next = cur.next; cur != null; 
+                    prev = cur, cur = next, next = next != null ? next.next : null) {
+                    cur.next = prev;
+                }
+                ListNode tmp = prevSection.next;
+                prevSection.next = prev;
+                prevSection = tmp;
+                prevSection.next = nextSection;
+            } else
+                break;
+        }
+        
+        return h.next;
+    }
+}
