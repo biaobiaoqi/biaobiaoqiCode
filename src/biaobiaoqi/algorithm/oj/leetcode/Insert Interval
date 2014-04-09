@@ -1,0 +1,32 @@
+//不优美的代码结构，一般都不会是好的解决思路。
+//特别多分支时，做好抽象分析，让更多分支合并到一起，减少代码量和出错的可能。
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+public class Solution {
+    public ArrayList<Interval> insert(ArrayList<Interval> intervals, Interval newInterval) {
+        for (int i = 0; i < intervals.size(); i ++) {
+            Interval interval = intervals.get(i);
+            if (newInterval.start > interval.end)
+                continue;
+            else if (newInterval.end < interval.start){
+                intervals.add(i, newInterval);
+                return intervals;
+            } else {
+                newInterval.start = Math.min(interval.start, newInterval.start);
+                newInterval.end = Math.max(interval.end, newInterval.end);
+                intervals.remove(i);
+                i --;
+            }
+        }
+        intervals.add(newInterval);
+        
+        return intervals;
+    }
+}
