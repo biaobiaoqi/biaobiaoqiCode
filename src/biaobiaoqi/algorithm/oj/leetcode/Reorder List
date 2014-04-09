@@ -1,0 +1,66 @@
+/*
+刚开始根本没想着先找中点，再倒转，在归并的思路。潜意识里觉得这种思路步骤太多太复杂了。
+考虑到可以用递归。但是递归在链表问题中几乎不可行。
+
+实际上，这种问题，实在没思路时，就先用最笨的思路实现掉（当然得排除不可行的方案，比如递归），然后再想办法优化。这就是解决问题的能力。
+*/
+
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public void reorderList(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        while(fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next;
+            if (fast.next != null)
+                fast = fast.next;
+            else 
+                break;
+        }
+        
+        if (slow == null || slow == fast) return;
+        
+        ListNode head2 = slow.next;
+        slow.next = null;
+        
+        head2 = reverse(head2);
+        
+        merge(head, head2);
+        
+        return;
+    }
+    
+    ListNode reverse(ListNode head) {
+        ListNode pre = null;
+        ListNode cur = head;
+        while(cur != null) {
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+    
+    void merge(ListNode node1, ListNode node2) {
+        while(node2 != null) {
+            ListNode tmp = node1.next;
+            node1.next = node2;
+            ListNode tmp2 = node2.next;
+            node2.next = tmp;
+            node1 = tmp;
+            node2 = tmp2;
+        }
+    }
+}
