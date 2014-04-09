@@ -1,0 +1,23 @@
+/*
+贪心。
+
+分析：
+假设子串里含有重复字符,则父串一定含有重复字符,单个子问题就可以决定父问题。因此可以用贪心法。
+跟动规不同,动规里,单个子问题只能影响父问题,不足以决定父问题。
+
+*/
+public class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int last = -1;
+        int ret = 0;
+        for (int i = 1; i < s.length(); i ++)
+            for (int j = i - 1; j > last && j >= 0; j --)
+                if (s.charAt(i) == s.charAt(j)) {
+                    ret = Math.max(ret, i - 1 - last);
+                    last = j;
+                }
+        
+        ret = Math.max(ret, s.length() - last - 1);
+        return ret;
+    }
+}
