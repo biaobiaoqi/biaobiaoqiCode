@@ -3,8 +3,11 @@
 考虑到可以用递归。但是递归在链表问题中几乎不可行。
 
 实际上，这种问题，实在没思路时，就先用最笨的思路实现掉（当然得排除不可行的方案，比如递归），然后再想办法优化。这就是解决问题的能力。
-*/
 
+注意：
+* 单链表逆转的实现。
+* 快慢指针找中点的实现。
+*/
 /**
  * Definition for singly-linked list.
  * class ListNode {
@@ -42,15 +45,16 @@ public class Solution {
     }
     
     ListNode reverse(ListNode head) {
-        ListNode pre = null;
-        ListNode cur = head;
-        while(cur != null) {
-            ListNode next = cur.next;
-            cur.next = pre;
-            pre = cur;
-            cur = next;
+        if (head == null || head.next == null) return head;
+        
+        ListNode prev = head;
+        for (ListNode cur = head.next, next = cur.next; cur != null;
+            prev = cur, cur = next, next = next != null ? next.next : null ) {
+            cur.next = prev;    
         }
-        return pre;
+        head.next = null;
+        
+        return prev;
     }
     
     void merge(ListNode node1, ListNode node2) {
