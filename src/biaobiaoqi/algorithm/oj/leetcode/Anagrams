@@ -1,0 +1,33 @@
+/*
+关键点是如何检测两个字符串互为anagrams，以及如何记录多个groups：
+* 将string转位char[]排序，并用char[]的hash值比较
+* 可以使用HashMap<String, ArrayList<String>> 来记录groups
+* 我尝试使用char[]作为hashmap的key，反而WA，因为char[]无法兼容空字符串。
+*/
+public class Solution {
+    public ArrayList<String> anagrams(String[] strs) {
+        HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+        for (int i = 0; i < strs.length; i ++) {
+            char[] chs = strs[i].toCharArray();
+            Arrays.sort(chs);
+            String key = new String(chs);
+            if (map.containsKey(key))
+                map.get(key).add(strs[i]);
+            else {
+                ArrayList<String> al = new ArrayList<String>();
+                al.add(strs[i]);
+                map.put(key, al);
+            } 
+        }
+        
+        ArrayList<String> ret = new ArrayList<String>();
+        Iterator<ArrayList<String>> it = map.values().iterator();
+        while(it.hasNext()) {
+            ArrayList<String> al = it.next();
+            if (al.size() > 1)
+                ret.addAll(al);
+        }
+        
+        return ret;
+    }
+}
