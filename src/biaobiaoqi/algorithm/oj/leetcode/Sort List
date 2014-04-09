@@ -1,0 +1,62 @@
+/*
+单链表用归并：快慢指针求中点；
+双链表用快排。
+
+
+这里需要注意：
+* 快慢指针的使用边界
+* sort方法入口处 判定0个元素和1个元素。
+*/
+
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null) return head;
+        
+        ListNode fast = head;
+        ListNode slow = head;
+        ListNode preSlow = null;
+        while(fast != null && fast.next != null) {
+            preSlow = slow;
+            fast = fast.next;
+            slow = slow.next;
+            if (fast.next == null)
+                break;
+            else
+                fast = fast.next;
+        }
+        
+        ListNode head2 = slow;
+        preSlow.next = null;
+        
+        ListNode node1 = sortList(head);
+        ListNode node2 = sortList(head2);
+        
+        head = new ListNode(-1);
+        ListNode pre = head;
+        while(node1 != null && node2 != null) {
+            if (node1.val < node2.val) {
+                pre.next = node1;
+                pre = node1;
+                node1 = node1.next;
+            } else {
+                pre.next = node2;
+                pre = node2;
+                node2 = node2.next;
+            }
+        }
+        pre.next = node2 != null ? node2 : node1;
+
+        return head.next;
+    }
+}
