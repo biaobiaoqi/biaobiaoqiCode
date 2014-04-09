@@ -1,0 +1,31 @@
+//模拟:主题下标、边界等易错点。
+public class Solution {
+    public ArrayList<Integer> spiralOrder(int[][] matrix) {
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+        int endX = matrix.length - 1;
+        if (endX == -1) return ret;
+        int endY = matrix[0].length - 1;
+        int startX = 0, startY = 0;
+        
+        while(true) {
+            for (int i = startY; i <= endY; i++)
+                ret.add(matrix[startX][i]);
+            if (++startX > endX) break;
+            
+            for (int i = startX; i <= endX; i ++)
+                ret.add(matrix[i][endY]);
+            if(startY > --endY) break;
+                
+            for (int i = endY; i >= startY; i --)
+                ret.add(matrix[endX][i]);
+            if(startX > --endX) break;
+            
+            for (int i = endX; i >= startX; i --)
+                ret.add(matrix[i][startY]);
+            if (++ startY > endY) break;
+            
+        }
+        
+        return ret;
+    }
+}
