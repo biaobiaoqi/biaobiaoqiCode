@@ -1,5 +1,6 @@
 //stack实现
 //先用特例模拟实现过程，理清思路再编码。
+//容易想用DP来解决，而实际上，这道题模拟后会发现，直接遍历就能解决。
 public class Solution {
     public int longestValidParentheses(String s) {
         Stack<Integer> st = new Stack<Integer>();
