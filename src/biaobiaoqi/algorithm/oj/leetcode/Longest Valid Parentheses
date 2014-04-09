@@ -1,0 +1,26 @@
+//stack实现
+//先用特例模拟实现过程，理清思路再编码。
+public class Solution {
+    public int longestValidParentheses(String s) {
+        Stack<Integer> st = new Stack<Integer>();
+        int longest = 0;
+        int last = -1;
+        for(int i = 0; i < s.length(); i ++ ) {
+            if (s.charAt(i) == '(')
+                st.push(i);
+            else {
+                if (st.empty()) {
+                    last = i;
+                } else {
+                    st.pop();
+                    if(st.empty()) 
+                        longest = Math.max(longest, i - last);
+                    else
+                        longest = Math.max(longest, i - st.peek());
+                }
+            }
+        }
+        
+        return longest;
+    }
+}
