@@ -1,0 +1,33 @@
+//给insert interval 套了一个循环
+//刚开始一直在想，怎么让他排序。其实整个过程就类似于一个插入排序。
+public class Solution {
+    public ArrayList<Interval> merge(ArrayList<Interval> intervals) {
+        ArrayList<Interval> ret = new ArrayList<Interval>();
+        Iterator<Interval> it = intervals.iterator();
+        while(it.hasNext()) {
+            Interval interval = it.next();
+            ret = addInterval(ret, interval);
+        }
+        return ret;
+    }
+    
+    private ArrayList<Interval>  addInterval(ArrayList<Interval> intervals, Interval newInterval) {
+        for (int i = 0; i < intervals.size(); i ++) {
+            Interval interval = intervals.get(i);
+            if (newInterval.start > interval.end)
+                continue;
+            else if (newInterval.end < interval.start) {
+                intervals.add(i, newInterval);
+                return intervals;
+            } else {
+                newInterval.start = Math.min(newInterval.start, interval.start);
+                newInterval.end = Math.max(newInterval.end, interval.end);
+                intervals.remove(i);
+                i --;
+            }
+        }
+        intervals.add(newInterval);
+        
+        return intervals;
+    }
+}
