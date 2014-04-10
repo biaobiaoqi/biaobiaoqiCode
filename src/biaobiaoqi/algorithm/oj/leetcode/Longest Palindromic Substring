@@ -1,0 +1,32 @@
+//注意边界
+
+public class Solution {
+    public String longestPalindrome(String s) {
+        int n = s.length();
+        int max = 0;
+        int start = 0;
+        int end = 0;
+        for (int i = 0; i < n; i ++) {
+            int shift = 1;
+            while (i - shift >= 0 && i + shift < n && s.charAt(i + shift) == s.charAt(i - shift))
+                shift ++;
+            if (max < shift*2 - 1) {
+                max = shift*2 - 1;
+                start = i - shift + 1;
+                end = i + shift;
+            }
+            
+            shift = 0;
+            if (i != n - 1 && s.charAt(i) == s.charAt(i + 1)) {
+                while (i - shift >= 0 && i + 1 + shift < n && s.charAt(i - shift) == s.charAt(i + 1 + shift))
+                    shift ++;
+                if (max < shift*2) {
+                    max = shift*2;
+                    start = i - shift + 1;
+                    end = i + shift + 1;
+                }
+            }
+        }
+        return s.substring(start, end);
+    }
+}
