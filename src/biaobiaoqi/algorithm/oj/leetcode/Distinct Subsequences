@@ -1,0 +1,39 @@
+/*
+二维DP，f[i][j] 代表 S中[0, i - 1]和T中[0, j - 1]的所有解数量；
+如果S[i-1] == T[j-1],则f[i][j] = f[i - 1][j] + f[i - 1][j - 1];
+否则 f[i][j] = f[i - 1][j];
+*/
+
+public class Solution {
+    public int numDistinct(String S, String T) {
+        int[][] f = new int[S.length() + 1][T.length() + 1];
+        for (int i = 0; i <= S.length(); i ++)
+            f[i][0] = 1;
+        
+        for (int i = 1; i <= S.length(); i ++)
+            for (int j = 1; j <= T.length();j ++)
+                f[i][j]  = f[i - 1][j] + (S.charAt(i - 1) == T.charAt(j - 1) ? f[i - 1][j - 1] : 0);
+        
+        return f[S.length()][T.length()];
+    }
+}
+
+
+/*
+将二维DP转换为一维: 虽然是二维数组，但是每次计算[i][j]时，只使用了[i - 1][j] 和 [i - 1][j - 1]，完全可以用一行表示。
+也就是这里的滚动数组。
+
+实现滚动数组时，特别注意计算顺序，不要让新值覆盖了还需要使用的旧值。
+*/
+public class Solution {
+    public int numDistinct(String S, String T) {
+        int[] f = new int[T.length() + 1];
+        f[0] = 1;
+        
+        for (int i = 1; i <= S.length(); i ++)
+            for (int j = T.length(); j > 0 ;j --)
+                f[j]  += (S.charAt(i - 1) == T.charAt(j - 1) ? f[j - 1] : 0);
+        
+        return f[T.length()];
+    }
+}
