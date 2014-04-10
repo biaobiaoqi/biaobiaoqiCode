@@ -1,0 +1,34 @@
+/*
+根据题目的限定条件得到：需要找到两次交易的分割线（也可以没有两次交易）。#很难想到的感觉！！！
+
+用两个状态DP：
+f[i]表示[0,i]的最大盈利：从左往右算
+g(i)表示[i, n-1]的最大盈利：从右往左算
+*/
+
+public class Solution {
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        if (n < 2) return 0;
+        
+        int[] f = new int[n];
+        int lowest = prices[0];
+        for (int i = 1; i < n; i++) {
+            lowest = Math.min(lowest, prices[i]);
+            f[i] = Math.max(f[i - 1], prices[i] - lowest);
+        }
+        
+        int[] g = new int[n];
+        int highest = prices[n - 1];
+        for (int i = n - 2; i >= 0; i --) {
+            highest = Math.max(prices[i], highest);
+            g[i] = Math.max(g[i + 1], highest - prices[i]);
+        }
+        
+        int ret = 0;
+        for (int i = 0; i < n; i ++) 
+            ret = Math.max(ret, f[i] + g[i]);
+        
+        return ret;
+    }
+}
