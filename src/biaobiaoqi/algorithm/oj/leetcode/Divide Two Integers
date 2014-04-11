@@ -1,0 +1,28 @@
+/*
+注意：
+* 直接减会超时，减去的divisor可以每次使用移位 >> 翻倍；
+* 特别注意 -Integer.MIN_VALUE 会溢出integer，找到解决办法： long 
+
+*/
+public class Solution {
+    public int divide(int dividend, int divisor) {
+        long a = dividend;
+        long b = divisor;
+        a = (a < 0 ? -a : a);
+        b = (b < 0 ? -b : b);
+        
+        long ret = 0;
+        while (a >= b) {
+            long multi = 1;
+            long bb = b;
+            while (a >= bb) {
+                a -= bb;
+                ret += multi;
+                bb = bb << 1;
+                multi = multi << 1;
+            }
+        }
+        
+        return (int) ((dividend ^ divisor) >>> 31 == 1 ? -ret : ret);
+    }
+}
