@@ -2,6 +2,7 @@
 注意：
 * 直接减会超时，减去的divisor可以每次使用移位 >> 翻倍；
 * 特别注意 -Integer.MIN_VALUE 会溢出integer，找到解决办法： long 
+* 判别两个数异号的巧方法：位操作：(dividend ^ divisor) >>> 31 == 1
 
 */
 public class Solution {
