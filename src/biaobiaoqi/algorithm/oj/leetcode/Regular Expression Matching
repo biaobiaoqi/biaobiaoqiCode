@@ -1,0 +1,38 @@
+/*
+由于有"x*"这种表达方式，很难用DP表达。
+直接用DFS来求解。
+
+特别注意:
+* x* 的处理，.*的处理，
+* String的下标是否越界！
+* 长条件判断语句，一定记得加括号。&& 也 || 等操作优先级容易混乱。
+*/
+
+public class Solution {
+    public boolean isMatch(String s, String p) {
+        return isMatch(s, 0, p, 0);
+    }
+    
+    private boolean isMatch(String s, int i, String p, int j) {
+        if (j == p.length())
+            return s.length() == i;
+        
+        if (j + 1 < p.length() && p.charAt(j + 1) == '*') {
+            if (i == s.length() || (s.charAt(i) != p.charAt(j) && p.charAt(j) != '.'))
+                return isMatch(s, i, p, j + 2);
+            else {
+                if (isMatch(s, i, p, j + 2))
+                    return true;
+
+                for (int k = i; k < s.length() && (s.charAt(k) == p.charAt(j) || p.charAt(j) == '.'); k ++) 
+                    if (isMatch(s, k + 1, p, j + 2))
+                        return true;
+                
+                return false;
+            }
+        } else if ( i < s.length() && (p.charAt(j) == '.' || s.charAt(i) == p.charAt(j)))
+            return isMatch(s, i + 1, p, j + 1);
+        else
+            return false;
+    }
+}
