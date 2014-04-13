@@ -1,0 +1,42 @@
+/*
+注意HashMap的使用：
+* null也是可以当做object插入！
+* 注意string的下标边界的控制。
+* map没有set，只有put方法；没有empty()，只有size()方法
+*/
+
+public class Solution {
+    public ArrayList<Integer> findSubstring(String S, String[] L) {
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        for (int i = 0; i < L.length; i ++) {
+            Integer value = map.get(L[i]);  
+            map.put(L[i], (value == null ? 0 : value) + 1);
+        }
+
+        int n = L.length;
+        if (n == 0) return ret;
+        int wsize = L[0].length();
+        
+        for (int i = 0; i <= S.length() - n * wsize; i ++) {
+            HashMap<String, Integer> unused = new HashMap<String, Integer>(map);
+            boolean isValid = true;
+            for (int j = i; j <= S.length() - wsize && j < i + n*wsize; j += wsize) {
+                String str = S.substring(j, j + wsize);
+                if (unused.containsKey(str))
+                    if (unused.get(str) == 1)
+                        unused.remove(str);
+                    else
+                        unused.put(str, unused.get(str) - 1);
+                else {
+                    isValid = false;
+                    break;
+                }
+            }
+            if(isValid && unused.size() == 0)
+                ret.add(i);
+        }
+        
+        return ret;
+    }
+}
