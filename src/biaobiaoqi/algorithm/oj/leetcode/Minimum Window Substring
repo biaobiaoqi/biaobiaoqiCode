@@ -1,0 +1,47 @@
+/*
+区域选取的动态指针方法：两个动态指针，一前一后，往后推进的同时，通过收缩选取合适的区域。
+
+本题中，区域动态收缩的方法有很多种，比如，其中不太可行的一种是：
+  当头指针前移，找到一个新的有用的元素后，收缩尾指针，到一个有用元素，此时可能新区间无法满足，
+  于是需要继续移动前面的指针。这个方法在一个循环内将头指针和尾指针耦合在了一起，不优美，代码结构复杂。
+
+实际上，更好的办法是如果尾指针在满足区间合法的情况下，无法移动，则不移动。这样子，就不需要在同一循环类再次移动前指针，
+解开了耦合。
+*/
+
+public class Solution {
+    public String minWindow(String S, String T) {
+        if (T.length() > S.length()) return "";
+        
+        int[] expected = new int[260];
+        for (int i = 0; i < T.length(); i ++)
+            expected[T.charAt(i)] ++;
+        
+        int[] counted = new int[260];
+        int total = 0;
+        int minHead = S.length();
+        int minTail = -1;
+        for (int head = 0, tail = 0; head < S.length(); head ++) {
+            if (expected[S.charAt(head)] != 0) {
+                counted[S.charAt(head)] ++;
+                if (counted[S.charAt(head)] <= expected[S.charAt(head)])
+                    total ++;
+            }
+            
+            if (total == T.length()) {
+                while (expected[S.charAt(tail)] == 0 || counted[S.charAt(tail)] > expected[S.charAt(tail)]) {
+                    if (counted[S.charAt(tail)] > expected[S.charAt(tail)])
+                        counted[S.charAt(tail)] --;
+                    tail ++;
+                }
+                
+                if (minHead - minTail > head - tail) {
+                    minHead = head;
+                    minTail = tail;
+                }
+            }
+        }
+        
+        return minTail == -1 ? "" : S.substring(minTail, minHead + 1);
+    }
+}
