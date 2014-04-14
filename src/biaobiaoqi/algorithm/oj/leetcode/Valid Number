@@ -1,0 +1,22 @@
+/*
+大量细节。Java使用API解决。
+
+状态转移的做法很有通用性。
+*/
+
+public class Solution {
+    public boolean isNumber(String s) {
+         s = s.trim();
+        s = s.replaceAll("e", "/"); //不允许 11f这种形式的数出现，而Java的API里是允许的。
+        s = s.replaceAll("[a-zA-Z]", "x");
+        s = s.replaceAll("/", "e");
+        try {
+            Double.parseDouble(s);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+}
+
+
