@@ -1,0 +1,54 @@
+/*
+注意：
+* 除法运算时，要确保除数不是0，0的情况是边界情况，是否有考虑。
+* 这种模拟题，首先要确认思考了所有情况，设计好总体流程框架再开始写代码。
+
+*/
+
+public class Solution {
+    public ArrayList<String> fullJustify(String[] words, int L) {
+        ArrayList<String> ret = new ArrayList<String>();
+        
+        for (int i = 0, j = 0; i < words.length; i = j) {
+            int wordsCount = 0;
+            for (j = i; j < words.length && wordsCount + j - i + words[j].length() <= L; j ++)
+                wordsCount += words[j].length();
+            
+            StringBuilder sb = new StringBuilder();
+            if (j - i == 1) {
+                sb.append(words[i]);
+                for (int k = words[i].length(); k < L; k ++)
+                    sb.append(" ");
+                ret.add(sb.toString());
+                continue;
+            }
+            
+            int eventSpace = (L - wordsCount)/(j - i - 1);
+            int leftOnes = (L - wordsCount) % (j - i - 1);
+            
+            if (j == words.length) {
+                for (int k = i; k < j; k ++) {
+                    sb.append(words[k]);
+                    if (k != j - 1)
+                        sb.append(" ");
+                    else
+                        for (int m = sb.length(); m < L; m ++)
+                            sb.append(" ");
+                }
+            } else {
+                for (int k = i; k < j; k ++) {
+                    sb.append(words[k]);
+                    if (k != j - 1) {
+                        int spaces = eventSpace + (k - i < leftOnes ? 1 : 0);
+                        while(spaces-- > 0)
+                            sb.append(" ");
+                    }
+                }
+            }
+            
+            ret.add(sb.toString());
+        }
+        
+        return ret;
+    }
+}
