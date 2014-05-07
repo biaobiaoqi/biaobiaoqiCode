@@ -1,0 +1,38 @@
+/*
+两种做法：
+1.以边为中心：遍历所有两个点的线，判断其他点是否落在这条线上。O(n^3);
+2.以点为中心：遍历所有点P，用HashMap记录其他点与P的斜率。时间复杂度O(n^2)，空间复杂度O(n)；典型的以空间换时间。
+
+注意：
+1.可以有同一位置的点；
+2.求斜率时，注意分母为0的情况。
+*/
+public class Solution {
+    public int maxPoints(Point[] points) {
+        int res = 0;
+        int n = points.length;
+        for (int i = 0; i < n; i ++) {
+            Map<Double, Integer> countMap = new HashMap<Double, Integer>();
+            int samePointCount = 0;
+            int specialCase = 0;
+            for (int j = 0; j < n; j ++) {
+                if (points[i].x == points[j].x && points[i].y == points[j].y) 
+                    samePointCount ++;
+                else if (points[i].x == points[j].x && points[i].x == 0) 
+                    specialCase ++;
+                else {
+                    Double slope = ((double)(points[i].y - points[j].y))/ (points[i].x - points[j].x);
+                    countMap.put(slope, countMap.containsKey(slope) ? countMap.get(slope) + 1 : 1);
+                }
+            }
+            Iterator<Integer> it = countMap.values().iterator();
+            int max = Math.max(0, specialCase);
+            while(it.hasNext()) {
+                int val = it.next();
+                max = Math.max(val, max);
+            }
+            res = Math.max(res, max + samePointCount);
+        }
+        return res;
+    }
+}
