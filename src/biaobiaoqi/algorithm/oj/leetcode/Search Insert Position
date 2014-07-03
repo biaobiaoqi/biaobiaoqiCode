@@ -1,4 +1,4 @@
-//二分
+//二分：关键在于对边界取值的理解上。分情况讨论下就清晰思路了。
 public class Solution {
     public int searchInsert(int[] A, int target) {
         int start = 0;
@@ -13,7 +13,6 @@ public class Solution {
             else if (A[index] > target)
                 end = index - 1;
         }
-        
         return start;
     }
 }
