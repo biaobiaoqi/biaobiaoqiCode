@@ -31,22 +31,16 @@ public class Solution {
  在图上用一颗四层的完整二叉树找规律。发现模拟了沿着左边遍历，然后回溯用同样的方式遍历没棵右边支。
  */
 public class Solution {
-    public ArrayList<Integer> preorderTraversal(TreeNode root) {
-        ArrayList<Integer> ret = new ArrayList<Integer>();
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> ret = new ArrayList<Integer>();
+        if (root == null) return ret;
         Stack<TreeNode> st = new Stack<TreeNode>();
-
-        if (root != null) st.push(root);
-        
+        st.push(root);
         while(!st.empty()) {
-            TreeNode tmp = st.peek();
+            TreeNode tmp = st.pop();
             ret.add(tmp.val);
-            st.pop();
             if (tmp.right != null) st.push(tmp.right);
-            while(tmp.left != null) {
-                tmp = tmp.left;
-                ret.add(tmp.val);
-                if (tmp.right != null) st.push(tmp.right);
-            }
+            if (tmp.left != null) st.push(tmp.left);
         }
         
         return ret;
