@@ -1,13 +1,14 @@
-//题意容易理解错，不是求总共能得到的最多利润，而是一买一卖能得到的最大利润。
+//理清思路
 public class Solution {
     public int maxProfit(int[] prices) {
-        if (prices.length <= 1) return 0;
-        int min = prices[0];
-        int pro = 0;
-        for (int i = 1; i < prices.length; i ++) {
-            min = Math.min(min, prices[i]);
-            pro = Math.max(pro, prices[i] - min);
+        int maxPro = 0;
+        int lowest = Integer.MAX_VALUE;
+        int length = prices.length;
+        for (int i = 0; i < length; i ++) {
+            lowest = Math.min(prices[i], lowest);
+            maxPro = Math.max(prices[i] - lowest, maxPro);
         }
-        return pro;
+        
+        return maxPro;
     }
 }
