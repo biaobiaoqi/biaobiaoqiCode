@@ -10,6 +10,7 @@
  *     TreeLinkNode(int x) { val = x; }
  * }
  */
+ //递归解法
 public class Solution {
     public void connect(TreeLinkNode root) {
         if (root == null) return;
@@ -24,6 +25,27 @@ public class Solution {
             left.next = right;
             left = left.right;
             right = right.left;
+        }
+    }
+}
+
+//层序遍历解法
+public class Solution {
+    public void connect(TreeLinkNode root) {
+        if (root == null) return;
+        
+        Queue<TreeLinkNode> que = new LinkedList<TreeLinkNode>();
+        que.add(root);
+        while (que.size() != 0) {
+            Queue<TreeLinkNode> tmpQue = new LinkedList<TreeLinkNode>();
+            while(que.size() != 0) {
+                TreeLinkNode curNode = que.poll();
+                if (curNode.left != null) tmpQue.add(curNode.left);
+                if (curNode.right != null) tmpQue.add(curNode.right);
+                curNode.next = que.peek();
+                curNode = curNode.next;
+            }
+            que = tmpQue;
         }
     }
 }
