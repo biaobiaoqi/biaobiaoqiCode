@@ -1,11 +1,14 @@
 public class Solution {
     public int reverse(int x) {
         int ret = 0;
-        while(x !=0 ) {
+        boolean postive = x >= 0;
+        x = Math.abs(x);
+        while(x > 0){
             ret *= 10;
-            ret += x%10;
+            ret += x % 10;
             x /= 10;
         }
-        return ret ;
+        
+        return postive ? ret : -ret;
     }
 }
