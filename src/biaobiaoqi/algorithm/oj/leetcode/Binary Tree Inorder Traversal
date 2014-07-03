@@ -24,6 +24,36 @@ public class Solution {
 }
 
 
+//两个stack实现
+
+public class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        Stack<TreeNode> st1 = new Stack<TreeNode>();
+        Stack<TreeNode> st2 = new Stack<TreeNode>();
+        List<Integer> ret = new ArrayList<Integer>();
+        if (root != null) st1.push(root);
+        
+        while(!st1.empty()) {
+            TreeNode cur = st1.pop();
+            if (!st2.empty() && st2.peek() == cur) {
+                st2.pop();
+                ret.add(cur.val);
+                if (cur.right != null) 
+                    st1.push(cur.right);
+            } else {
+                st1.push(cur);
+                st2.push(cur);
+                if (cur.left != null)
+                    st1.push(cur.left);
+            }
+        }
+        
+        return ret;
+    }
+}
+
+
+
 /*
 非递归做法：自己作图找规律
 */
@@ -49,3 +79,5 @@ public class Solution {
         return ret;
     }
 }
+
+
