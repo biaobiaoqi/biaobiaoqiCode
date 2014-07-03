@@ -1,16 +1,15 @@
 //注意终止条件的控制
 public class Solution {
     public ListNode deleteDuplicates(ListNode head) {
-        ListNode h = new ListNode(-1);
-        h.next = head;
-        ListNode cur = head;
-        while (cur != null && cur.next != null) {
-            if (cur.val != cur.next.val)
-                cur = cur.next;
-            else {
-                cur.next = cur.next.next;
-            }
+        if (head == null) return null;
+        ListNode node = head;
+        while(node.next != null) {
+            if (node.next.val == node.val)
+                node.next = node.next.next;
+            else
+                node = node.next;
         }
-        return h.next;
+        
+        return head;
     }
 }
