@@ -10,3 +10,34 @@ public class Solution {
         return max;
     }
 }
+
+
+//divide and conquer algorithm
+public class Solution {
+    public int maxSubArray(int[] A) {
+        if (A == null)
+            return 0;
+        return maxSubArrayWithIndex(A, 0, A.length - 1);
+    }
+    
+    public int maxSubArrayWithIndex(int[] A, int left, int right) {
+        if (left == right) return A[left];
+        int middle = left + (right - left)/2;
+        int leftMax = maxSubArrayWithIndex(A, left, middle);
+        int rightMax = maxSubArrayWithIndex(A, middle + 1, right);
+        
+        int leftSum = 0, leftSumMax = 0;
+        for (int i = middle - 1; i >= left; i --) {
+            leftSum += A[i];
+            leftSumMax = Math.max(leftSum, leftSumMax);
+        }
+        
+        int rightSum = 0, rightSumMax = 0;
+        for (int i = middle + 1; i <= right; i ++) {
+            rightSum += A[i];
+            rightSumMax = Math.max(rightSum, rightSumMax);
+        }
+        
+        return Math.max(Math.max(leftMax, rightMax), rightSumMax + leftSumMax + A[middle]);
+    }
+}
