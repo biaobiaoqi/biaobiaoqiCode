@@ -1,23 +1,17 @@
-/*
-找规律：n位的gray code一共有2^n个，第2^(i-1)位到2^i-1位的值右数第i位全为1，而后面i-1位则是0到2^(i-1)-1位的镜像。
-是一种递归的解法。
-*/
 public class Solution {
-    public ArrayList<Integer> grayCode(int n) {
-        ArrayList<Integer> res = new ArrayList<Integer>(n);
+    public List<Integer> grayCode(int n) {
+        List<Integer> ret = new ArrayList<Integer>();
+        ret.add(0);
+        if (n == 0) return ret;
+        ret.add(1);
         
-        if (n == 0) {
-            res.add(0);
-            return res;
+        int count = 2;
+        for (int i = 1; i < n; i ++) {
+            for (int j = count; j < count << 1; j ++)
+                ret.add(ret.get( (count << 1) - j - 1) + count);
+            count = count << 1;
         }
         
-        res.add(0);
-        res.add(1);
-        
-        for (int i = 1, m = 2; i < n; i ++, m *= 2) 
-            for (int  j = m; j < 2*m; j ++)
-                res.add(res.get(2*m - j -1) + m);
-        
-        return res;
+        return ret;
     }
 }
