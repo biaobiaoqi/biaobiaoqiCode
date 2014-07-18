@@ -1,38 +1,27 @@
 public class Solution {
     public int totalNQueens(int n) {
-        this.n = n;
-        used = new boolean[n];
-        mainDiag = new boolean[2*n];
-        antiDiag = new boolean[2*n];
-        count = 0;
-        int[] solu = new int[n];
-        int level = 0;
-        dfs(level, solu);
-        return count;
+        boolean[] row = new boolean[n], tri1 = new boolean[2*n], tri2 = new boolean[2*n];
+        return dfs(row, tri1, tri2, 0, n);
     }
-    private int n;
-    private boolean[] used;
-    private boolean[] mainDiag;
-    private boolean[] antiDiag;
-    private int count;
     
-    private void dfs(int level, int[] solu) {
+    private int dfs(boolean[] row, boolean[] tri1, boolean[] tri2, int level, int n) {
         if (level == n) {
-            count ++;
-            return;
+            return 1;
         }
         
-        for (int i = 0; i < n; i ++) {
-            if (!used[i] && !mainDiag[n + i - level] && !antiDiag[i + level]) {
-                solu[level] = i;
-                used[i] = true;
-                mainDiag[n + i - level] = true;
-                antiDiag[i + level] = true;
-                dfs(level + 1, solu);
-                used[i] = false;
-                mainDiag[n + i - level] = false;
-                antiDiag[i + level] = false;
+        int ret = 0;
+        for (int i = 0; i < n; i++) {
+            if (!row[i] && !tri1[n + i - level] && !tri2[i + level]) {
+                row[i] = true;
+                tri1[n + i - level] = true;
+                tri2[i + level] = true;
+                ret += dfs(row, tri1, tri2, level + 1, n);
+                row[i] = false;
+                tri1[n + i - level] = false;
+                tri2[i + level] = false;
             }
         }
+        
+        return ret;
     }
 }
