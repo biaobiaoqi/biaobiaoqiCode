@@ -1,56 +1,41 @@
 public class Solution {
-    public ArrayList<String[]> solveNQueens(int n) {
-        STR = new String[n];
-        this.n = n;
-        for (int i = 0; i < n; i ++) {
-            StringBuffer sb = new StringBuffer();
-            for (int j = 0; j < n; j ++) 
-                if (j == i)
-                    sb.append('Q');
-                else
-                    sb.append('.');
-            STR[i] = sb.toString();
-        }
-        used = new boolean[n];
-        mainDiag = new boolean[2*n];
-        antiDiag = new boolean[2*n];
-        
-        ArrayList<String[]> res = new ArrayList<String[]>();
-        int[] solu = new int[n];
-        int level = 0;
-        dfs(level, res, solu);
-        return res;
+    public List<String[]> solveNQueens(int n) {
+        List<String[]> ret = new ArrayList<String[]>();
+        int[] ans = new int[n];
+        boolean[] row = new boolean[n], tri1 = new boolean[2*n], tri2 = new boolean[2*n];
+        dfs(ret, ans, row, tri1, tri2, 0, n);
+        return ret;
     }
     
-    private String[] STR;
-    private int n;
-    private boolean[] used;
-    private boolean[] mainDiag;
-    private boolean[] antiDiag;
-    
-    private void dfs(int level, ArrayList<String[]> res, int[] solu) {
+    void dfs(List<String[]> ret, int[] ans, boolean[] row, boolean[] tri1, boolean[] tri2, int level, int n) {
         if (level == n) {
-            res.add(getSolution(solu));
+            ret.add(getResult(ans, n));
             return;
         }
-        for (int i = 0; i < n; i ++) {
-            if (!used[i] && !mainDiag[n + level - i] && !antiDiag[i + level]) {
-                solu[level] = i;
-                used[i] = true;
-                mainDiag[n + level - i] = true;
-                antiDiag[i + level] = true;
-                dfs(level + 1, res, solu);
-                used[i] = false;
-                mainDiag[n + level - i] = false;
-                antiDiag[i + level] = false;
+        
+        for (int i = 0; i < n; i++) {
+            if (!row[i] && !tri1[n + i - level] && !tri2[i + level]) {
+                row[i] = true;
+                tri1[n + i - level] = true;
+                tri2[i + level] = true;
+                ans[level] = i;
+                dfs(ret, ans, row, tri1, tri2, level + 1, n);
+                row[i] = false;
+                tri1[n + i - level] = false;
+                tri2[i + level] = false;
             }
         }
     }
     
-    private String[] getSolution(int[] solu) {
-        String[] solution = new String[solu.length];
-        for (int i = 0; i < solution.length; i ++) 
-            solution[i] = STR[solu[i]];
-        return solution;
+    String[] getResult(int[] ans, int n) {
+        String[] ret = new String[n];
+        for (int i = 0; i < n; i++) {
+            StringBuilder sb = new StringBuilder();
+            for (int j = 0; j < n; j++) {
+                sb.append( ans[i] == j ? 'Q' : '.');
+            }
+            ret[i] = sb.toString();
+        }
+        return ret;
     }
 }
