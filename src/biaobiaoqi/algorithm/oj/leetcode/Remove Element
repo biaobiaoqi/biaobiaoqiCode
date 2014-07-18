@@ -1,47 +1,13 @@
 public class Solution {
-//首位两个指针相向移动，前面的指针对非Element元素跳过，后面的指针对Element元素跳过；前面的指针碰到Element，则使用后面指针的数值填充
-//特别注意的是终止条件。两个指针移动的时候都有终止的可能。
-//外层while是前面指针的移动，内层的while是后面的指针的移动。
     public int removeElement(int[] A, int elem) {
-        int i = 0;
         int j = A.length - 1;
-        if (j == -1) return 0;
-        
-        while (i <= j ) {
-            while( j >= 0 && A[j] == elem)
-                j --;
-            
-            if (j > i ) {
-                if ( A[i] == elem) {
-                    A[i] = A[j];
-                    j --;
-                } 
-                i ++;
-            } else {
-                return j + 1;
-            }
-        }
-        return j + 1;
-    }
-}
-
-
-public class Solution {
-    //这个方法相比上面的方法在循环处理上思路更清晰一点。把判断集中到了一处，即唯一的一个while循环上；
-    //整体时间复杂度也没有升上。
-    public int removeElement(int[] A, int elem) {
-        int i = 0;
-        int j = A.length - 1;
-        while(i <= j) {
+        for (int i = 0; i <= j;) {
             if (A[i] == elem) {
-                if(A[j] != elem)
-                    A[i] = A[j];
-                j --;
-            } else {
-                i ++;
-            }
+                A[i] = A[j--];
+            } else 
+                i++;
         }
         
-        return i;
+        return j + 1;
     }
 }
