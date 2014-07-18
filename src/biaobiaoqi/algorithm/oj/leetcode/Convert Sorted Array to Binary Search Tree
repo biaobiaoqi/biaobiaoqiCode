@@ -6,7 +6,6 @@ BST最经典的用法：中序遍历为排序的。
 
 正常的插入方法似乎不太常用呢。
 */
-
 /**
  * Definition for binary tree
  * public class TreeNode {
@@ -18,25 +17,29 @@ BST最经典的用法：中序遍历为排序的。
  */
 public class Solution {
     public TreeNode sortedArrayToBST(int[] num) {
-        if (num.length == 0) return null;
-        TreeNode[] tree = new TreeNode[num.length];
-        for (int i = 0; i < num.length; i ++)
-            tree[i] = new TreeNode(-1);
-        for (int i = 0; i < num.length; i ++) {
-            tree[i].left = (2*i + 1) < num.length ? tree[2*i + 1] : null;
-            tree[i].right = (2*i + 2) < num.length ? tree[2*i + 2] : null;
+        if (num == null || num.length == 0) 
+            return null;
+        
+        int n = num.length;
+        TreeNode[] bst = new TreeNode[n];
+        for (int i = n - 1; i >= 0; i --) {
+            bst[i] = new TreeNode(0);
+            bst[i].left = i*2 + 1 < n ? bst[i*2 + 1] : null;
+            bst[i].right = i*2 + 2 < n ? bst[i*2 + 2] : null;
         }
-        index = 0;
-        inorderTrav(tree[0], num);
-        return tree[0];
+        
+        inorder(bst[0], num);
+        
+        return bst[0];
     }
     
-    private int index;
-    private void inorderTrav(TreeNode node, int[] num) {
-        if (node == null) return;
+    private int index = 0;
+    private void inorder(TreeNode root, int[] num) {
+        if (root == null)
+            return;
         
-        inorderTrav(node.left, num);
-        node.val = num[index ++];
-        inorderTrav(node.right, num);
+        inorder(root.left, num);
+        root.val = num[index ++];
+        inorder(root.right, num);
     }
 }
