@@ -1,41 +1,21 @@
-//两趟算法：桶排序的思路
+//这种题实际上是一种人思维模式的实现题。用经典的排序算法显然是多余了，而人类的直觉思维可以得到很好的解决。
+//将这种思维方式无误的转换成程序语言即可。
 public class Solution {
     public void sortColors(int[] A) {
-        int[] count = new int[3];
-        for (int i = 0; i != A.length; i ++)
-            count[A[i]] ++;
-        
-        for (int i = 0; i != A.length; i ++) {
-            if (i < count[0]) 
-                A[i] = 0;
-            else if (i < count[0] + count[1])
-                A[i] = 1;
-            else
-                A[i] = 2;
-        }
-    }
-}
-
-
-//两个指针和一个index，夹逼。
-
-public class Solution {
-    public void sortColors(int[] A) {
-        int red = 0, blue = A.length - 1;
-        for (int i = 0; i < blue + 1;) {
-            int tmp;
+        if (A == null || A.length == 0) return;
+        int index0 = 0, index2 = A.length - 1;
+        for (int i = 0; i <= index2;) {
             if (A[i] == 0) {
-                tmp = A[i];
-                A[i] = A[red];
-                A[red] = tmp;
-                red ++; i ++;
+                A[i] = A[index0];
+                A[index0] = 0;
+                index0++;
+                i++;
             } else if (A[i] == 2) {
-                tmp = A[i];
-                A[i] = A[blue];
-                A[blue] = tmp;
-                blue --;
-            } else 
-                i ++;
+                A[i] = A[index2];
+                A[index2] = 2;
+                index2--;
+            } else
+                i++;
         }
     }
 }
