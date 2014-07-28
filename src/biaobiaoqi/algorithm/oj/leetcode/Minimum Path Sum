@@ -3,25 +3,23 @@
 
 拥有很规整的矩形结构，而且移动的方式也很有限：向下、向右。DP
 */
-
 public class Solution {
     public int minPathSum(int[][] grid) {
+        if (grid == null || grid.length == 0) return 0;
         int m = grid.length;
         int n = grid[0].length;
-        int[][] mins = new int[m][n];
-        mins[0][0] = grid[0][0];
+        int[][] min = new int[m][n];
         
-        for (int i = 1; i < m; i ++)
-            mins[i][0] = mins[i - 1][0] + grid[i][0];
-        for (int i = 1; i < n; i ++)
-            mins[0][i] = mins[0][i - 1] + grid[0][i];
+        min[0][0] = grid[0][0];
+        for (int i = 1; i < m; i++)
+            min[i][0] = grid[i][0] + min[i - 1][0];
+        for (int j = 1; j < n; j++)
+            min[0][j] = grid[0][j] + min[0][j - 1];
             
-        for (int i = 1; i < m; i ++)
-            for (int j = 1; j < n; j ++) {
-                if (mins[i][j] == 0)
-                    mins[i][j] = grid[i][j] + Math.min(mins[i - 1][j], mins[i][j - 1]);
-            }
-            
-        return mins[m - 1][n -1 ];
+        for (int i = 1; i < m; i++)
+            for (int j = 1; j < n; j++)
+                min[i][j] = grid[i][j] + Math.min(min[i - 1][j], min[i][j - 1]);
+        
+        return min[m - 1][n - 1];
     }
 }
