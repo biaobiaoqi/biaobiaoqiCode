@@ -1,30 +1,26 @@
 public class Solution {
-    public ArrayList<ArrayList<Integer>> permute(int[] num) {
-        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
-        ArrayList<Integer> perm = new ArrayList<Integer>();
-        dfs(num, res, perm);
-        return res;
+    public List<List<Integer>> permute(int[] num) {
+        if (num == null || num.length == 0) return null;
+        List<List<Integer>> ret = new LinkedList<List<Integer>>();
+        List<Integer> solu = new ArrayList<Integer>();
+        boolean[] selected = new boolean[num.length];
+        dfs(ret, solu, num, selected);
+        return ret;
     }
     
-    public void dfs(int[] num, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> perm) {
-        if (perm.size() == num.length) {
-            res.add(new ArrayList<Integer>(perm));
+    private void dfs(List<List<Integer>> ret, List<Integer> solu, int[] num, boolean[] selected) {
+        int n = num.length;
+        if (solu.size() == n) {
+            ret.add(new ArrayList<Integer>(solu)); //Take care of this! Must new a new arraylist.
+            return;
         }
-        
-        for (int i = 0; i < num.length; i ++) {
-            boolean inserted = false;
-            Iterator<Integer> it = perm.iterator();
-            while(it.hasNext()) {
-                Integer value = it.next();
-                if (value == num[i]) {
-                    inserted = true;
-                    break;
-                }
-            }
-            if (!inserted){
-                perm.add(num[i]);
-                dfs(num, res, perm);
-                perm.remove(perm.size() -1);
+        for (int i = 0; i < n; i++) {
+            if (!selected[i]) {
+                solu.add(num[i]);
+                selected[i] = true;
+                dfs(ret, solu, num, selected);
+                solu.remove(solu.size() - 1);
+                selected[i] = false;
             }
         }
     }
