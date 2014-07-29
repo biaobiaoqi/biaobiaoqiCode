@@ -1,5 +1,5 @@
 /*
-递归的层序遍历。
+递归、迭代都可解。
 
 */
 /**
@@ -28,5 +28,43 @@ public class Solution {
         ret.get(level).add(root.val);
         levelTrav(root.left, level + 1, ret);
         levelTrav(root.right, level + 1, ret);
+    }
+}
+
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> ret = new LinkedList<List<Integer>>();
+        Queue<TreeNode> cur = new LinkedList<TreeNode>();
+        Queue<TreeNode> next = new LinkedList<TreeNode>();
+        
+        if (root != null)
+            cur.add(root);
+        while (cur.size() != 0) {
+            List<Integer> level = new LinkedList<Integer>();
+            while (cur.size() != 0) {
+                TreeNode node = cur.poll();
+                level.add(node.val);
+                if (node.left != null) 
+                    next.add(node.left);
+                if (node.right != null)
+                    next.add(node.right);
+            }
+            ret.add(0, level);
+            
+            Queue<TreeNode> tmp = cur;
+            cur = next;
+            next = tmp;
+        }
+        
+        return ret;
     }
 }
