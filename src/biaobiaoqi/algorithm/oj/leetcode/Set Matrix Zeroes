@@ -59,7 +59,7 @@ public class Solution {
            matrix[i][basicColu] = 0;
                
        
-       Arrays.fill(matrix[basicRow], 0);
+       Arrays.fill(matrix[basicRow], 0); //非常容易漏掉的边界情况！
     }
 }
 
