@@ -26,32 +26,25 @@ public class Solution {
 /*
 后序遍历
 */
-
 public class Solution {
-    public ArrayList<Integer> postorderTraversal(TreeNode root) {
-        ArrayList<Integer> ret = new ArrayList<Integer>();
-        Stack<TreeNode> stack = new Stack<TreeNode>();
-        Stack<TreeNode> markStack = new Stack<TreeNode>();
-        TreeNode node = root;
-        while(node != null || !stack.empty()) {
-            if (node != null) {
-                stack.push(node);
-                node = node.left;
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> ret = new ArrayList<Integer>();
+        Stack<TreeNode> st1 = new Stack<TreeNode>();
+        Stack<TreeNode> st2 = new Stack<TreeNode>();
+        if (root != null)
+            st1.push(root);
+        while (!st1.empty()) {
+            TreeNode cur = st1.peek();
+            if (!st2.empty() && st2.peek() == cur) { 
+                st1.pop();
+                st2.pop();
+                ret.add(cur.val);
             } else {
-                node = stack.peek();
-                if (!markStack.empty() && markStack.peek() == node) { //has processed with right children
-                    markStack.pop();
-                    stack.pop();
-                    ret.add(node.val);
-                    node = null;
-                } else {
-                    markStack.push(node);
-                	if (node.right != null) {
-                        stack.push(node.right);
-                        node = node.right.left;
-                    } else
-                    	node = null;
-                }
+                st2.push(cur);
+                if (cur.right != null)
+                    st1.push(cur.right);
+                if (cur.left != null)
+                    st1.push(cur.left);
             }
         }
         return ret;
