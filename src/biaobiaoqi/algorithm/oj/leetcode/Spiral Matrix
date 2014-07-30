@@ -1,4 +1,50 @@
-//模拟:主题下标、边界等易错点。
+//关键问题是：spiral的时候的边界确定。
+
+//暴力标记法,实现简单粗暴，另开一个数组标记跑过的路程。用数组标记和数组边界确定整体的边界。
+public class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> ret = new LinkedList<Integer>();
+        if (matrix == null || matrix.length == 0) 
+            return ret;
+        int m = matrix.length, n = matrix[0].length;
+        int[][] mark = new int[matrix.length][matrix[0].length];
+        int i = 0, j = 0;
+        while ( i < m && j < n &&  i >= 0 && j >= 0 && mark[i][j] == 0) {
+            while (j < n && mark[i][j] == 0) {
+                ret.add(matrix[i][j]);
+                mark[i][j] = 1;
+                j ++;
+            }
+            j --; 
+            i ++;
+            while (i < m && mark[i][j] == 0) {
+                ret.add(matrix[i][j]);
+                mark[i][j] = 1;
+                i++;
+            }
+            i--;
+            j--;
+            while (j >= 0 && mark[i][j] == 0) {
+                ret.add(matrix[i][j]);
+                mark[i][j] = 1;
+                j--;
+            }
+            j++; 
+            i--;
+            while (i >= 0 && mark[i][j] == 0) {
+                ret.add(matrix[i][j]);
+                mark[i][j] = 1;
+                i --;
+            }
+            i++;
+            j++;
+        }
+        return ret;
+    }
+}
+
+
+//用startX,endX来标记spiral每次的边界。很聪明。注意退出条件。
 public class Solution {
     public ArrayList<Integer> spiralOrder(int[][] matrix) {
         ArrayList<Integer> ret = new ArrayList<Integer>();
