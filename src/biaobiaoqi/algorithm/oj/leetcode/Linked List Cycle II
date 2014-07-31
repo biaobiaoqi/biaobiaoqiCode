@@ -15,27 +15,22 @@ while循环的时候，尽量将停止条件都提出到while循环判断上，�
  */
 public class Solution {
     public ListNode detectCycle(ListNode head) {
-        ListNode fast = head;
-        ListNode slow = head;
-        ListNode meet = null;
-        while(fast != null && fast.next != null) {
-            fast = fast.next.next;
-            slow = slow.next;
-            if (fast == slow) {
-                meet = fast;
-                break;
-            }
+        ListNode fastNode = head != null ? head.next : null;
+        ListNode slowNode = head;
+        while (fastNode != null && fastNode.next != null && fastNode != slowNode) {
+            fastNode = fastNode.next.next;
+            slowNode = slowNode.next;
         }
         
-        if (meet == null)
+        if (fastNode == null || fastNode != slowNode)
             return null;
         
-        fast = head;
-        while(fast != slow) {
-            fast = fast.next;
-            slow = slow.next;
-        } 
-        
-        return slow;
+        fastNode = head; 
+        slowNode = slowNode.next; //这里特别注意：重置的头指针玩始于哪里。
+        while (fastNode != slowNode) {
+            fastNode = fastNode.next;
+            slowNode = slowNode.next;
+        }
+        return fastNode;
     }
 }
