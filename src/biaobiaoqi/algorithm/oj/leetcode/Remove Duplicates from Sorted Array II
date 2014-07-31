@@ -1,13 +1,12 @@
 //思路实现上很简明。一种很common sense的实现思路
 public class Solution {
     public int removeDuplicates(int[] A) {
-        int index = 2;
-        int length = A.length;
-        if (length < 3) return length;
-        for (int i = 2; i < length; i ++) {
-            if (!(A[i] == A[index - 1] && A[i] == A[index - 2])) //注意这里写成i-1和i-2就错了，很容易出错的。
-                A[index ++] = A[i];
+        if (A == null) return 0;
+        int index = 1;
+        for (int i = 2; i < A.length; i++) {
+            if (!(A[i] == A[index] && A[i] == A[index - 1]))
+                A[++index] = A[i];
         }
-        return index;
+        return A.length < 2 ? A.length : index + 1;
     }
 }
