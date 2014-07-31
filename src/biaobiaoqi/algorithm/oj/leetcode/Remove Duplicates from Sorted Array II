@@ -1,3 +1,4 @@
+//思路实现上很简明。一种很common sense的实现思路
 public class Solution {
     public int removeDuplicates(int[] A) {
         int index = 2;
