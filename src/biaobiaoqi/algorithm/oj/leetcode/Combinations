@@ -1,26 +1,21 @@
 public class Solution {
-    public ArrayList<ArrayList<Integer>> combine(int n, int k) {
-        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
-        ArrayList<Integer> combine = new ArrayList<Integer>();
-        boolean[] used = new boolean[n];
-        int index = 0;
-        dfs(n, index, used, k, res, combine);
-        return res;
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> ret = new LinkedList<List<Integer>>();
+        List<Integer> solu = new ArrayList<Integer>();
+        dfs(ret, solu, k, n, 0);
+        return ret;
     }
     
-    public void dfs(int n, int index, boolean[] used, int k, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> combine) {
-        if (index == n && combine.size() < k) {
-            return;
-        }
-        if (combine.size() == k) {
-            res.add(new ArrayList<Integer>(combine));
+    private void dfs(List<List<Integer>> ret, List<Integer> solu, int k, int n, int curIndex) {
+        if (solu.size() == k) {
+            ret.add(new ArrayList(solu));
             return;
         }
         
-        dfs(n, index + 1, used, k, res, combine);
-        
-        combine.add(index + 1);
-        dfs(n, index + 1, used, k, res, combine);
-        combine.remove(combine.size() - 1);
+        for (int i = curIndex + 1; i <= n; i++) {
+                solu.add(i);
+                dfs(ret, solu, k, n, i);
+                solu.remove(solu.size() - 1);
+        }
     }
 }
