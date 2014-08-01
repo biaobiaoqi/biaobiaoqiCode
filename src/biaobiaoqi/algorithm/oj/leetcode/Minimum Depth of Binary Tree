@@ -1,6 +1,5 @@
 /*
-递归写得并不简洁。
-其实这里可以将特殊情况归结为：是否有邻居节点。如果没有切本身为null，则表示父亲节点是叶子。
+方法一是递归，方法二是迭代。
 */
 
 /**
@@ -24,5 +23,35 @@ public class Solution {
         int left = minD(root.left);
         int right = minD(root.right);
         return left < right ? left + 1 : right + 1;
+    }
+}
+
+
+public class Solution {
+    public int minDepth(TreeNode root) {
+        Queue<TreeNode> curQue = new LinkedList<TreeNode>();
+        Queue<TreeNode> nextQue = new LinkedList<TreeNode>();
+        int depth = 0;
+        if (root != null)
+            curQue.add(root);
+
+        while (curQue.size() != 0) {
+            depth++;
+            while (curQue.size() != 0) {
+                TreeNode node = curQue.poll();
+                if (node.left == null && node.right == null) {
+                    nextQue.clear();
+                    break;
+                } 
+                if (node.left != null) 
+                    nextQue.add(node.left);
+                if (node.right != null)
+                    nextQue.add(node.right);
+            }
+            Queue<TreeNode> tmp = curQue;
+            curQue = nextQue;
+            nextQue = tmp;
+        }
+        return depth;
     }
 }
