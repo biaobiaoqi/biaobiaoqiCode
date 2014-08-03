@@ -1,22 +1,19 @@
-//链表中，不同步长定位的经典作法
 //链表处理中，如果有未知节点的删除、交换位置，给头节点前增加一个保护节点是很有效的方式。
+
 public class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode h = new ListNode(-1);
-        h.next = head;
-        ListNode node1 = head;
-        ListNode node2 = h;
-        int count = 0;
-        while (node1 != null) {
-            node1 = node1.next;
-            count ++;
-            if (count > n) {
-                node2 = node2.next;
-            }
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode forwardNode = dummy;
+        for (int i = 0; i < n; i++)
+            forwardNode = forwardNode.next;
+        ListNode backNode = dummy;
+        while (forwardNode.next != null) {
+            forwardNode = forwardNode.next;
+            backNode = backNode.next;
         }
+        backNode.next = backNode.next.next;
         
-        node2.next = node2.next.next;
-        
-        return h.next;
+        return dummy.next;
     }
 }
