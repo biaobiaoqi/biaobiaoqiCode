@@ -1,21 +1,20 @@
-//DP
+//DP 注意几个循环的起始点和中指条件。
 public class Solution {
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        if (obstacleGrid == null || obstacleGrid.length == 0 || obstacleGrid[0].length == 0) return 0;
+        if (obstacleGrid == null || obstacleGrid.length == 0) return 0;
         int m = obstacleGrid.length;
         int n = obstacleGrid[0].length;
-        int[][] paths = new int[m][n];
-        
-        paths[0][0] = (obstacleGrid[0][0] == 0 ? 1 : 0);
-        for (int i = 1; i < m; i ++)
-            paths[i][0] = (obstacleGrid[i][0] == 1 ? 0 : ( paths[i - 1][0] == 1 ? 1 : 0));
-        for (int i = 1; i < n; i ++)
-            paths[0][i] = (obstacleGrid[0][i] == 1 ? 0 : ( paths[0][i - 1] == 1 ? 1 : 0));
+        int[][] solu = new int[m][n];
+        for (int i = 0; i < n && obstacleGrid[0][i] != 1; i++)
+            solu[0][i] = 1;
+        for (int i = 0; i < m && obstacleGrid[i][0] != 1; i++)
+            solu[i][0] = 1;
             
-        for (int i = 1; i < m; i ++)
-            for (int j = 1; j < n; j ++) 
-                paths[i][j] = (obstacleGrid[i][j] == 1 ? 0 : (paths[i - 1][j] + paths[i][j - 1]));
-                
-        return paths[m - 1][n - 1];
+        for (int i = 1; i < m; i++)
+            for (int j = 1; j < n; j++)
+                if (obstacleGrid[i][j] != 1)
+                    solu[i][j] = solu[i][j - 1] + solu[i - 1][j];
+                    
+        return solu[m - 1][n - 1];
     }
 }
