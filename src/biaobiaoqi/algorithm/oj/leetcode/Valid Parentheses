@@ -1,33 +1,26 @@
-//注意stack的处理，没元素时peek，会抛empty异常。
 public class Solution {
     public boolean isValid(String s) {
         Stack<Integer> st = new Stack<Integer>();
-        for (int i = 0; i < s.length(); i ++ ) {
-            int val = transfer(s.charAt(i));
-            if (st.empty() || st.peek() + val != 0) {
-                if (val < 0)
-                    return false;
-                else
-                    st.push(val);
-            } else
+        for (int i = 0; i < s.length(); i++) {
+            int cur = getMapVal(s.charAt(i));
+            if (cur > 0)
+                st.push(cur);
+            else if (st.size() != 0 && st.peek() + cur == 0)
                 st.pop();
+            else
+                return false;
         }
         
-        if (st.empty())
-            return true;
-        else 
-            return false;
+        return st.size() == 0;
     }
     
-    private int transfer(char c) {
-        switch(c) {
-            case '(' : return 1;
-            case ')' : return -1;
-            case '{' : return 2;
-            case '}' : return -2;
-            case '[' : return 3;
-            case ']' : return -3;
-            default : return 4;
-        }
+    int getMapVal(char ch) {
+        if (ch == '(') return 1;
+        if (ch == ')') return -1;
+        if (ch == '[') return 2;
+        if (ch == ']') return -2;
+        if (ch == '{') return 3;
+        if (ch == '}') return -3;
+        return 0;
     }
 }
