@@ -1,40 +1,35 @@
+//由于只需要检查错误，一次检查中，1-9的9个数字都不可能两次出现，只要两次出现，就算错误。构造遍历即可。
+//这个题目，在逻辑实现的基础上，可以对代码结构进行很多的优化。
 public class Solution {
-    //由于只需要检查错误，一次检查中，1-9的9个数字都不可能两次出现，只要两次出现，就算错误。构造遍历即可。
-    //由于题目没有交代清楚数独对应的启示index，用两个变量代替，方便试错修改。
     public boolean isValidSudoku(char[][] board) {
-        int sa = 0, sb = 0;
-        for (int i = sa; i < sa + 9; i ++) {
-            int[] valid1 = new int[10];
-            int[] valid2 = new int[10];
-            for (int j = sb; j < sb + 9; j ++) {
-                if (!checked(board[i][j], valid1))
+        boolean[] flag = new boolean[10];
+        boolean[] flag2 = new boolean[10];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (!checked(flag, board[i][j]))
                     return false;
-                
-                if (!checked(board[j][i], valid2))
+                if (!checked(flag2, board[j][i]))
                     return false;
             }
+            Arrays.fill(flag, false);
+            Arrays.fill(flag2, false);
         }
-
         
-        for (int i = sa; i < sa + 9; i += 3) {
-            for (int j = sb; j < sb + 9; j += 3) {
-                int[] valid = new int[10];
-                for (int a = i; a < i + 3; a ++) {
-                    for (int b = j; b < j + 3; b ++) {
-                        if (!checked(board[a][b], valid))
+        for (int i = 0; i < 9; i += 3)
+            for (int j = 0; j < 9; j += 3) {
+                for (int a = i; a < i+3; a++) 
+                    for (int b = j; b < j+3; b++)
+                        if (!checked(flag, board[a][b]))
                             return false;
-                    }
-                }
+                Arrays.fill(flag, false);
             }
-        }
-        
         return true;
     }
     
-    private boolean checked(char ch, int[] used) {
+    private boolean checked(boolean[] flag, char ch) {
         if (ch != '.') {
-            if (used[ch - '0'] == 0)
-                used[ch - '0'] = 1;
+            if (!flag[ch - '0'])
+                flag[ch - '0'] = true;
             else
                 return false;
         }
