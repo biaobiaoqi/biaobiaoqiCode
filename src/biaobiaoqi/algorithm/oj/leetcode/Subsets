@@ -3,8 +3,7 @@ public class Solution {
         Arrays.sort(S);
         ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
         ArrayList<Integer> set = new ArrayList<Integer>();
-        int index = 0;
-        dfs(S, index, res, set);
+        dfs(S, 0, res, set);
         return res;
     }
     
