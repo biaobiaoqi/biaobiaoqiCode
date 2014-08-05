@@ -8,3 +8,14 @@ public class Solution {
         return j >= A.length - 1 ? true : false;
     }
 }
+
+public class Solution {
+    public boolean canJump(int[] A) {
+        for (int i = 0, j = A[0]; i < A.length && i <= j; i++) {
+            j = Math.max(A[i] + i, j);
+            if (j >= A.length - 1)
+                return true;
+        }
+        return false;
+    }
+}
