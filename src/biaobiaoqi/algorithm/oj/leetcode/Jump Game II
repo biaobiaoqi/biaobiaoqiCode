@@ -1,4 +1,5 @@
 //按照Jump Game中的思路来做，一次遍历复杂度为O(n^2)，实际上，只需要隔开区间。
+//注意：1.A.length == 1的情况；2.区间王前进的边界（通过初始状态，举例推演）
 public class Solution {
     public int jump(int[] A) {
         int n = A.length;
