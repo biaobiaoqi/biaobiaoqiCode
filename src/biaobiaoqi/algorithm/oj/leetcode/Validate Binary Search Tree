@@ -1,20 +1,4 @@
-/*
-其他可行方法：
-1.你用中序遍历后是顺序排列的特性
-2.递归时，记录左子树允许的最大值和右子树允许的最小值。
-*/
-
-
 //基于左边叶子是最小的点，右边叶子是最大的点的规律做递归的查找。
-/**
- * Definition for binary tree
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
 public class Solution {
     public boolean isValidBST(TreeNode root) {
         if (root == null) return true;
@@ -35,6 +19,25 @@ public class Solution {
         }
             
         ret &= isValidBST(root.left) && isValidBST(root.right);
+        return ret;
+    }
+}
+
+//中序遍历
+public class Solution {
+    public boolean isValidBST(TreeNode root) {
+        return inOrder(root, new LinkedList<Integer>());
+    }
+    
+    private boolean inOrder(TreeNode root, List<Integer> vals) {
+        if (root == null) return true;
+        
+        boolean ret = true;
+        ret &= inOrder(root.left, vals);
+        if (vals.size() != 0) 
+            ret &= vals.get(vals.size() - 1) < root.val;
+        vals.add(root.val);
+        ret &= inOrder(root.right, vals);
         return ret;
     }
 }
