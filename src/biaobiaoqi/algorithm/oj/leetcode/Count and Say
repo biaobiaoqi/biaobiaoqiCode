@@ -1,28 +1,21 @@
-/*
-！！！数组、字符串等遍历的时候，一定注意先判定是否越界！！！
-同一个条件语句中包含多个某变量时，尽量回避对它使用 ++、--操作，避免出错。
-*/
 public class Solution {
     public String countAndSay(int n) {
         if (n == 1) return "1";
         
-        StringBuilder preStr = new StringBuilder("1");
-        StringBuilder sb;
-        
-        for (int i = 2; i <= n; i ++) {
-            sb = new StringBuilder();
-            for (int j = 0; j < preStr.length();) {
-                char val = preStr.charAt(j ++);
+        String nStr = "1";
+        while(n-- > 1) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < nStr.length(); i++) {
                 int count = 1;
-                while(j < preStr.length() && preStr.charAt(j) == val) {
-                    j ++;
+                while (i + 1 < nStr.length() && nStr.charAt(i) == nStr.charAt(i + 1)) {
+                    i++;
                     count ++;
                 }
                 sb.append(count);
-                sb.append(val);
+                sb.append(nStr.charAt(i));
             }
-            preStr = sb;
+            nStr = sb.toString();
         }
-        return preStr.toString();
+        return nStr;
     }
 }
