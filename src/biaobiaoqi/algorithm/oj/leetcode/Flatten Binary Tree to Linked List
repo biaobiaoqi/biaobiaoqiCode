@@ -1,34 +1,27 @@
-//第一种方法比较繁琐，代码量也大。
-
-/**
- * Definition for binary tree
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
 public class Solution {
     public void flatten(TreeNode root) {
-        fl(root);
+        preOrder(root, null);
     }
     
-    //返回flatten后的最后一个节点。
-    private TreeNode fl(TreeNode root) {
-        if (root == null) return null;
+    private void preOrder(TreeNode root, TreeNode next) {
+        if (root == null)
+            return;
         
-        TreeNode tmp = root.right;
-        root.right = root.left;
+        TreeNode left = root.left;
+        TreeNode right = root.right;
         root.left = null;
-        TreeNode lastRight = fl(root.right);
-        if (lastRight == null)
-            lastRight = root;
-        lastRight.right = tmp;
         
-        tmp = fl(tmp);
-        lastRight = tmp == null ? lastRight : tmp;
-        
-        return lastRight;
+        if (left == null && right == null) {
+            root.right = next;
+        } else if (left == null) {
+            preOrder(right, next);
+        } else if (right == null){
+            root.right = left;
+            preOrder(left, next);
+        } else {
+            root.right = left;
+            preOrder(left, right);
+            preOrder(right, next);
+        }
     }
 }
